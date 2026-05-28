@@ -742,6 +742,67 @@ const projectDotOpacity = useTransform(
   [0, 0, 1, 1, 0]
 );
 
+// Project cards appear after the yellow screen fills
+const projectCard1Y = useTransform(scrollYProgress, [0, 0.56, 0.64, 0.72], ["130vh", "130vh", "0vh", "-150vh"]);
+const projectCard2Y = useTransform(scrollYProgress, [0, 0.62, 0.70, 0.78], ["130vh", "130vh", "0vh", "-150vh"]);
+const projectCard3Y = useTransform(scrollYProgress, [0, 0.68, 0.76, 0.84], ["130vh", "130vh", "0vh", "-150vh"]);
+const projectCard4Y = useTransform(scrollYProgress, [0, 0.74, 0.82, 0.88], ["130vh", "130vh", "0vh", "-150vh"]);
+const projectCard5Y = useTransform(
+  scrollYProgress,
+  [0, 0.80, 0.87, 0.92],
+  ["130vh", "130vh", "0vh", "-130vh"]
+);
+const projectCard6Y = useTransform(
+  scrollYProgress,
+  [0, 0.855, 0.915, 0.955],
+  ["130vh", "130vh", "0vh", "-120vh"]
+);
+
+const projectCard1Opacity = useTransform(scrollYProgress, [0, 0.56, 0.60, 0.70, 0.74], [0, 0, 1, 1, 0]);
+const projectCard2Opacity = useTransform(scrollYProgress, [0, 0.62, 0.66, 0.76, 0.80], [0, 0, 1, 1, 0]);
+const projectCard3Opacity = useTransform(scrollYProgress, [0, 0.68, 0.72, 0.82, 0.86], [0, 0, 1, 1, 0]);
+const projectCard4Opacity = useTransform(scrollYProgress, [0, 0.74, 0.78, 0.86, 0.90], [0, 0, 1, 1, 0]);
+const projectCard5Opacity = useTransform(
+  scrollYProgress,
+  [0, 0.80, 0.84, 0.90, 0.94],
+  [0, 0, 1, 1, 0]
+);
+const projectCard6Opacity = useTransform(
+  scrollYProgress,
+  [0, 0.855, 0.895, 0.945, 0.975],
+  [0, 0, 1, 1, 0]
+);
+
+const projectCard1Rotate = useTransform(scrollYProgress, [0, 0.56, 0.64, 0.72], [4, 4, -1.5, -5]);
+const projectCard2Rotate = useTransform(scrollYProgress, [0, 0.62, 0.70, 0.78], [-5, -5, 2, 5]);
+const projectCard3Rotate = useTransform(scrollYProgress, [0, 0.68, 0.76, 0.84], [5, 5, -2, -5]);
+const projectCard4Rotate = useTransform(scrollYProgress, [0, 0.74, 0.82, 0.88], [-4, -4, 1.5, 4]);
+const projectCard5Rotate = useTransform(
+  scrollYProgress,
+  [0, 0.80, 0.87, 0.92],
+  [3, 3, -1, -3]
+);
+const projectCard6Rotate = useTransform(
+  scrollYProgress,
+  [0, 0.855, 0.915, 0.955],
+  [-3, -3, 1.5, 0]
+);
+
+const projectCard1Scale = useTransform(scrollYProgress, [0, 0.56, 0.64, 0.72], [0.95, 0.95, 1.02, 0.98]);
+const projectCard2Scale = useTransform(scrollYProgress, [0, 0.62, 0.70, 0.78], [0.95, 0.95, 1.02, 0.98]);
+const projectCard3Scale = useTransform(scrollYProgress, [0, 0.68, 0.76, 0.84], [0.95, 0.95, 1.02, 0.98]);
+const projectCard4Scale = useTransform(scrollYProgress, [0, 0.74, 0.82, 0.88], [0.95, 0.95, 1.02, 0.98]);
+const projectCard5Scale = useTransform(
+  scrollYProgress,
+  [0, 0.80, 0.87, 0.92],
+  [0.95, 0.95, 1.02, 0.98]
+);
+const projectCard6Scale = useTransform(
+  scrollYProgress,
+  [0, 0.855, 0.915, 0.955],
+  [0.95, 0.95, 1.02, 1]
+);
+
   return (
     <section
       id="projects"
@@ -800,6 +861,153 @@ const projectDotOpacity = useTransform(
   }}
 />
 
+{/* Project cards */}
+{[
+  {
+    title: "Project 1",
+    x: "-50%",
+    top: "50%",
+    y: projectCard1Y,
+    opacity: projectCard1Opacity,
+    rotate: projectCard1Rotate,
+    scale: projectCard1Scale,
+  },
+  {
+    title: "Project 2",
+    x: "-82%",
+    top: "52%",
+    y: projectCard2Y,
+    opacity: projectCard2Opacity,
+    rotate: projectCard2Rotate,
+    scale: projectCard2Scale,
+  },
+  {
+    title: "Project 3",
+    x: "-18%",
+    top: "50%",
+    y: projectCard3Y,
+    opacity: projectCard3Opacity,
+    rotate: projectCard3Rotate,
+    scale: projectCard3Scale,
+  },
+  {
+    title: "Project 4",
+    x: "-64%",
+    top: "54%",
+    y: projectCard4Y,
+    opacity: projectCard4Opacity,
+    rotate: projectCard4Rotate,
+    scale: projectCard4Scale,
+  },
+  {
+    title: "Project 5",
+    x: "-32%",
+    top: "51%",
+    y: projectCard5Y,
+    opacity: projectCard5Opacity,
+    rotate: projectCard5Rotate,
+    scale: projectCard5Scale,
+  },
+  {
+    title: "Project 6",
+    x: "-50%",
+    top: "53%",
+    y: projectCard6Y,
+    opacity: projectCard6Opacity,
+    rotate: projectCard6Rotate,
+    scale: projectCard6Scale,
+  },
+].map((card) => (
+  <motion.div
+    key={card.title}
+    style={{
+      position: "fixed",
+      left: "50%",
+      top: card.top,
+      x: card.x,
+      y: card.y,
+      opacity: card.opacity,
+      rotate: card.rotate,
+      scale: card.scale,
+      zIndex: 7600,
+      width: "clamp(280px, 30vw, 440px)",
+      borderRadius: "28px",
+      backgroundColor: "rgba(253, 250, 245, 0.98)",
+      border: "1px solid rgba(26, 24, 20, 0.18)",
+      boxShadow: "0 32px 90px rgba(26, 24, 20, 0.18)",
+      padding: "1rem",
+      pointerEvents: "none",
+      willChange: "transform",
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        aspectRatio: "4 / 3",
+        borderRadius: "20px",
+        backgroundColor: "rgba(246, 231, 161, 0.52)",
+        border: "1px dashed rgba(26, 24, 20, 0.32)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: "1rem",
+        overflow: "hidden",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.62rem",
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: "rgba(26, 24, 20, 0.55)",
+        }}
+      >
+        image space
+      </span>
+    </div>
+
+    <div
+      style={{
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "space-between",
+        gap: "1rem",
+        padding: "0 0.25rem 0.15rem",
+      }}
+    >
+      <h3
+        style={{
+          fontFamily: "var(--font-serif)",
+          fontStyle: "italic",
+          fontSize: "clamp(1.8rem, 2.7vw, 2.7rem)",
+          lineHeight: 0.95,
+          letterSpacing: "-0.04em",
+          color: "var(--color-ink)",
+          margin: 0,
+        }}
+      >
+        {card.title}
+      </h3>
+
+      <span
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.62rem",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: "rgba(26, 24, 20, 0.58)",
+          paddingBottom: "0.25rem",
+          whiteSpace: "nowrap",
+        }}
+      >
+        case study
+      </span>
+    </div>
+  </motion.div>
+))}
+
+{/* Projects title */}
       <motion.div
         style={{
           position: "fixed",
