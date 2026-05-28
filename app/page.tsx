@@ -720,25 +720,25 @@ function Projects() {
 
   const projectsTop = useTransform(
   scrollYProgress,
-  [0, 0.10, 0.66, 0.76],
+  [0, 0.10, 0.76, 0.86],
   ["95vh", "50%", "50%", "-20vh"]
 );
 
 const projectsOpacity = useTransform(
   scrollYProgress,
-  [0, 0.06, 0.66, 0.76],
+  [0, 0.06, 0.76, 0.86],
   [0, 1, 1, 0]
 );
 
   const projectDotScale = useTransform(
   scrollYProgress,
-  [0, 0.20, 0.38, 0.66, 0.76, 1],
+  [0, 0.20, 0.38, 0.76, 0.86, 1],
   [1, 1, 190, 190, 1, 1]
 );
 
 const projectDotOpacity = useTransform(
   scrollYProgress,
-  [0, 0.175, 0.20, 0.76, 0.80],
+  [0, 0.175, 0.20, 0.86, 0.90],
   [0, 0, 1, 1, 0]
 );
 
@@ -1027,6 +1027,103 @@ const projectCard6Scale = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615]
   );
 }
 
+function Events() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end end"],
+  });
+
+  // events enters slowly from right in a straight horizontal line
+  const eventsX = useTransform(
+  scrollYProgress,
+  [0, 0.38, 1],
+  ["80vw", "-50%", "-50%"]
+);
+
+  const eventsOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.08, 1],
+    [0, 1, 1]
+  );
+
+  return (
+    <section
+      id="events"
+      ref={sectionRef}
+      style={{
+        height: "260vh",
+        position: "relative",
+        zIndex: 5000,
+        backgroundColor: "var(--color-cream)",
+        backgroundImage:
+          "radial-gradient(circle, var(--dot-color) var(--dot-size), transparent var(--dot-size))",
+        backgroundSize: "var(--dot-space) var(--dot-space)",
+      }}
+    >
+      <div
+        style={{
+          position: "sticky",
+          top: 0,
+          width: "100vw",
+          height: "100vh",
+          overflow: "hidden",
+          backgroundColor: "transparent",
+        }}
+      >
+        <motion.div
+          style={{
+  position: "fixed",
+left: "50%",
+top: "50%",
+x: eventsX,
+y: "-50%",
+            opacity: eventsOpacity,
+            zIndex: 10,
+            width: "100vw",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            padding: "0 2.5rem",
+            pointerEvents: "none",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.64rem",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "#3D3A34",
+              opacity: 0.55,
+              margin: "0 0 0.9rem",
+            }}
+          >
+            selected moments
+          </p>
+
+          <h2
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(4rem, 13vw, 11rem)",
+              lineHeight: 0.88,
+              letterSpacing: "-0.04em",
+              color: "var(--color-ink)",
+              margin: 0,
+            }}
+          >
+            events
+          </h2>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 function NextSectionPlaceholder() {
   return (
     <section
@@ -1077,6 +1174,7 @@ export default function HomePage() {
       <Navbar visible={splashDone} />
       <Hero visible={splashDone} />
 <Projects />
+<Events />
 <NextSectionPlaceholder />
     </>
   );
