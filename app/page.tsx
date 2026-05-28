@@ -719,10 +719,10 @@ function Projects() {
   });
 
   const projectsTop = useTransform(
-    scrollYProgress,
-    [0, 0.32, 0.9, 1],
-    ["115vh", "50%", "50%", "-20vh"]
-  );
+  scrollYProgress,
+  [0, 0.10, 0.9, 1],
+  ["95vh", "50%", "50%", "-20vh"]
+);
 
   const projectsOpacity = useTransform(
     scrollYProgress,
@@ -732,83 +732,51 @@ function Projects() {
 
   const projectDotScale = useTransform(
   scrollYProgress,
-  [0, 0.34, 0.58, 0.90, 0.98, 1],
+  [0, 0.08, 0.26, 0.90, 0.98, 1],
   [1, 1, 190, 190, 1, 1]
 );
 
 const projectDotOpacity = useTransform(
   scrollYProgress,
-  [0, 0.28, 0.34, 0.98, 1],
+  [0, 0.055, 0.08, 0.98, 1],
   [0, 0, 1, 1, 0]
 );
 
-// Project cards appear after the yellow screen fills
-const projectCard1Y = useTransform(scrollYProgress, [0, 0.56, 0.64, 0.72], ["130vh", "130vh", "0vh", "-150vh"]);
-const projectCard2Y = useTransform(scrollYProgress, [0, 0.62, 0.70, 0.78], ["130vh", "130vh", "0vh", "-150vh"]);
-const projectCard3Y = useTransform(scrollYProgress, [0, 0.68, 0.76, 0.84], ["130vh", "130vh", "0vh", "-150vh"]);
-const projectCard4Y = useTransform(scrollYProgress, [0, 0.74, 0.82, 0.88], ["130vh", "130vh", "0vh", "-150vh"]);
-const projectCard5Y = useTransform(
-  scrollYProgress,
-  [0, 0.80, 0.87, 0.92],
-  ["130vh", "130vh", "0vh", "-130vh"]
-);
-const projectCard6Y = useTransform(
-  scrollYProgress,
-  [0, 0.855, 0.915, 0.955],
-  ["130vh", "130vh", "0vh", "-120vh"]
-);
+// Project cards appear one after another after the yellow screen fills
+const projectCard1Y = useTransform(scrollYProgress, [0, 0.22, 0.30, 0.38], ["85vh", "85vh", "0vh", "-150vh"]);
+const projectCard2Y = useTransform(scrollYProgress, [0, 0.28, 0.36, 0.44], ["85vh", "85vh", "0vh", "-150vh"]);
+const projectCard3Y = useTransform(scrollYProgress, [0, 0.34, 0.42, 0.50], ["85vh", "85vh", "0vh", "-150vh"]);
+const projectCard4Y = useTransform(scrollYProgress, [0, 0.40, 0.48, 0.54], ["85vh", "85vh", "0vh", "-150vh"]);
+const projectCard5Y = useTransform(scrollYProgress, [0, 0.46, 0.53, 0.58], ["85vh", "85vh", "0vh", "-130vh"]);
+const projectCard6Y = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615], ["85vh", "85vh", "0vh", "-120vh"]);
 
-const projectCard1Opacity = useTransform(scrollYProgress, [0, 0.56, 0.60, 0.70, 0.74], [0, 0, 1, 1, 0]);
-const projectCard2Opacity = useTransform(scrollYProgress, [0, 0.62, 0.66, 0.76, 0.80], [0, 0, 1, 1, 0]);
-const projectCard3Opacity = useTransform(scrollYProgress, [0, 0.68, 0.72, 0.82, 0.86], [0, 0, 1, 1, 0]);
-const projectCard4Opacity = useTransform(scrollYProgress, [0, 0.74, 0.78, 0.86, 0.90], [0, 0, 1, 1, 0]);
-const projectCard5Opacity = useTransform(
-  scrollYProgress,
-  [0, 0.80, 0.84, 0.90, 0.94],
-  [0, 0, 1, 1, 0]
-);
-const projectCard6Opacity = useTransform(
-  scrollYProgress,
-  [0, 0.855, 0.895, 0.945, 0.975],
-  [0, 0, 1, 1, 0]
-);
+const projectCard1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.26, 0.36, 0.40], [0, 0, 1, 1, 0]);
+const projectCard2Opacity = useTransform(scrollYProgress, [0, 0.28, 0.32, 0.42, 0.46], [0, 0, 1, 1, 0]);
+const projectCard3Opacity = useTransform(scrollYProgress, [0, 0.34, 0.38, 0.48, 0.52], [0, 0, 1, 1, 0]);
+const projectCard4Opacity = useTransform(scrollYProgress, [0, 0.40, 0.44, 0.52, 0.56], [0, 0, 1, 1, 0]);
+const projectCard5Opacity = useTransform(scrollYProgress, [0, 0.46, 0.50, 0.56, 0.60], [0, 0, 1, 1, 0]);
+const projectCard6Opacity = useTransform(scrollYProgress, [0, 0.515, 0.555, 0.605, 0.635], [0, 0, 1, 1, 0]);
 
-const projectCard1Rotate = useTransform(scrollYProgress, [0, 0.56, 0.64, 0.72], [4, 4, -1.5, -5]);
-const projectCard2Rotate = useTransform(scrollYProgress, [0, 0.62, 0.70, 0.78], [-5, -5, 2, 5]);
-const projectCard3Rotate = useTransform(scrollYProgress, [0, 0.68, 0.76, 0.84], [5, 5, -2, -5]);
-const projectCard4Rotate = useTransform(scrollYProgress, [0, 0.74, 0.82, 0.88], [-4, -4, 1.5, 4]);
-const projectCard5Rotate = useTransform(
-  scrollYProgress,
-  [0, 0.80, 0.87, 0.92],
-  [3, 3, -1, -3]
-);
-const projectCard6Rotate = useTransform(
-  scrollYProgress,
-  [0, 0.855, 0.915, 0.955],
-  [-3, -3, 1.5, 0]
-);
+const projectCard1Rotate = useTransform(scrollYProgress, [0, 0.22, 0.30, 0.38], [4, 4, -1.5, -5]);
+const projectCard2Rotate = useTransform(scrollYProgress, [0, 0.28, 0.36, 0.44], [-5, -5, 2, 5]);
+const projectCard3Rotate = useTransform(scrollYProgress, [0, 0.34, 0.42, 0.50], [5, 5, -2, -5]);
+const projectCard4Rotate = useTransform(scrollYProgress, [0, 0.40, 0.48, 0.54], [-4, -4, 1.5, 4]);
+const projectCard5Rotate = useTransform(scrollYProgress, [0, 0.46, 0.53, 0.58], [3, 3, -1, -3]);
+const projectCard6Rotate = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615], [-3, -3, 1.5, 0]);
 
-const projectCard1Scale = useTransform(scrollYProgress, [0, 0.56, 0.64, 0.72], [0.95, 0.95, 1.02, 0.98]);
-const projectCard2Scale = useTransform(scrollYProgress, [0, 0.62, 0.70, 0.78], [0.95, 0.95, 1.02, 0.98]);
-const projectCard3Scale = useTransform(scrollYProgress, [0, 0.68, 0.76, 0.84], [0.95, 0.95, 1.02, 0.98]);
-const projectCard4Scale = useTransform(scrollYProgress, [0, 0.74, 0.82, 0.88], [0.95, 0.95, 1.02, 0.98]);
-const projectCard5Scale = useTransform(
-  scrollYProgress,
-  [0, 0.80, 0.87, 0.92],
-  [0.95, 0.95, 1.02, 0.98]
-);
-const projectCard6Scale = useTransform(
-  scrollYProgress,
-  [0, 0.855, 0.915, 0.955],
-  [0.95, 0.95, 1.02, 1]
-);
+const projectCard1Scale = useTransform(scrollYProgress, [0, 0.22, 0.30, 0.38], [0.95, 0.95, 1.02, 0.98]);
+const projectCard2Scale = useTransform(scrollYProgress, [0, 0.28, 0.36, 0.44], [0.95, 0.95, 1.02, 0.98]);
+const projectCard3Scale = useTransform(scrollYProgress, [0, 0.34, 0.42, 0.50], [0.95, 0.95, 1.02, 0.98]);
+const projectCard4Scale = useTransform(scrollYProgress, [0, 0.40, 0.48, 0.54], [0.95, 0.95, 1.02, 0.98]);
+const projectCard5Scale = useTransform(scrollYProgress, [0, 0.46, 0.53, 0.58], [0.95, 0.95, 1.02, 0.98]);
+const projectCard6Scale = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615], [0.95, 0.95, 1.02, 1]);
 
   return (
     <section
       id="projects"
       ref={sectionRef}
       style={{
-        height: "900vh",
+        height: "650vh",
         position: "relative",
         zIndex: 5000,
         backgroundColor: "var(--color-cream)",
