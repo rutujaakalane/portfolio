@@ -718,28 +718,28 @@ function Projects() {
     offset: ["start end", "end start"],
   });
 
-  const projectsTop = useTransform(
-  scrollYProgress,
-  [0, 0.10, 0.76, 0.86],
-  ["95vh", "50%", "50%", "-20vh"]
-);
-
-const projectsOpacity = useTransform(
-  scrollYProgress,
-  [0, 0.06, 0.76, 0.86],
-  [0, 1, 1, 0]
-);
-
   const projectDotScale = useTransform(
   scrollYProgress,
-  [0, 0.20, 0.38, 0.76, 0.86, 1],
+  [0, 0.20, 0.38, 0.73, 0.83, 1],
   [1, 1, 190, 190, 1, 1]
 );
 
 const projectDotOpacity = useTransform(
   scrollYProgress,
-  [0, 0.175, 0.20, 0.86, 0.90],
+  [0, 0.175, 0.20, 0.83, 0.87],
   [0, 0, 1, 1, 0]
+);
+
+const projectsTop = useTransform(
+  scrollYProgress,
+  [0, 0.10, 0.73, 0.83],
+  ["95vh", "50%", "50%", "-20vh"]
+);
+
+const projectsOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.06, 0.73, 0.83],
+  [0, 1, 1, 0]
 );
 
 // Project cards appear one after another after the yellow screen fills
