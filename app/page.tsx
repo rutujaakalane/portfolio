@@ -720,25 +720,25 @@ function Projects() {
 
   const projectsTop = useTransform(
   scrollYProgress,
-  [0, 0.10, 0.9, 1],
+  [0, 0.10, 0.66, 0.76],
   ["95vh", "50%", "50%", "-20vh"]
 );
 
-  const projectsOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.06, 0.94, 1],
-    [0, 1, 1, 0]
-  );
+const projectsOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.06, 0.66, 0.76],
+  [0, 1, 1, 0]
+);
 
   const projectDotScale = useTransform(
   scrollYProgress,
-  [0, 0.08, 0.26, 0.90, 0.98, 1],
+  [0, 0.20, 0.38, 0.66, 0.76, 1],
   [1, 1, 190, 190, 1, 1]
 );
 
 const projectDotOpacity = useTransform(
   scrollYProgress,
-  [0, 0.055, 0.08, 0.98, 1],
+  [0, 0.175, 0.20, 0.76, 0.80],
   [0, 0, 1, 1, 0]
 );
 
