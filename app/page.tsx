@@ -1414,6 +1414,7 @@ y: "-50%",
 
 function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [showAcademicProgress, setShowAcademicProgress] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -1432,6 +1433,104 @@ const skillsOpacity = useTransform(
   [0, 0, 1, 1]
 );
 
+// Skill cards appear after "skills" is pinned
+// Skill cards appear only after "skills" is pinned
+const educationX = useTransform(
+  scrollYProgress,
+  [0, 0.44, 0.58, 1],
+  ["-120vw", "-120vw", "0vw", "0vw"]
+);
+
+const educationY = useTransform(
+  scrollYProgress,
+  [0, 0.44, 0.58, 1],
+  ["0vh", "0vh", "0vh", "0vh"]
+);
+
+const educationOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.44, 0.50, 1],
+  [0, 0, 1, 1]
+);
+
+const educationRotate = useTransform(
+  scrollYProgress,
+  [0, 0.44, 0.58, 1],
+  [-9, -9, -4, -4]
+);
+
+const softwareX = useTransform(
+  scrollYProgress,
+  [0, 0.50, 0.64, 1],
+  ["120vw", "120vw", "0vw", "0vw"]
+);
+
+const softwareY = useTransform(
+  scrollYProgress,
+  [0, 0.50, 0.64, 1],
+  ["0vh", "0vh", "0vh", "0vh"]
+);
+
+const softwareOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.50, 0.56, 1],
+  [0, 0, 1, 1]
+);
+
+const softwareRotate = useTransform(
+  scrollYProgress,
+  [0, 0.50, 0.64, 1],
+  [8, 8, 3, 3]
+);
+
+const designX = useTransform(
+  scrollYProgress,
+  [0, 0.56, 0.70, 1],
+  ["-120vw", "-120vw", "0vw", "0vw"]
+);
+
+const designY = useTransform(
+  scrollYProgress,
+  [0, 0.56, 0.70, 1],
+  ["16vh", "16vh", "0vh", "0vh"]
+);
+
+const designOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.56, 0.62, 1],
+  [0, 0, 1, 1]
+);
+
+const designRotate = useTransform(
+  scrollYProgress,
+  [0, 0.56, 0.70, 1],
+  [8, 8, 3, 3]
+);
+
+const aiX = useTransform(
+  scrollYProgress,
+  [0, 0.62, 0.76, 1],
+  ["120vw", "120vw", "0vw", "0vw"]
+);
+
+const aiY = useTransform(
+  scrollYProgress,
+  [0, 0.62, 0.76, 1],
+  ["16vh", "16vh", "0vh", "0vh"]
+);
+
+const aiOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.62, 0.68, 1],
+  [0, 0, 1, 1]
+);
+
+const aiRotate = useTransform(
+  scrollYProgress,
+  [0, 0.62, 0.76, 1],
+  [-10, -10, -5, -5]
+);
+
   return (
     <section
       id="skills"
@@ -1445,7 +1544,7 @@ const skillsOpacity = useTransform(
           "radial-gradient(circle, var(--dot-color) var(--dot-size), transparent var(--dot-size))",
         backgroundSize: "var(--dot-space) var(--dot-space)",
         overflow: "hidden",
-        marginTop: "-1px",
+        marginTop: "-80vh",
       }}
     >
       <div
@@ -1503,6 +1602,416 @@ const skillsOpacity = useTransform(
             skills
           </h2>
         </motion.div>
+
+        {/* Education card */}
+<motion.div
+  onMouseEnter={() => setShowAcademicProgress(true)}
+onMouseLeave={() => setShowAcademicProgress(false)}
+  style={{
+    position: "fixed",
+    left: "7vw",
+    top: "16vh",
+    x: educationX,
+    y: educationY,
+    rotate: educationRotate,
+    opacity: educationOpacity,
+    width: "clamp(210px, 20vw, 320px)",
+    borderRadius: "24px",
+    backgroundColor: "rgba(253, 250, 245, 0.96)",
+    border: "1px solid rgba(26, 24, 20, 0.16)",
+    boxShadow: "0 24px 70px rgba(26, 24, 20, 0.12)",
+    padding: "1.1rem",
+    zIndex: 7200,
+    pointerEvents: "auto",
+  }}
+>
+  <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.58rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(26, 24, 20, 0.5)", margin: "0 0 0.65rem" }}>
+    education
+  </p>
+
+  <h3 style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "clamp(1.5rem, 2vw, 2.2rem)", lineHeight: 0.95, letterSpacing: "-0.04em", color: "var(--color-ink)", margin: "0 0 0.6rem" }}>
+    Design Student
+  </h3>
+
+  <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.82rem", lineHeight: 1.55, color: "rgba(26, 24, 20, 0.68)", margin: 0 }}>
+    DY Patil International University, focused on UI/UX, visual design, and interaction-led digital experiences.
+  </p>
+
+  <AnimatePresence>
+  {showAcademicProgress && (
+    <motion.div
+      initial={{ opacity: 0, y: 12, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 10, scale: 0.96 }}
+      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+  position: "absolute",
+  left: "1.4rem",
+  right: "1.4rem",
+  top: "calc(100% + 0.55rem)",
+  borderRadius: "16px",
+  backgroundColor: "rgba(246, 231, 161, 0.96)",
+  border: "1px solid rgba(26, 24, 20, 0.14)",
+  boxShadow: "0 16px 42px rgba(26, 24, 20, 0.14)",
+  padding: "0.68rem",
+  zIndex: 9000,
+  pointerEvents: "none",
+}}
+    >
+      <p
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.55rem",
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: "rgba(26, 24, 20, 0.55)",
+          margin: "0 0 0.45rem",
+        }}
+      >
+        academic progress
+      </p>
+
+      {[
+        ["Sem 1", "9.05 SGPA"],
+        ["Sem 2", "9.32 SGPA"],
+        ["Sem 3", "8.70 SGPA"],
+        ["Sem 4", "10.00 SGPA"],
+      ].map(([sem, score]) => (
+        <div
+          key={sem}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "1rem",
+            padding: "0.28rem 0",
+            borderTop: "1px solid rgba(26, 24, 20, 0.12)",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "0.78rem",
+              color: "rgba(26, 24, 20, 0.72)",
+            }}
+          >
+            {sem}
+          </span>
+
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.72rem",
+              letterSpacing: "0.06em",
+              color: "var(--color-ink)",
+            }}
+          >
+            {score}
+          </span>
+        </div>
+      ))}
+    </motion.div>
+  )}
+</AnimatePresence>
+</motion.div>
+
+{/* Software card */}
+<motion.div
+  style={{
+    position: "fixed",
+    right: "8vw",
+    top: "13vh",
+    x: softwareX,
+    y: softwareY,
+    rotate: softwareRotate,
+    opacity: softwareOpacity,
+    width: "clamp(270px, 25vw, 410px)",
+    borderRadius: "24px",
+    backgroundColor: "rgba(246, 231, 161, 0.9)",
+    border: "1px solid rgba(26, 24, 20, 0.14)",
+    boxShadow: "0 24px 70px rgba(26, 24, 20, 0.12)",
+    padding: "1.1rem",
+    zIndex: 7200,
+    pointerEvents: "none",
+  }}
+>
+  <p style={{ fontFamily: "var(--font-mono)", fontSize: "0.58rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(26, 24, 20, 0.5)", margin: "0 0 0.65rem" }}>
+    software
+  </p>
+
+  <div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.68rem",
+  }}
+>
+  {[
+    { name: "Figma", level: 4.5 },
+    { name: "Adobe Illustrator", level: 4.5 },
+    { name: "Adobe Photoshop", level: 4 },
+    { name: "Adobe InDesign", level: 4 },
+    { name: "Adobe After Effects", level: 3 },
+    { name: "Autodesk Maya", level: 4 },
+    { name: "Canva", level: 5 },
+    { name: "Framer", level: 3 },
+    { name: "Spline", level: 3 },
+  ].map((tool) => (
+    <div
+      key={tool.name}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: "1rem",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "var(--font-sans)",
+          fontSize: "0.88rem",
+          lineHeight: 1,
+          color: "rgba(26, 24, 20, 0.74)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {tool.name}
+      </span>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "0.32rem",
+          flexShrink: 0,
+        }}
+      >
+        {[1, 2, 3, 4, 5].map((dot) => {
+          const isFull = tool.level >= dot;
+          const isHalf = tool.level === dot - 0.5;
+
+          return (
+            <span
+              key={dot}
+              style={{
+                width: "0.62rem",
+height: "0.62rem",
+                borderRadius: "50%",
+                border: "1px solid rgba(26, 24, 20, 0.55)",
+                background: isFull
+                  ? "rgba(26, 24, 20, 0.78)"
+                  : isHalf
+                  ? "linear-gradient(90deg, rgba(26, 24, 20, 0.78) 50%, transparent 50%)"
+                  : "transparent",
+                display: "block",
+              }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  ))}
+</div>
+</motion.div>
+
+{/* Design skills card */}
+<motion.div
+  style={{
+    position: "fixed",
+    left: "9vw",
+bottom: "5vh",
+    x: designX,
+    y: designY,
+    rotate: designRotate,
+    opacity: designOpacity,
+    width: "clamp(240px, 24vw, 380px)",
+    borderRadius: "24px",
+    backgroundColor: "rgba(253, 250, 245, 0.96)",
+    border: "1px solid rgba(26, 24, 20, 0.16)",
+    boxShadow: "0 24px 70px rgba(26, 24, 20, 0.12)",
+    padding: "1.1rem",
+    zIndex: 7200,
+    pointerEvents: "none",
+  }}
+>
+  <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "1rem",
+    marginBottom: "0.85rem",
+  }}
+>
+  <p
+    style={{
+      fontFamily: "var(--font-mono)",
+      fontSize: "0.58rem",
+      letterSpacing: "0.14em",
+      textTransform: "uppercase",
+      color: "rgba(26, 24, 20, 0.5)",
+      margin: 0,
+    }}
+  >
+    design skills
+  </p>
+
+  <span
+    style={{
+      fontFamily: "var(--font-mono)",
+      fontSize: "0.54rem",
+      letterSpacing: "0.12em",
+      textTransform: "uppercase",
+      color: "rgba(26, 24, 20, 0.5)",
+      backgroundColor: "rgba(246, 231, 161, 0.55)",
+      border: "1px solid rgba(26, 24, 20, 0.12)",
+      borderRadius: "999px",
+      padding: "0.28rem 0.48rem",
+      whiteSpace: "nowrap",
+    }}
+  >
+    ux + visual
+  </span>
+</div>
+
+<div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "0.48rem",
+  }}
+>
+  {[
+    "User Research",
+    "User Psychology",
+    "Human-Centered Design",
+    "Interaction Design",
+    "AI-Integrated Workflows",
+    "Information Architecture",
+    "Wireframing",
+    "Prototyping",
+    "Design Systems",
+    "Brand Identity",
+    "Typography",
+    "Colour Theory",
+    "Visual Communication",
+    "3D Exploration",
+  ].map((skill, index) => (
+    <span
+      key={skill}
+      style={{
+        fontFamily: "var(--font-sans)",
+        fontSize: index === 0 || index === 3 || index === 8 ? "0.82rem" : "0.74rem",
+        lineHeight: 1,
+        color: "rgba(26, 24, 20, 0.76)",
+        backgroundColor:
+          index === 0 || index === 3 || index === 8
+            ? "rgba(246, 231, 161, 0.62)"
+            : "rgba(253, 250, 245, 0.72)",
+        border: "1px solid rgba(26, 24, 20, 0.13)",
+        borderRadius: "999px",
+        padding: index === 0 || index === 3 || index === 8 ? "0.5rem 0.7rem" : "0.44rem 0.62rem",
+        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.35)",
+      }}
+    >
+      {skill}
+    </span>
+  ))}
+</div>
+</motion.div>
+
+{/* AI tools card */}
+<motion.div
+  style={{
+    position: "fixed",
+    right: "13vw",
+    bottom: "8vh",
+    x: aiX,
+    y: aiY,
+    rotate: aiRotate,
+    opacity: aiOpacity,
+    width: "clamp(260px, 24vw, 380px)",
+    borderRadius: "24px",
+    backgroundColor: "rgba(253, 250, 245, 0.96)",
+    border: "1px solid rgba(26, 24, 20, 0.16)",
+    boxShadow: "0 24px 70px rgba(26, 24, 20, 0.12)",
+    padding: "1.1rem",
+    zIndex: 7200,
+    pointerEvents: "none",
+  }}
+>
+  <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "1rem",
+    marginBottom: "0.9rem",
+  }}
+>
+  <p
+    style={{
+      fontFamily: "var(--font-mono)",
+      fontSize: "0.58rem",
+      letterSpacing: "0.14em",
+      textTransform: "uppercase",
+      color: "rgba(26, 24, 20, 0.5)",
+      margin: 0,
+    }}
+  >
+    ai tools
+  </p>
+
+  <span
+    style={{
+      width: "0.7rem",
+      height: "0.7rem",
+      borderRadius: "50%",
+      backgroundColor: "#F6E7A1",
+      border: "1px solid rgba(26, 24, 20, 0.16)",
+      display: "block",
+    }}
+  />
+</div>
+
+<div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "0.5rem",
+  }}
+>
+  {[
+    "Claude",
+    "ChatGPT",
+    "Perplexity",
+    "GitHub Copilot",
+    "Figma Make",
+    "Adobe Firefly",
+    "Midjourney",
+  ].map((tool) => (
+    <span
+      key={tool}
+      style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: "0.68rem",
+        letterSpacing: "0.06em",
+        textTransform: "uppercase",
+        color: "rgba(26, 24, 20, 0.78)",
+        backgroundColor: "rgba(246, 231, 161, 0.42)",
+        border: "1px solid rgba(26, 24, 20, 0.14)",
+        borderRadius: "999px",
+        padding: "0.48rem 0.68rem",
+        boxShadow: "inset 0 0 0 1px rgba(255, 255, 255, 0.35)",
+      }}
+    >
+      {tool}
+    </span>
+  ))}
+</div>
+</motion.div>
+
+
       </div>
     </section>
   );
