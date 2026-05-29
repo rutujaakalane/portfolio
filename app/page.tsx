@@ -1423,112 +1423,112 @@ function Skills() {
 
   const skillsY = useTransform(
   scrollYProgress,
-  [0, 0.18, 0.38, 1],
-  ["100vh", "100vh", "-50%", "-50%"]
+  [0, 0.18, 0.38, 0.84, 1],
+  ["100vh", "100vh", "-50%", "-50%", "-130vh"]
 );
 
 const skillsOpacity = useTransform(
   scrollYProgress,
-  [0, 0.18, 0.26, 1],
-  [0, 0, 1, 1]
+  [0, 0.18, 0.26, 0.92, 1],
+  [0, 0, 1, 1, 0]
 );
 
-// Skill cards appear after "skills" is pinned
-// Skill cards appear only after "skills" is pinned
+// Skill cards appear after "skills" is pinned, hold, then smoothly slide out
+
 const educationX = useTransform(
   scrollYProgress,
-  [0, 0.44, 0.58, 1],
-  ["-120vw", "-120vw", "0vw", "0vw"]
+  [0, 0.42, 0.58, 0.88, 1],
+  ["-120vw", "-120vw", "0vw", "0vw", "-120vw"]
 );
 
 const educationY = useTransform(
   scrollYProgress,
-  [0, 0.44, 0.58, 1],
+  [0, 0.42, 0.58, 1],
   ["0vh", "0vh", "0vh", "0vh"]
 );
 
 const educationOpacity = useTransform(
   scrollYProgress,
-  [0, 0.44, 0.50, 1],
-  [0, 0, 1, 1]
+  [0, 0.42, 0.50, 0.93, 1],
+  [0, 0, 1, 1, 0]
 );
 
 const educationRotate = useTransform(
   scrollYProgress,
-  [0, 0.44, 0.58, 1],
-  [-9, -9, -4, -4]
+  [0, 0.42, 0.58, 0.88, 1],
+  [-9, -9, -4, -4, -7]
 );
 
 const softwareX = useTransform(
   scrollYProgress,
-  [0, 0.50, 0.64, 1],
-  ["120vw", "120vw", "0vw", "0vw"]
+  [0, 0.50, 0.66, 0.88, 1],
+  ["120vw", "120vw", "0vw", "0vw", "120vw"]
 );
 
 const softwareY = useTransform(
   scrollYProgress,
-  [0, 0.50, 0.64, 1],
+  [0, 0.50, 0.66, 1],
   ["0vh", "0vh", "0vh", "0vh"]
 );
 
 const softwareOpacity = useTransform(
   scrollYProgress,
-  [0, 0.50, 0.56, 1],
-  [0, 0, 1, 1]
+  [0, 0.50, 0.56, 0.93, 1],
+  [0, 0, 1, 1, 0]
 );
 
 const softwareRotate = useTransform(
   scrollYProgress,
-  [0, 0.50, 0.64, 1],
-  [8, 8, 3, 3]
+  [0, 0.50, 0.66, 0.88, 1],
+  [8, 8, 3, 3, 6]
 );
 
 const designX = useTransform(
   scrollYProgress,
-  [0, 0.56, 0.70, 1],
-  ["-120vw", "-120vw", "0vw", "0vw"]
+  [0, 0.58, 0.74, 0.88, 1],
+  ["-120vw", "-120vw", "0vw", "0vw", "-120vw"]
 );
 
 const designY = useTransform(
   scrollYProgress,
-  [0, 0.56, 0.70, 1],
+  [0, 0.58, 0.74, 1],
   ["16vh", "16vh", "0vh", "0vh"]
 );
 
 const designOpacity = useTransform(
   scrollYProgress,
-  [0, 0.56, 0.62, 1],
-  [0, 0, 1, 1]
+  [0, 0.58, 0.66, 0.93, 1],
+  [0, 0, 1, 1, 0]
 );
 
 const designRotate = useTransform(
   scrollYProgress,
-  [0, 0.56, 0.70, 1],
-  [8, 8, 3, 3]
+  [0, 0.58, 0.74, 0.88, 1],
+  [8, 8, 3, 3, 6]
 );
 
 const aiX = useTransform(
   scrollYProgress,
-  [0, 0.62, 0.76, 1],
-  ["120vw", "120vw", "0vw", "0vw"]
+  [0, 0.66, 0.82, 0.88, 1],
+  ["120vw", "120vw", "0vw", "0vw", "120vw"]
 );
 
 const aiY = useTransform(
   scrollYProgress,
-  [0, 0.62, 0.76, 1],
+  [0, 0.66, 0.82, 1],
   ["16vh", "16vh", "0vh", "0vh"]
 );
 
 const aiOpacity = useTransform(
   scrollYProgress,
-  [0, 0.62, 0.68, 1],
-  [0, 0, 1, 1]
+  [0, 0.66, 0.74, 0.93, 1],
+  [0, 0, 1, 1, 0]
 );
 
 const aiRotate = useTransform(
   scrollYProgress,
-  [0, 0.62, 0.76, 1],
-  [-10, -10, -5, -5]
+  [0, 0.66, 0.82, 0.88, 1],
+  [-10, -10, -5, -5, -8]
 );
 
   return (
@@ -1611,6 +1611,7 @@ onMouseLeave={() => setShowAcademicProgress(false)}
     position: "fixed",
     left: "7vw",
     top: "16vh",
+    overflow: "visible",
     x: educationX,
     y: educationY,
     rotate: educationRotate,
@@ -1646,9 +1647,10 @@ onMouseLeave={() => setShowAcademicProgress(false)}
       transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
       style={{
   position: "absolute",
-  left: "1.4rem",
-  right: "1.4rem",
-  top: "calc(100% + 0.55rem)",
+  left: "calc(100% + 0.9rem)",
+  top: "50%",
+  transform: "translateY(-50%)",
+  width: "210px",
   borderRadius: "16px",
   backgroundColor: "rgba(246, 231, 161, 0.96)",
   border: "1px solid rgba(26, 24, 20, 0.14)",
