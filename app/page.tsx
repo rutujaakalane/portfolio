@@ -1413,37 +1413,97 @@ y: "-50%",
 }
 
 function Skills() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end end"],
+  });
+
+  const skillsY = useTransform(
+  scrollYProgress,
+  [0, 0.18, 0.38, 1],
+  ["100vh", "100vh", "-50%", "-50%"]
+);
+
+const skillsOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.18, 0.26, 1],
+  [0, 0, 1, 1]
+);
+
   return (
     <section
       id="skills"
+      ref={sectionRef}
       style={{
-        minHeight: "100vh",
+        height: "260vh",
         position: "relative",
-        zIndex: 6000,
+        zIndex: 8000,
         backgroundColor: "var(--color-cream)",
         backgroundImage:
           "radial-gradient(circle, var(--dot-color) var(--dot-size), transparent var(--dot-size))",
         backgroundSize: "var(--dot-space) var(--dot-space)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         overflow: "hidden",
         marginTop: "-1px",
       }}
     >
-      <h2
+      <div
         style={{
-          fontFamily: "var(--font-serif)",
-          fontStyle: "italic",
-          fontSize: "clamp(4rem, 13vw, 11rem)",
-          lineHeight: 0.88,
-          letterSpacing: "-0.04em",
-          color: "var(--color-ink)",
-          margin: 0,
+          position: "sticky",
+          top: 0,
+          width: "100vw",
+          height: "100vh",
+          overflow: "hidden",
         }}
       >
-        skills
-      </h2>
+        <motion.div
+          style={{
+            position: "fixed",
+            left: "50%",
+            top: "50%",
+            x: "-50%",
+            y: skillsY,
+            opacity: skillsOpacity,
+            zIndex: 7000,
+            width: "100vw",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            textAlign: "center",
+            pointerEvents: "none",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.64rem",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "#3D3A34",
+              opacity: 0.55,
+              margin: "0 0 0.9rem",
+            }}
+          >
+            design toolkit
+          </p>
+
+          <h2
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(4rem, 13vw, 11rem)",
+              lineHeight: 0.88,
+              letterSpacing: "-0.04em",
+              color: "var(--color-ink)",
+              margin: 0,
+            }}
+          >
+            skills
+          </h2>
+        </motion.div>
+      </div>
     </section>
   );
 }
