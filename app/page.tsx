@@ -1201,15 +1201,15 @@ const eventsIntroProgress = useTransform(
 );
 
 const eventsX = useTransform(
-  eventsIntroProgress,
-  [0, 1],
-  ["80vw", "-50%"]
+  scrollYProgress,
+  [0, 0.16, 0.88, 1],
+  ["80vw", "-50%", "-50%", "-180vw"]
 );
 
 const eventsOpacity = useTransform(
-  eventsIntroProgress,
-  [0, 0.18],
-  [0, 1]
+  scrollYProgress,
+  [0, 0.03, 0.93, 1],
+  [0, 1, 1, 0]
 );
 
 const eventCardsProgress = useTransform(
@@ -1412,11 +1412,14 @@ y: "-50%",
   );
 }
 
-function NextSectionPlaceholder() {
+function Skills() {
   return (
     <section
+      id="skills"
       style={{
         minHeight: "100vh",
+        position: "relative",
+        zIndex: 6000,
         backgroundColor: "var(--color-cream)",
         backgroundImage:
           "radial-gradient(circle, var(--dot-color) var(--dot-size), transparent var(--dot-size))",
@@ -1424,21 +1427,23 @@ function NextSectionPlaceholder() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        textAlign: "center",
-        padding: "0 2.5rem",
+        overflow: "hidden",
+        marginTop: "-1px",
       }}
     >
-      <p
+      <h2
         style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "0.75rem",
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-          color: "var(--color-stone)",
+          fontFamily: "var(--font-serif)",
+          fontStyle: "italic",
+          fontSize: "clamp(4rem, 13vw, 11rem)",
+          lineHeight: 0.88,
+          letterSpacing: "-0.04em",
+          color: "var(--color-ink)",
+          margin: 0,
         }}
       >
-        next section placeholder
-      </p>
+        skills
+      </h2>
     </section>
   );
 }
@@ -1463,7 +1468,7 @@ export default function HomePage() {
       <Hero visible={splashDone} />
 <Projects />
 <Events />
-<NextSectionPlaceholder />
+<Skills />
     </>
   );
 }
