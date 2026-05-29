@@ -1027,33 +1027,293 @@ const projectCard6Scale = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615]
   );
 }
 
+function EventPhotoCard({
+  progress,
+  title,
+  year,
+  caption,
+  start,
+  center,
+  exit,
+  yPosition,
+  startRotate,
+  centerRotate,
+}: {
+  progress: any;
+  title: string;
+  year: string;
+  caption: string;
+  start: number;
+  center: number;
+  exit: number;
+  yPosition: string;
+  startRotate: number;
+  centerRotate: number;
+}) {
+  
+
+  const y = useTransform(progress, [0, 1], [yPosition, yPosition]);
+
+  const x = useTransform(
+  progress,
+  [0, start, center, exit, exit + 0.18],
+  ["120vw", "120vw", "24vw", "-120vw", "-120vw"]
+);
+
+const rotate = useTransform(
+  progress,
+  [0, start, center, exit, exit + 0.18],
+  [startRotate, startRotate, centerRotate, centerRotate - 3, centerRotate - 3]
+);
+
+const opacity = useTransform(
+  progress,
+  [0, start, start + 0.06, exit + 0.06, exit + 0.12],
+  [0, 0, 1, 1, 0]
+);
+
+  return (
+    <motion.div
+      style={{
+        position: "fixed",
+        left: "50%",
+        top: "50%",
+        x,
+        y,
+        rotate,
+        opacity,
+        zIndex: 7600,
+        width: "clamp(280px, 28vw, 440px)",
+        borderRadius: "30px",
+        backgroundColor: "rgba(253, 250, 245, 0.98)",
+        border: "1px solid rgba(26, 24, 20, 0.16)",
+        boxShadow: "0 30px 90px rgba(26, 24, 20, 0.17)",
+        padding: "1rem",
+        pointerEvents: "none",
+        willChange: "transform",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          aspectRatio: "4 / 3",
+          borderRadius: "22px",
+          backgroundColor: "rgba(246, 231, 161, 0.55)",
+          border: "1px dashed rgba(26, 24, 20, 0.28)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+          marginBottom: "1rem",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.62rem",
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: "rgba(26, 24, 20, 0.52)",
+          }}
+        >
+          event image
+        </span>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.45rem",
+          padding: "0 0.25rem 0.15rem",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            gap: "1rem",
+          }}
+        >
+          <h3
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(1.65rem, 2.35vw, 2.65rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.04em",
+              color: "var(--color-ink)",
+              margin: 0,
+            }}
+          >
+            {title}
+          </h3>
+
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.56rem",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "rgba(26, 24, 20, 0.54)",
+              whiteSpace: "nowrap",
+              paddingBottom: "0.15rem",
+            }}
+          >
+            {year}
+          </span>
+        </div>
+
+        <p
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "0.82rem",
+            lineHeight: 1.55,
+            color: "rgba(26, 24, 20, 0.68)",
+            margin: 0,
+          }}
+        >
+          {caption}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 function Events() {
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end end"],
-  });
+  target: sectionRef,
+  offset: ["start 110%", "end end"],
+});
 
-  // events enters slowly from right in a straight horizontal line
-  const eventsX = useTransform(
+// events enters from right and pins in center
+const eventsX = useTransform(
   scrollYProgress,
   [0, 0.38, 1],
   ["80vw", "-50%", "-50%"]
 );
 
-  const eventsOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.08, 1],
-    [0, 1, 1]
-  );
+const eventsOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.08, 1],
+  [0, 1, 1]
+);
+
+const eventCardsProgress = useTransform(
+  scrollYProgress,
+  [0, 1],
+  [0, 1.55]
+);
+
+const eventCards = [
+  {
+    title: "IIT Bombay",
+    year: "2024",
+    caption:
+      "Design Degree Show visit exploring student projects, process work, and presentation styles.",
+    start: 0.40,
+    center: 0.52,
+    exit: 0.82,
+    yPosition: "-17vh",
+    startRotate: 7,
+    centerRotate: -4,
+  },
+  {
+    title: "IIM Ahmedabad",
+    year: "2024",
+    caption:
+      "48 Hour Filmmaking Competition experience around storytelling, teamwork, and fast creative decisions.",
+    start: 0.52,
+    center: 0.64,
+    exit: 0.94,
+    yPosition: "10vh",
+    startRotate: -6,
+    centerRotate: 5,
+  },
+  {
+    title: "ADI Festival",
+    year: "2025",
+    caption:
+      "Design Education Festival by ADI, focused on design learning, talks, and community exposure.",
+    start: 0.64,
+    center: 0.76,
+    exit: 1.06,
+    yPosition: "-6vh",
+    startRotate: 5,
+    centerRotate: -2,
+  },
+  {
+    title: "Figma Meetup",
+    year: "2026",
+    caption:
+      "The Makers Meet Up by Friends of Figma, around tools, workflows, and design conversations.",
+    start: 0.76,
+    center: 0.88,
+    exit: 1.18,
+    yPosition: "15vh",
+    startRotate: 8,
+    centerRotate: 4,
+  },
+  {
+    title: "Elephant Design",
+    year: "2025",
+    caption:
+      "Open House Meetup at Elephant Design during Pune Design Festival, observing studio culture closely.",
+    start: 0.88,
+    center: 1.00,
+    exit: 1.30,
+    yPosition: "-20vh",
+    startRotate: -7,
+    centerRotate: 3,
+  },
+  {
+    title: "Cosplay 101",
+    year: "2025",
+    caption:
+      "Workshop by Comic Con India exploring character culture, costume thinking, and fan communities.",
+    start: 1.00,
+    center: 1.12,
+    exit: 1.42,
+    yPosition: "4vh",
+    startRotate: 6,
+    centerRotate: -5,
+  },
+  {
+    title: "PetFed Pune",
+    year: "2025",
+    caption:
+      "Volunteering experience at PetFed Pune, handling visitors, activities, and event coordination.",
+    start: 1.12,
+    center: 1.24,
+    exit: 1.54,
+    yPosition: "-10vh",
+    startRotate: -5,
+    centerRotate: 6,
+  },
+  {
+    title: "Comic Con Pune",
+    year: "2026",
+    caption:
+      "Volunteering at Comic Con Pune, experiencing event flow, crowd interaction, and pop-culture energy.",
+    start: 1.24,
+    center: 1.36,
+    exit: 1.66,
+    yPosition: "18vh",
+    startRotate: 7,
+    centerRotate: -3,
+  },
+];
 
   return (
     <section
       id="events"
       ref={sectionRef}
       style={{
-        height: "260vh",
+        height: "1350vh",
+        marginTop: "-40vh",
         position: "relative",
         zIndex: 5000,
         backgroundColor: "var(--color-cream)",
@@ -1072,6 +1332,24 @@ function Events() {
           backgroundColor: "transparent",
         }}
       >
+
+        {/* Event photo cards */}
+{eventCards.map((card) => (
+  <EventPhotoCard
+    key={card.title}
+    progress={eventCardsProgress}
+    title={card.title}
+    year={card.year}
+    caption={card.caption}
+    start={card.start}
+    center={card.center}
+    exit={card.exit}
+    yPosition={card.yPosition}
+    startRotate={card.startRotate}
+    centerRotate={card.centerRotate}
+  />
+))}
+
         <motion.div
           style={{
   position: "fixed",
@@ -1080,7 +1358,7 @@ top: "50%",
 x: eventsX,
 y: "-50%",
             opacity: eventsOpacity,
-            zIndex: 10,
+            zIndex: 7000,
             width: "100vw",
             display: "flex",
             flexDirection: "column",
