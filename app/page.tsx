@@ -1052,7 +1052,11 @@ function EventPhotoCard({
 }) {
   
 
-  const y = useTransform(progress, [0, 1], [yPosition, yPosition]);
+const y = useTransform(
+  progress,
+  [0, 1],
+  [`calc(-50% + ${yPosition})`, `calc(-50% + ${yPosition})`]
+);
 
   const x = useTransform(
   progress,
@@ -1186,26 +1190,32 @@ function Events() {
 
   const { scrollYProgress } = useScroll({
   target: sectionRef,
-  offset: ["start 110%", "end end"],
+  offset: ["start 190%", "end end"],
 });
 
 // events enters from right and pins in center
-const eventsX = useTransform(
+const eventsIntroProgress = useTransform(
   scrollYProgress,
-  [0, 0.38, 1],
-  ["80vw", "-50%", "-50%"]
+  [0, 0.22],
+  [0, 1]
+);
+
+const eventsX = useTransform(
+  eventsIntroProgress,
+  [0, 1],
+  ["80vw", "-50%"]
 );
 
 const eventsOpacity = useTransform(
-  scrollYProgress,
-  [0, 0.08, 1],
-  [0, 1, 1]
+  eventsIntroProgress,
+  [0, 0.18],
+  [0, 1]
 );
 
 const eventCardsProgress = useTransform(
   scrollYProgress,
   [0, 1],
-  [0, 1.55]
+  [0.18, 1.73]
 );
 
 const eventCards = [
@@ -1217,7 +1227,7 @@ const eventCards = [
     start: 0.40,
     center: 0.52,
     exit: 0.82,
-    yPosition: "-17vh",
+    yPosition: "-8vh",
     startRotate: 7,
     centerRotate: -4,
   },
@@ -1229,7 +1239,7 @@ const eventCards = [
     start: 0.52,
     center: 0.64,
     exit: 0.94,
-    yPosition: "10vh",
+    yPosition: "0vh",
     startRotate: -6,
     centerRotate: 5,
   },
@@ -1241,7 +1251,7 @@ const eventCards = [
     start: 0.64,
     center: 0.76,
     exit: 1.06,
-    yPosition: "-6vh",
+    yPosition: "-10vh",
     startRotate: 5,
     centerRotate: -2,
   },
@@ -1253,7 +1263,7 @@ const eventCards = [
     start: 0.76,
     center: 0.88,
     exit: 1.18,
-    yPosition: "15vh",
+    yPosition: "0vh",
     startRotate: 8,
     centerRotate: 4,
   },
@@ -1265,7 +1275,7 @@ const eventCards = [
     start: 0.88,
     center: 1.00,
     exit: 1.30,
-    yPosition: "-20vh",
+    yPosition: "-9vh",
     startRotate: -7,
     centerRotate: 3,
   },
@@ -1277,7 +1287,7 @@ const eventCards = [
     start: 1.00,
     center: 1.12,
     exit: 1.42,
-    yPosition: "4vh",
+    yPosition: "-2vh",
     startRotate: 6,
     centerRotate: -5,
   },
@@ -1289,7 +1299,7 @@ const eventCards = [
     start: 1.12,
     center: 1.24,
     exit: 1.54,
-    yPosition: "-10vh",
+    yPosition: "-12vh",
     startRotate: -5,
     centerRotate: 6,
   },
@@ -1301,7 +1311,7 @@ const eventCards = [
     start: 1.24,
     center: 1.36,
     exit: 1.66,
-    yPosition: "18vh",
+    yPosition: "0vh",
     startRotate: 7,
     centerRotate: -3,
   },
@@ -1313,7 +1323,7 @@ const eventCards = [
       ref={sectionRef}
       style={{
         height: "1350vh",
-        marginTop: "-40vh",
+        marginTop: "-55vh",
         position: "relative",
         zIndex: 5000,
         backgroundColor: "var(--color-cream)",
