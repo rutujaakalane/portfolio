@@ -2061,6 +2061,157 @@ function Skills() {
   );
 }
 
+function ContactSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  });
+
+  const panelY = useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]);
+
+  const contentOpacity = useTransform(scrollYProgress, [0.35, 0.75], [0, 1]);
+
+  const contentY = useTransform(scrollYProgress, [0.35, 0.75], ["4vh", "0vh"]);
+
+  return (
+    <section
+      id="contact"
+      ref={sectionRef}
+      style={{
+        height: "180vh",
+        position: "relative",
+        zIndex: 20000,
+        marginTop: "-20vh",
+        backgroundColor: "var(--color-cream)",
+        overflow: "hidden",
+      }}
+    >
+      <motion.div
+        style={{
+          position: "sticky",
+          top: 0,
+          y: panelY,
+          width: "100vw",
+          height: "100vh",
+          zIndex: 20000,
+          backgroundColor: "var(--color-cream)",
+          backgroundImage:
+            "radial-gradient(circle, var(--dot-color) var(--dot-size), transparent var(--dot-size))",
+          backgroundSize: "var(--dot-space) var(--dot-space)",
+          borderTop: "1px solid rgba(26, 24, 20, 0.12)",
+          overflow: "hidden",
+          pointerEvents: "auto",
+        }}
+      >
+        <motion.div
+          style={{
+            opacity: contentOpacity,
+            y: contentY,
+            position: "relative",
+            zIndex: 20001,
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            padding: "0 2rem",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.64rem",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "rgba(26, 24, 20, 0.52)",
+              margin: "0 0 0.9rem",
+            }}
+          >
+            let’s connect
+          </p>
+
+          <h2
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(4rem, 12vw, 10rem)",
+              lineHeight: 0.9,
+              letterSpacing: "-0.04em",
+              color: "var(--color-ink)",
+              margin: "0 0 2rem",
+            }}
+          >
+            say hello
+          </h2>
+
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "0.75rem",
+              maxWidth: "760px",
+            }}
+          >
+            {[
+              { label: "Email", href: "mailto:rutujakalane.29@gmail.com" },
+              { label: "LinkedIn", href: "#" },
+              { label: "Instagram", href: "#" },
+              { label: "Behance", href: "#" },
+              { label: "Resume ↗", href: "/resume.pdf" },
+            ].map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.74rem",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "var(--color-ink)",
+                  backgroundColor: "rgba(253, 250, 245, 0.96)",
+                  border: "1px solid rgba(26, 24, 20, 0.16)",
+                  borderRadius: "999px",
+                  padding: "0.8rem 1.1rem",
+                  boxShadow: "0 16px 44px rgba(26, 24, 20, 0.08)",
+                  textDecoration: "none",
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <p
+            style={{
+              position: "absolute",
+              left: "50%",
+              bottom: "7vh",
+              transform: "translateX(-50%)",
+              width: "min(760px, calc(100vw - 3rem))",
+              fontFamily: "var(--font-serif)",
+              fontStyle: "italic",
+              fontSize: "clamp(1.4rem, 2.6vw, 3rem)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.03em",
+              color: "rgba(26, 24, 20, 0.42)",
+              margin: 0,
+            }}
+          >
+            “Designing things that feel easy, friendly, and human.”
+          </p>
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
+
 /* Page */
 
 export default function HomePage() {
@@ -2082,6 +2233,7 @@ export default function HomePage() {
 <Projects />
 <Events />
 <Skills />
+<ContactSection />
     </>
   );
 }
