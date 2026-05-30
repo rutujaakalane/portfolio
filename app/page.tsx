@@ -2069,7 +2069,11 @@ function ContactSection() {
     offset: ["start end", "start start"],
   });
 
-  const panelY = useTransform(scrollYProgress, [0, 1], ["100vh", "0vh"]);
+  const panelY = useTransform(
+  scrollYProgress,
+  [0, 1],
+  ["45vh", "0vh"]
+);
 
   const contentOpacity = useTransform(scrollYProgress, [0.35, 0.75], [0, 1]);
 
@@ -2077,17 +2081,20 @@ function ContactSection() {
 
   return (
     <section
-      id="contact"
-      ref={sectionRef}
-      style={{
-        height: "180vh",
-        position: "relative",
-        zIndex: 20000,
-        marginTop: "-20vh",
-        backgroundColor: "var(--color-cream)",
-        overflow: "hidden",
-      }}
-    >
+  id="contact"
+  ref={sectionRef}
+  style={{
+    height: "180vh",
+    position: "relative",
+    zIndex: 20000,
+    marginTop: "-20vh",
+    backgroundColor: "var(--color-cream)",
+    backgroundImage:
+      "radial-gradient(circle, var(--dot-color) var(--dot-size), transparent var(--dot-size))",
+    backgroundSize: "var(--dot-space) var(--dot-space)",
+    overflow: "hidden",
+  }}
+>
       <motion.div
         style={{
           position: "sticky",
