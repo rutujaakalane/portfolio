@@ -29,7 +29,7 @@ function Splash({ onDone }: { onDone: () => void }) {
       setVisible(false);
       document.body.style.overflow = "";
       onDone();
-    }, 2400);
+    }, 2800);
 
     return () => {
       clearTimeout(t);
@@ -42,70 +42,107 @@ function Splash({ onDone }: { onDone: () => void }) {
       {visible && (
         <motion.div
           key="splash"
-          initial={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            y: "-6%",
-            transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+            y: "-4%",
+            transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
           }}
           style={{
             position: "fixed",
             inset: 0,
             zIndex: 99999,
-            backgroundColor: "var(--color-ink)",
+            backgroundColor: "var(--color-cream)",
+            backgroundImage:
+              "radial-gradient(circle, var(--dot-color) var(--dot-size), transparent var(--dot-size))",
+            backgroundSize: "var(--dot-space) var(--dot-space)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            overflow: "hidden",
           }}
         >
-          <TypingWord word="ciao" />
+          <motion.div
+            initial={{ opacity: 0, y: 18, scale: 0.96, rotate: -1.5 }}
+            animate={{ opacity: 1, y: 0, scale: 1, rotate: -1.5 }}
+            transition={{
+  duration: 2.25,
+  ease: [0.16, 1, 0.3, 1],
+}}
+            style={{
+              width: "min(460px, calc(100vw - 3rem))",
+              borderRadius: "34px",
+              backgroundColor: "rgba(246, 231, 161, 0.88)",
+              border: "1px solid rgba(26, 24, 20, 0.14)",
+              boxShadow: "0 34px 100px rgba(26, 24, 20, 0.14)",
+              padding: "1.15rem",
+              transform: "rotate(-1.5deg)",
+            }}
+          >
+            <div
+              style={{
+                borderRadius: "26px",
+                backgroundColor: "rgba(253, 250, 245, 0.96)",
+                border: "1px dashed rgba(26, 24, 20, 0.18)",
+                padding: "1.45rem",
+                textAlign: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.62rem",
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  color: "rgba(26, 24, 20, 0.55)",
+                  margin: "0 0 1rem",
+                }}
+              >
+                loading portfolio
+              </p>
+
+              <div
+                style={{
+                  width: "100%",
+                  height: "10px",
+                  borderRadius: "999px",
+                  backgroundColor: "rgba(246, 231, 161, 0.45)",
+                  border: "1px solid rgba(26, 24, 20, 0.12)",
+                  overflow: "hidden",
+                }}
+              >
+                <motion.div
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{
+                    duration: 1.75,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  style={{
+                    height: "100%",
+                    borderRadius: "999px",
+                    backgroundColor: "rgba(26, 24, 20, 0.48)",
+                  }}
+                />
+              </div>
+
+              <p
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.58rem",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(26, 24, 20, 0.48)",
+                  margin: "1rem 0 0",
+                }}
+              >
+                setting up the board
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-function TypingWord({ word }: { word: string }) {
-  const [displayed, setDisplayed] = useState("");
-
-  useEffect(() => {
-    let i = 0;
-
-    const interval = setInterval(() => {
-      i++;
-      setDisplayed(word.slice(0, i));
-
-      if (i === word.length) clearInterval(interval);
-    }, 110);
-
-    return () => clearInterval(interval);
-  }, [word]);
-
-  return (
-    <motion.span
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-      style={{
-        fontFamily: "var(--font-serif)",
-        fontStyle: "italic",
-        fontSize: "clamp(3.5rem, 8vw, 8rem)",
-        color: "var(--color-cream)",
-        letterSpacing: "-0.03em",
-        lineHeight: 1,
-        minWidth: "4ch",
-        textAlign: "center",
-      }}
-    >
-      {displayed}
-      <motion.span
-        animate={{ opacity: [1, 0] }}
-        transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut" }}
-        style={{ color: "var(--color-gold)", marginLeft: "2px" }}
-      >
-        |
-      </motion.span>
-    </motion.span>
   );
 }
 
@@ -961,6 +998,7 @@ const projectCard6Scale = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615]
 ].map((card) => (
   <motion.div
     key={card.title}
+    data-cursor="read"
     style={{
       position: "fixed",
       left: "50%",
@@ -977,7 +1015,7 @@ const projectCard6Scale = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615]
       border: "1px solid rgba(26, 24, 20, 0.18)",
       boxShadow: "0 32px 90px rgba(26, 24, 20, 0.18)",
       padding: "1rem",
-      pointerEvents: "none",
+      pointerEvents: "auto",
       willChange: "transform",
     }}
   >
@@ -2240,6 +2278,7 @@ function ContactSection() {
   {/* Instagram card */}
   <a
     href="https://www.instagram.com/rutudrws/"
+    data-cursor-label="VISIT"
     target="_blank"
     rel="noreferrer"
     style={{
@@ -2356,17 +2395,32 @@ function ContactSection() {
     }}
   >
     {[
-      { label: "Email", href: "mailto:rutujaakalane@gmail.com" },
-      {
-        label: "LinkedIn",
-        href: "https://www.linkedin.com/in/rutuja-kalane-2124153a0/",
-      },
-      { label: "Behance", href: "https://www.behance.net/rutujakalane" },
-      { label: "Resume ↗", href: "/resume.pdf" },
-    ].map((link) => (
+  {
+    label: "Email",
+    href: "mailto:rutujaakalane@gmail.com",
+    cursor: "COPY",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/rutuja-kalane-2124153a0/",
+    cursor: "VISIT",
+  },
+  {
+    label: "Behance",
+    href: "https://www.behance.net/rutujakalane",
+    cursor: "VISIT",
+  },
+  {
+    label: "Resume ↗",
+    href: "/resume.pdf",
+    cursor: "DOWNLOAD",
+  },
+].map((link) => (
+
       <a
         key={link.label}
         href={link.href}
+        data-cursor-label={link.cursor}
         target={link.href.startsWith("http") ? "_blank" : undefined}
         rel={link.href.startsWith("http") ? "noreferrer" : undefined}
         style={{
