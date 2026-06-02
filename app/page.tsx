@@ -2069,11 +2069,7 @@ function ContactSection() {
     offset: ["start end", "start start"],
   });
 
-  const panelY = useTransform(
-  scrollYProgress,
-  [0, 1],
-  ["45vh", "0vh"]
-);
+  const panelY = useTransform(scrollYProgress, [0, 1], ["45vh", "0vh"]);
 
   const contentOpacity = useTransform(scrollYProgress, [0.35, 0.75], [0, 1]);
 
@@ -2081,20 +2077,20 @@ function ContactSection() {
 
   return (
     <section
-  id="contact"
-  ref={sectionRef}
-  style={{
-    height: "180vh",
-    position: "relative",
-    zIndex: 20000,
-    marginTop: "-20vh",
-    backgroundColor: "var(--color-cream)",
-    backgroundImage:
-      "radial-gradient(circle, var(--dot-color) var(--dot-size), transparent var(--dot-size))",
-    backgroundSize: "var(--dot-space) var(--dot-space)",
-    overflow: "hidden",
-  }}
->
+      id="contact"
+      ref={sectionRef}
+      style={{
+        height: "100vh",
+        position: "relative",
+        zIndex: 20000,
+        marginTop: "-20vh",
+        backgroundColor: "var(--color-cream)",
+        backgroundImage:
+          "radial-gradient(circle, var(--dot-color) var(--dot-size), transparent var(--dot-size))",
+        backgroundSize: "var(--dot-space) var(--dot-space)",
+        overflow: "hidden",
+      }}
+    >
       <motion.div
         style={{
           position: "sticky",
@@ -2125,7 +2121,8 @@ function ContactSection() {
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
-            padding: "0 2rem",
+            padding: "0 clamp(2rem, 7vw, 8rem)",
+            boxSizing: "border-box",
           }}
         >
           <p
@@ -2135,7 +2132,7 @@ function ContactSection() {
               letterSpacing: "0.18em",
               textTransform: "uppercase",
               color: "rgba(26, 24, 20, 0.52)",
-              margin: "0 0 0.9rem",
+              margin: "0 0 0.8rem",
             }}
           >
             let’s connect
@@ -2145,74 +2142,184 @@ function ContactSection() {
             style={{
               fontFamily: "var(--font-serif)",
               fontStyle: "italic",
-              fontSize: "clamp(4rem, 12vw, 10rem)",
+              fontSize: "clamp(4rem, 10vw, 8.5rem)",
               lineHeight: 0.9,
               letterSpacing: "-0.04em",
               color: "var(--color-ink)",
-              margin: "0 0 2rem",
+              margin: "0 0 1.6rem",
+              textAlign: "center",
+              width: "100%",
             }}
           >
             say hello
           </h2>
 
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: "0.75rem",
-              maxWidth: "760px",
-            }}
-          >
-            {[
-              { label: "Email", href: "mailto:rutujakalane.29@gmail.com" },
-              { label: "LinkedIn", href: "#" },
-              { label: "Instagram", href: "#" },
-              { label: "Behance", href: "#" },
-              { label: "Resume ↗", href: "/resume.pdf" },
-            ].map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target={link.href.startsWith("http") ? "_blank" : undefined}
-                rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.74rem",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink)",
-                  backgroundColor: "rgba(253, 250, 245, 0.96)",
-                  border: "1px solid rgba(26, 24, 20, 0.16)",
-                  borderRadius: "999px",
-                  padding: "0.8rem 1.1rem",
-                  boxShadow: "0 16px 44px rgba(26, 24, 20, 0.08)",
-                  textDecoration: "none",
-                }}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
+          {/* Contact layout: Instagram card left + horizontal CTAs right */}
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "420px 1fr",
+    alignItems: "center",
+    columnGap: "clamp(3rem, 8vw, 9rem)",
+    width: "100%",
+    maxWidth: "1280px",
+    margin: "0 auto",
+  }}
+>
+  {/* Instagram card */}
+  <a
+    href="https://www.instagram.com/rutudrws/"
+    target="_blank"
+    rel="noreferrer"
+    style={{
+      width: "360px",
+      borderRadius: "34px",
+      backgroundColor: "rgba(246, 231, 161, 0.88)",
+      border: "1px solid rgba(26, 24, 20, 0.14)",
+      boxShadow: "0 30px 90px rgba(26, 24, 20, 0.14)",
+      padding: "1.15rem",
+      textDecoration: "none",
+      color: "var(--color-ink)",
+      display: "block",
+      transform: "rotate(-3deg)",
+      boxSizing: "border-box",
+      justifySelf: "start",
+      marginLeft: "-2vw",
+    }}
+  >
+    <div
+      style={{
+        borderRadius: "26px",
+        backgroundColor: "rgba(253, 250, 245, 0.96)",
+        border: "1px dashed rgba(26, 24, 20, 0.18)",
+        padding: "1.15rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        gap: "0.9rem",
+      }}
+    >
+      <div
+        style={{
+          width: "132px",
+          height: "132px",
+          borderRadius: "50%",
+          padding: "0.42rem",
+          backgroundColor: "rgba(246, 231, 161, 0.9)",
+          border: "1px solid rgba(26, 24, 20, 0.14)",
+          boxShadow: "0 18px 44px rgba(26, 24, 20, 0.12)",
+        }}
+      >
+        <img
+          src="/instagram-profile.jpg"
+          alt="Instagram profile"
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: "50%",
+            objectFit: "cover",
+            display: "block",
+            backgroundColor: "rgba(246, 231, 161, 0.9)",
+          }}
+        />
+      </div>
 
-          <p
-            style={{
-              position: "absolute",
-              left: "50%",
-              bottom: "7vh",
-              transform: "translateX(-50%)",
-              width: "min(760px, calc(100vw - 3rem))",
-              fontFamily: "var(--font-serif)",
-              fontStyle: "italic",
-              fontSize: "clamp(1.4rem, 2.6vw, 3rem)",
-              lineHeight: 1.1,
-              letterSpacing: "-0.03em",
-              color: "rgba(26, 24, 20, 0.42)",
-              margin: 0,
-            }}
-          >
-            “Designing things that feel easy, friendly, and human.”
-          </p>
+      <h3
+        style={{
+          fontFamily: "var(--font-serif)",
+          fontStyle: "italic",
+          fontSize: "clamp(2.2rem, 3.4vw, 3.4rem)",
+          lineHeight: 0.95,
+          letterSpacing: "-0.04em",
+          color: "var(--color-ink)",
+          margin: "0 0 0.2rem",
+        }}
+      >
+        @rutudrws
+      </h3>
+
+      <p
+        style={{
+          fontFamily: "var(--font-sans)",
+          fontSize: "0.88rem",
+          lineHeight: 1.5,
+          color: "rgba(26, 24, 20, 0.68)",
+          margin: 0,
+          maxWidth: "290px",
+        }}
+      >
+        Design, daily visuals, creative process, and small pieces of life behind
+        the work.
+      </p>
+
+      <span
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.7rem",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: "var(--color-ink)",
+          backgroundColor: "rgba(246, 231, 161, 0.78)",
+          border: "1px solid rgba(26, 24, 20, 0.14)",
+          borderRadius: "999px",
+          padding: "0.72rem 0.95rem",
+          whiteSpace: "nowrap",
+        }}
+      >
+        view instagram ↗
+      </span>
+    </div>
+  </a>
+
+  {/* CTA links on right side in horizontal row */}
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      flexWrap: "wrap",
+      gap: "0.9rem",
+      transform: "rotate(1deg)",
+    }}
+  >
+    {[
+      { label: "Email", href: "mailto:rutujaakalane@gmail.com" },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/rutuja-kalane-2124153a0/",
+      },
+      { label: "Behance", href: "https://www.behance.net/rutujakalane" },
+      { label: "Resume ↗", href: "/resume.pdf" },
+    ].map((link) => (
+      <a
+        key={link.label}
+        href={link.href}
+        target={link.href.startsWith("http") ? "_blank" : undefined}
+        rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.74rem",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: "var(--color-ink)",
+          backgroundColor: "rgba(253, 250, 245, 0.96)",
+          border: "1px solid rgba(26, 24, 20, 0.16)",
+          borderRadius: "999px",
+          padding: "0.82rem 1.15rem",
+          boxShadow: "0 16px 44px rgba(26, 24, 20, 0.08)",
+          textDecoration: "none",
+          minWidth: "130px",
+          textAlign: "center",
+        }}
+      >
+        {link.label}
+      </a>
+    ))}
+  </div>
+</div>
+          
         </motion.div>
       </motion.div>
     </section>
