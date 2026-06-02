@@ -1105,6 +1105,7 @@ function EventPhotoCard({
   title,
   year,
   caption,
+  image,
   start,
   center,
   exit,
@@ -1116,6 +1117,7 @@ function EventPhotoCard({
   title: string;
   year: string;
   caption: string;
+  image: string;
   start: number;
   center: number;
   exit: number;
@@ -1123,31 +1125,29 @@ function EventPhotoCard({
   startRotate: number;
   centerRotate: number;
 }) {
-  
-
-const y = useTransform(
-  progress,
-  [0, 1],
-  [`calc(-50% + ${yPosition})`, `calc(-50% + ${yPosition})`]
-);
+  const y = useTransform(
+    progress,
+    [0, 1],
+    [`calc(-50% + ${yPosition})`, `calc(-50% + ${yPosition})`]
+  );
 
   const x = useTransform(
-  progress,
-  [0, start, center, exit, exit + 0.18],
-  ["120vw", "120vw", "24vw", "-120vw", "-120vw"]
-);
+    progress,
+    [0, start, center, exit, exit + 0.18],
+    ["120vw", "120vw", "24vw", "-120vw", "-120vw"]
+  );
 
-const rotate = useTransform(
-  progress,
-  [0, start, center, exit, exit + 0.18],
-  [startRotate, startRotate, centerRotate, centerRotate - 3, centerRotate - 3]
-);
+  const rotate = useTransform(
+    progress,
+    [0, start, center, exit, exit + 0.18],
+    [startRotate, startRotate, centerRotate, centerRotate - 3, centerRotate - 3]
+  );
 
-const opacity = useTransform(
-  progress,
-  [0, start, start + 0.06, exit + 0.06, exit + 0.12],
-  [0, 0, 1, 1, 0]
-);
+  const opacity = useTransform(
+    progress,
+    [0, start, start + 0.06, exit + 0.06, exit + 0.12],
+    [0, 0, 1, 1, 0]
+  );
 
   return (
     <motion.div
@@ -1184,17 +1184,16 @@ const opacity = useTransform(
           marginBottom: "1rem",
         }}
       >
-        <span
+        <img
+          src={image}
+          alt={title}
           style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.62rem",
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: "rgba(26, 24, 20, 0.52)",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
           }}
-        >
-          event image
-        </span>
+        />
       </div>
 
       <div
@@ -1262,133 +1261,137 @@ function Events() {
   const sectionRef = useRef<HTMLElement>(null);
 
   const { scrollYProgress } = useScroll({
-  target: sectionRef,
-  offset: ["start 190%", "end end"],
-});
+    target: sectionRef,
+    offset: ["start 190%", "end end"],
+  });
 
-// events enters from right and pins in center
-const eventsIntroProgress = useTransform(
-  scrollYProgress,
-  [0, 0.22],
-  [0, 1]
-);
+  // events enters from right and pins in center
+  const eventsIntroProgress = useTransform(scrollYProgress, [0, 0.22], [0, 1]);
 
-const eventsX = useTransform(
-  scrollYProgress,
-  [0, 0.16, 0.88, 1],
-  ["80vw", "-50%", "-50%", "-180vw"]
-);
+  const eventsX = useTransform(
+    scrollYProgress,
+    [0, 0.16, 0.88, 1],
+    ["80vw", "-50%", "-50%", "-180vw"]
+  );
 
-const eventsOpacity = useTransform(
-  scrollYProgress,
-  [0, 0.03, 0.93, 1],
-  [0, 1, 1, 0]
-);
+  const eventsOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.03, 0.93, 1],
+    [0, 1, 1, 0]
+  );
 
-const eventCardsProgress = useTransform(
-  scrollYProgress,
-  [0, 1],
-  [0.18, 1.73]
-);
+  const eventCardsProgress = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0.18, 1.73]
+  );
 
-const eventCards = [
-  {
-    title: "IIT Bombay",
-    year: "2024",
-    caption:
-      "Design Degree Show visit exploring student projects, process work, and presentation styles.",
-    start: 0.40,
-    center: 0.52,
-    exit: 0.82,
-    yPosition: "-8vh",
-    startRotate: 7,
-    centerRotate: -4,
-  },
-  {
-    title: "IIM Ahmedabad",
-    year: "2024",
-    caption:
-      "48 Hour Filmmaking Competition experience around storytelling, teamwork, and fast creative decisions.",
-    start: 0.52,
-    center: 0.64,
-    exit: 0.94,
-    yPosition: "0vh",
-    startRotate: -6,
-    centerRotate: 5,
-  },
-  {
-    title: "ADI Festival",
-    year: "2025",
-    caption:
-      "Design Education Festival by ADI, focused on design learning, talks, and community exposure.",
-    start: 0.64,
-    center: 0.76,
-    exit: 1.06,
-    yPosition: "-10vh",
-    startRotate: 5,
-    centerRotate: -2,
-  },
-  {
-    title: "Figma Meetup",
-    year: "2026",
-    caption:
-      "The Makers Meet Up by Friends of Figma, around tools, workflows, and design conversations.",
-    start: 0.76,
-    center: 0.88,
-    exit: 1.18,
-    yPosition: "0vh",
-    startRotate: 8,
-    centerRotate: 4,
-  },
-  {
-    title: "Elephant Design",
-    year: "2025",
-    caption:
-      "Open House Meetup at Elephant Design during Pune Design Festival, observing studio culture closely.",
-    start: 0.88,
-    center: 1.00,
-    exit: 1.30,
-    yPosition: "-9vh",
-    startRotate: -7,
-    centerRotate: 3,
-  },
-  {
-    title: "Cosplay 101",
-    year: "2025",
-    caption:
-      "Workshop by Comic Con India exploring character culture, costume thinking, and fan communities.",
-    start: 1.00,
-    center: 1.12,
-    exit: 1.42,
-    yPosition: "-2vh",
-    startRotate: 6,
-    centerRotate: -5,
-  },
-  {
-    title: "PetFed Pune",
-    year: "2025",
-    caption:
-      "Volunteering experience at PetFed Pune, handling visitors, activities, and event coordination.",
-    start: 1.12,
-    center: 1.24,
-    exit: 1.54,
-    yPosition: "-12vh",
-    startRotate: -5,
-    centerRotate: 6,
-  },
-  {
-    title: "Comic Con Pune",
-    year: "2026",
-    caption:
-      "Volunteering at Comic Con Pune, experiencing event flow, crowd interaction, and pop-culture energy.",
-    start: 1.24,
-    center: 1.36,
-    exit: 1.66,
-    yPosition: "0vh",
-    startRotate: 7,
-    centerRotate: -3,
-  },
-];
+  const eventCards = [
+    {
+      title: "IIT Bombay",
+      year: "2024",
+      caption:
+        "Design Degree Show visit exploring student projects, process work, and presentation styles.",
+      image: "/iit-bombay.png",
+      start: 0.40,
+      center: 0.52,
+      exit: 0.82,
+      yPosition: "-8vh",
+      startRotate: 7,
+      centerRotate: -4,
+    },
+    {
+      title: "IIM Ahmedabad",
+      year: "2024",
+      caption:
+        "48 Hour Filmmaking Competition experience around storytelling, teamwork, and fast creative decisions.",
+      image: "/iim-ahmedabad.jpeg",
+      start: 0.52,
+      center: 0.64,
+      exit: 0.94,
+      yPosition: "0vh",
+      startRotate: -6,
+      centerRotate: 5,
+    },
+    {
+      title: "ADI Festival",
+      year: "2025",
+      caption:
+        "Design Education Festival by ADI, focused on design learning, talks, and community exposure.",
+      image: "/adi-festival.jpeg",
+      start: 0.64,
+      center: 0.76,
+      exit: 1.06,
+      yPosition: "-10vh",
+      startRotate: 5,
+      centerRotate: -2,
+    },
+    {
+      title: "Figma Meetup",
+      year: "2026",
+      caption:
+        "The Makers Meet Up by Friends of Figma, around tools, workflows, and design conversations.",
+      image: "/figma-meetup.jpeg",
+      start: 0.76,
+      center: 0.88,
+      exit: 1.18,
+      yPosition: "0vh",
+      startRotate: 8,
+      centerRotate: 4,
+    },
+    {
+      title: "Elephant Design",
+      year: "2025",
+      caption:
+        "Open House Meetup at Elephant Design during Pune Design Festival, observing studio culture closely.",
+      image: "/elephant-design.jpg",
+      start: 0.88,
+      center: 1.00,
+      exit: 1.30,
+      yPosition: "-9vh",
+      startRotate: -7,
+      centerRotate: 3,
+    },
+    {
+      title: "Cosplay 101",
+      year: "2025",
+      caption:
+        "Workshop by Comic Con India exploring character culture, costume thinking, and fan communities.",
+      image: "/cosplay-101.jpeg",
+      start: 1.00,
+      center: 1.12,
+      exit: 1.42,
+      yPosition: "-2vh",
+      startRotate: 6,
+      centerRotate: -5,
+    },
+    {
+      title: "PetFed Pune",
+      year: "2025",
+      caption:
+        "Volunteering experience at PetFed Pune, handling visitors, activities, and event coordination.",
+      image: "/petfed-pune.jpeg",
+      start: 1.12,
+      center: 1.24,
+      exit: 1.54,
+      yPosition: "-12vh",
+      startRotate: -5,
+      centerRotate: 6,
+    },
+    {
+  title: "Canva Community Labs",
+  year: "2026",
+  caption:
+    "Attended Canva Community Labs in Pune, exploring creative workflows, design tools, and community-led learning.",
+  image: "/community-labs.png",
+  start: 1.24,
+  center: 1.36,
+  exit: 1.66,
+  yPosition: "0vh",
+  startRotate: 7,
+  centerRotate: -3,
+},
+  ];
 
   return (
     <section
@@ -1415,31 +1418,31 @@ const eventCards = [
           backgroundColor: "transparent",
         }}
       >
-
         {/* Event photo cards */}
-{eventCards.map((card) => (
-  <EventPhotoCard
-    key={card.title}
-    progress={eventCardsProgress}
-    title={card.title}
-    year={card.year}
-    caption={card.caption}
-    start={card.start}
-    center={card.center}
-    exit={card.exit}
-    yPosition={card.yPosition}
-    startRotate={card.startRotate}
-    centerRotate={card.centerRotate}
-  />
-))}
+        {eventCards.map((card) => (
+          <EventPhotoCard
+            key={card.title}
+            progress={eventCardsProgress}
+            title={card.title}
+            year={card.year}
+            caption={card.caption}
+            image={card.image}
+            start={card.start}
+            center={card.center}
+            exit={card.exit}
+            yPosition={card.yPosition}
+            startRotate={card.startRotate}
+            centerRotate={card.centerRotate}
+          />
+        ))}
 
         <motion.div
           style={{
-  position: "fixed",
-left: "50%",
-top: "50%",
-x: eventsX,
-y: "-50%",
+            position: "fixed",
+            left: "50%",
+            top: "50%",
+            x: eventsX,
+            y: "-50%",
             opacity: eventsOpacity,
             zIndex: 7000,
             width: "100vw",
@@ -2280,7 +2283,7 @@ function ContactSection() {
         }}
       >
         <img
-          src="/instagram-profile.jpg"
+          src="/instagram-profile.png"
           alt="Instagram profile"
           style={{
             width: "100%",
