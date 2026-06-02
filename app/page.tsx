@@ -111,9 +111,13 @@ function TypingWord({ word }: { word: string }) {
 
 /* ── Navbar ─────────────────────────────────────────────────── */
 
-const NAV_LINKS = ["About", "Projects", "Contact"];
+const NAV_LINKS = ["Projects", "Events", "Contact"];
 
 function Navbar({ visible }: { visible: boolean }) {
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
+  const [resumeHovered, setResumeHovered] = useState(false);
+  const [nameHovered, setNameHovered] = useState(false);
+
   return (
     <motion.nav
       initial={{ opacity: 0, y: -8 }}
@@ -124,7 +128,7 @@ function Navbar({ visible }: { visible: boolean }) {
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 1000,
+        zIndex: 50000,
         padding: "0 var(--container-px)",
         height: "64px",
         display: "grid",
@@ -134,18 +138,44 @@ function Navbar({ visible }: { visible: boolean }) {
       }}
     >
       <div style={{ gridColumn: "1 / 2" }}>
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.6875rem",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            color: "var(--color-stone)",
-          }}
-        >
-          RK
-        </span>
-      </div>
+  <a
+    href="#hero"
+    onMouseEnter={() => setNameHovered(true)}
+    onMouseLeave={() => setNameHovered(false)}
+    style={{
+      position: "relative",
+      fontFamily: "var(--font-mono)",
+      fontSize: "0.8rem",
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      color: "var(--color-stone)",
+      textDecoration: "none",
+      transition: "color 200ms ease",
+      whiteSpace: "nowrap",
+      padding: "0.48rem 0.72rem",
+      borderRadius: "999px",
+      overflow: "hidden",
+      display: "inline-block",
+    }}
+  >
+    {nameHovered && (
+      <motion.span
+        layoutId="name-hover-pill"
+        transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "999px",
+          backgroundColor: "rgba(246, 231, 161, 0.72)",
+          border: "1px solid rgba(26, 24, 20, 0.08)",
+          zIndex: 0,
+        }}
+      />
+    )}
+
+    <span style={{ position: "relative", zIndex: 1 }}>Rutuja Kalane</span>
+  </a>
+</div>
 
       <div
         style={{
@@ -153,25 +183,47 @@ function Navbar({ visible }: { visible: boolean }) {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          gap: "2rem",
+          gap: "1.1rem",
         }}
       >
         {NAV_LINKS.map((link) => (
-          <a
-            key={link}
-            href={`#${link.toLowerCase()}`}
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.8rem",
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: "var(--color-stone)",
-              transition: "color 200ms ease",
-            }}
-          >
-            {link}
-          </a>
-        ))}
+  <a
+    key={link}
+    href={`#${link.toLowerCase()}`}
+    onMouseEnter={() => setHoveredNav(link)}
+    onMouseLeave={() => setHoveredNav(null)}
+    style={{
+      position: "relative",
+      fontFamily: "var(--font-mono)",
+      fontSize: "0.8rem",
+      letterSpacing: "0.1em",
+      textTransform: "uppercase",
+      color: "var(--color-stone)",
+      textDecoration: "none",
+      transition: "color 200ms ease",
+      padding: "0.48rem 0.72rem",
+      borderRadius: "999px",
+      overflow: "hidden",
+    }}
+  >
+    {hoveredNav === link && (
+      <motion.span
+        layoutId="nav-hover-pill"
+        transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "999px",
+          backgroundColor: "rgba(246, 231, 161, 0.72)",
+          border: "1px solid rgba(26, 24, 20, 0.08)",
+          zIndex: -1,
+        }}
+      />
+    )}
+
+    <span style={{ position: "relative", zIndex: 1 }}>{link}</span>
+  </a>
+))}
       </div>
 
       <div
@@ -181,23 +233,44 @@ function Navbar({ visible }: { visible: boolean }) {
           justifyContent: "flex-end",
         }}
       >
-        <button
-          disabled
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "0.8rem",
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            color: "var(--color-ink)",
-            border: "1px solid var(--color-sand)",
-            padding: "0.5rem 1.1rem",
-            borderRadius: "999px",
-            background: "transparent",
-            opacity: 0.5,
-          }}
-        >
-          Resume ↗
-        </button>
+        <a
+  href="/resume.pdf"
+  target="_blank"
+  rel="noreferrer"
+  onMouseEnter={() => setResumeHovered(true)}
+  onMouseLeave={() => setResumeHovered(false)}
+  style={{
+    position: "relative",
+    fontFamily: "var(--font-mono)",
+    fontSize: "0.8rem",
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+    color: "var(--color-ink)",
+    border: "1px solid rgba(26, 24, 20, 0.16)",
+    padding: "0.5rem 1.1rem",
+    borderRadius: "999px",
+    background: "rgba(253, 250, 245, 0.44)",
+    textDecoration: "none",
+    overflow: "hidden",
+  }}
+>
+  {resumeHovered && (
+    <motion.span
+      layoutId="resume-hover-pill"
+      transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        position: "absolute",
+        inset: 0,
+        borderRadius: "999px",
+        backgroundColor: "rgba(246, 231, 161, 0.72)",
+        border: "1px solid rgba(26, 24, 20, 0.08)",
+        zIndex: 0,
+      }}
+    />
+  )}
+
+  <span style={{ position: "relative", zIndex: 1 }}>Resume ↗</span>
+</a>
       </div>
     </motion.nav>
   );
@@ -1414,7 +1487,6 @@ y: "-50%",
 
 function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [showAcademicProgress, setShowAcademicProgress] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -1606,8 +1678,6 @@ function Skills() {
 
         {/* Education card */}
         <motion.div
-          onMouseEnter={() => setShowAcademicProgress(true)}
-          onMouseLeave={() => setShowAcademicProgress(false)}
           style={{
             position: "fixed",
             left: "7vw",
@@ -1666,85 +1736,83 @@ function Skills() {
             DY Patil International University, focused on UI/UX, visual design,
             and interaction-led digital experiences.
           </p>
-
-          <AnimatePresence>
-            {showAcademicProgress && (
-              <motion.div
-                initial={{ opacity: 0, y: 12, scale: 0.96 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 10, scale: 0.96 }}
-                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                style={{
-                  position: "absolute",
-                  left: "calc(100% + 0.9rem)",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  width: "210px",
-                  borderRadius: "16px",
-                  backgroundColor: "rgba(246, 231, 161, 0.96)",
-                  border: "1px solid rgba(26, 24, 20, 0.14)",
-                  boxShadow: "0 16px 42px rgba(26, 24, 20, 0.14)",
-                  padding: "0.68rem",
-                  zIndex: 9000,
-                  pointerEvents: "none",
-                }}
-              >
-                <p
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "0.55rem",
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    color: "rgba(26, 24, 20, 0.55)",
-                    margin: "0 0 0.45rem",
-                  }}
-                >
-                  academic progress
-                </p>
-
-                {[
-                  ["Sem 1", "9.05 SGPA"],
-                  ["Sem 2", "9.32 SGPA"],
-                  ["Sem 3", "8.70 SGPA"],
-                  ["Sem 4", "10.00 SGPA"],
-                ].map(([sem, score]) => (
-                  <div
-                    key={sem}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: "1rem",
-                      padding: "0.28rem 0",
-                      borderTop: "1px solid rgba(26, 24, 20, 0.12)",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: "0.78rem",
-                        color: "rgba(26, 24, 20, 0.72)",
-                      }}
-                    >
-                      {sem}
-                    </span>
-
-                    <span
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: "0.72rem",
-                        letterSpacing: "0.06em",
-                        color: "var(--color-ink)",
-                      }}
-                    >
-                      {score}
-                    </span>
-                  </div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.div>
+
+{/* Academic Progress card */}
+<motion.div
+  style={{
+    position: "fixed",
+    left: "clamp(310px, 29vw, 470px)",
+    top: "18vh",
+    x: educationX,
+    y: educationY,
+    rotate: -1,
+    opacity: educationOpacity,
+    width: "210px",
+    borderRadius: "20px",
+    backgroundColor: "rgba(246, 231, 161, 0.96)",
+    border: "1px solid rgba(26, 24, 20, 0.14)",
+    boxShadow: "0 18px 52px rgba(26, 24, 20, 0.14)",
+    padding: "0.78rem",
+    zIndex: 7190,
+    pointerEvents: "none",
+  }}
+>
+  <p
+    style={{
+      fontFamily: "var(--font-mono)",
+      fontSize: "0.55rem",
+      letterSpacing: "0.14em",
+      textTransform: "uppercase",
+      color: "rgba(26, 24, 20, 0.55)",
+      margin: "0 0 0.5rem",
+    }}
+  >
+    academic progress
+  </p>
+
+  {[
+    ["Sem 1", "9.05 SGPA"],
+    ["Sem 2", "9.32 SGPA"],
+    ["Sem 3", "8.70 SGPA"],
+    ["Sem 4", "10.00 SGPA"],
+  ].map(([sem, score]) => (
+    <div
+      key={sem}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: "1rem",
+        padding: "0.3rem 0",
+        borderTop: "1px solid rgba(26, 24, 20, 0.12)",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "var(--font-sans)",
+          fontSize: "0.78rem",
+          color: "rgba(26, 24, 20, 0.72)",
+        }}
+      >
+        {sem}
+      </span>
+
+      <span
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: "0.72rem",
+          letterSpacing: "0.06em",
+          color: "var(--color-ink)",
+        }}
+      >
+        {score}
+      </span>
+    </div>
+  ))}
+</motion.div>
+
+{/* Software card */}
 
         {/* Software card */}
         <motion.div
