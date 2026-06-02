@@ -532,6 +532,19 @@ function Hero({ visible }: { visible: boolean }) {
     [0.94, 1, 1]
   );
 
+  // SCROLL HINT — appears at start, disappears once photo pins
+const scrollHintOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.08, 0.46, 0.56],
+  [1, 1, 1, 0]
+);
+
+const scrollHintY = useTransform(
+  scrollYProgress,
+  [0, 0.46, 0.56],
+  [0, 0, 18]
+);
+
   // LEFT PARAGRAPH — appears first after photo
   const leftParaOpacity = useTransform(
   scrollYProgress,
@@ -713,6 +726,65 @@ const rightParaY = useTransform(
 </span>
           </h1>
         </motion.div>
+
+{/* Scroll hint */}
+<motion.div
+  style={{
+    position: "fixed",
+    left: "50%",
+    bottom: "5.5vh",
+    x: "-50%",
+    y: scrollHintY,
+    opacity: scrollHintOpacity,
+    zIndex: 30,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "0.55rem",
+    pointerEvents: "none",
+  }}
+>
+  <span
+    style={{
+      fontFamily: "var(--font-mono)",
+      fontSize: "0.62rem",
+      letterSpacing: "0.18em",
+      textTransform: "uppercase",
+      color: "rgba(26, 24, 20, 0.48)",
+    }}
+  >
+    scroll
+  </span>
+
+  <motion.span
+    animate={{ y: [0, 7, 0] }}
+    transition={{
+      repeat: Infinity,
+      duration: 1.4,
+      ease: "easeInOut",
+    }}
+    style={{
+      width: "1px",
+      height: "34px",
+      backgroundColor: "rgba(26, 24, 20, 0.28)",
+      display: "block",
+      position: "relative",
+    }}
+  >
+    <span
+      style={{
+        position: "absolute",
+        left: "50%",
+        bottom: 0,
+        width: "6px",
+        height: "6px",
+        borderRight: "1px solid rgba(26, 24, 20, 0.38)",
+        borderBottom: "1px solid rgba(26, 24, 20, 0.38)",
+        transform: "translateX(-50%) rotate(45deg)",
+      }}
+    />
+  </motion.span>
+</motion.div>
 
         {/* Photo — rises from bottom and pins */}
         <motion.div
@@ -917,7 +989,7 @@ const projectCard6Scale = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615]
     width: "34px",
     height: "34px",
     borderRadius: "50%",
-    backgroundColor: "#F6E7A1",
+    backgroundColor: "#F7E9A8",
     scale: projectDotScale,
     opacity: projectDotOpacity,
     zIndex: 6500,
