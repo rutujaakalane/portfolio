@@ -244,6 +244,13 @@ function FlowLine({ title, items }: { title: string; items: string[] }) {
 export default function ProjectThreePage() {
   return (
     <main className="case-page">
+      <div className="debug-alignment-grid" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
+
       <nav className="case-nav">
         <Link href="/" className="nav-name">
           Rutuja Kalane
@@ -255,36 +262,47 @@ export default function ProjectThreePage() {
       </nav>
 
       <header className="case-hero">
-        <p className="case-label">Research case study</p>
-        <h1>Mahabaleshwar Strawberries: A Research Case Study</h1>
-        <p className="hero-subtitle">
-          Understanding strawberry farming, post-harvest loss, and sustainability
-          through field research.
-        </p>
+        <div className="hero-layout">
+          <div className="hero-text">
+            <p className="case-label">Research case study</p>
+            <h1>Mahabaleshwar Strawberries: A Research Case Study</h1>
+            <p className="hero-subtitle">
+              Understanding strawberry farming, post-harvest loss, and
+              sustainability through field research.
+            </p>
+          </div>
+
+          <div className="hero-strawberry" aria-hidden="true">
+            <img src="/strawberry.png" alt="" />
+          </div>
+        </div>
       </header>
 
       <section className="case-section">
-        <SectionHeader
-          label="OVERVIEW"
-          headline="A one-month field research study on Mahabaleshwar’s strawberry farming ecosystem."
-          body={
-            <>
-              <p>
-                This project began as a rural and cultural exposure study
-                focused on agriculture and sustainability in Mahabaleshwar. As a
-                team, we explored how strawberries are grown, handled,
-                transported, and eventually lost or wasted within the farming
-                cycle.
-              </p>
-              <p>
-                Through secondary research, field visits, farmer conversations,
-                visual documentation, and thematic analysis, we worked toward one
-                clear outcome: framing a research-backed problem statement rooted
-                in the realities of strawberry farmers.
-              </p>
-            </>
-          }
-        />
+        <div className="overview-header">
+          <div className="overview-headline">
+            <SectionLabel>OVERVIEW</SectionLabel>
+            <h2>
+              A one-month field research study on Mahabaleshwar’s strawberry
+              farming ecosystem.
+            </h2>
+          </div>
+
+          <div className="overview-body">
+            <p>
+              This project began as a rural and cultural exposure study focused
+              on agriculture and sustainability in Mahabaleshwar. As a team, we
+              explored how strawberries are grown, handled, transported, and
+              eventually lost or wasted within the farming cycle.
+            </p>
+            <p>
+              Through secondary research, field visits, farmer conversations,
+              visual documentation, and thematic analysis, we worked toward one
+              clear outcome, that is framing a research-backed problem statement
+              rooted in the realities of strawberry farmers.
+            </p>
+          </div>
+        </div>
 
         <div className="snapshot-grid">
           {snapshotCards.map((card) => (
@@ -296,37 +314,50 @@ export default function ProjectThreePage() {
           ))}
         </div>
 
-        <div className="large-image-placeholder">
-          <span>strawberry farm / field visit image</span>
+        <div className="large-image-card">
+          <img src="/strawberry-2.jpg" alt="Strawberry farm field visit" />
         </div>
       </section>
 
       <section className="case-section">
-        <SectionHeader
-          label="CONTEXT"
-          headline="Mahabaleshwar’s strawberry identity is shaped by climate, cultivation, and careful handling."
-          body={
-            <>
+        <div className="context-layout">
+          <div className="context-header">
+            <SectionLabel>CONTEXT</SectionLabel>
+
+            <h2>
+              Mahabaleshwar’s strawberry identity is shaped by climate,
+              cultivation, and careful handling.
+            </h2>
+
+            <div className="context-body">
               <p>
                 Mahabaleshwar’s cool climate, hilly terrain, and fertile soil
-                make it one of India’s most important strawberry-growing
-                regions. The crop is closely connected to the region’s economy,
-                local markets, tourism, and seasonal farming practices.
+                make it one of India’s most important strawberry-growing regions.
+                The crop is closely connected to the region’s economy, local
+                markets, tourism, and seasonal farming practices.
               </p>
+
               <p>
                 But strawberry farming is not just about growing the fruit. It
                 involves a complete system — sourcing plants, preparing beds,
                 irrigation, pest control, harvesting, sorting, packaging,
                 transport, and market timing.
               </p>
-            </>
-          }
-        />
+            </div>
+          </div>
 
-        <div className="stats-grid three">
-          {contextStats.map((stat) => (
-            <StatCard key={stat.big} big={stat.big} small={stat.small} />
-          ))}
+          <div className="context-side-stats">
+            {contextStats.slice(0, 2).map((stat) => (
+              <StatCard key={stat.big} big={stat.big} small={stat.small} />
+            ))}
+
+            <div className="context-wide-stat">
+              <StatCard
+                big={contextStats[2].big}
+                small={contextStats[2].small}
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -583,8 +614,13 @@ export default function ProjectThreePage() {
         <Link href="/#projects">Back to projects</Link>
       </footer>
 
-      <style jsx>{`
+      <style jsx global>{`
         .case-page {
+          --section-y: clamp(6rem, 8vw, 8rem);
+          --content-gap: clamp(3rem, 4vw, 4.5rem);
+          --inner-text-gap: clamp(1.5rem, 2vw, 2rem);
+          --card-gap: 1rem;
+
           min-height: 100vh;
           background-color: var(--color-cream);
           background-image: radial-gradient(
@@ -595,6 +631,26 @@ export default function ProjectThreePage() {
           background-size: var(--dot-space) var(--dot-space);
           color: var(--color-ink);
           overflow-x: hidden;
+        }
+
+        .debug-alignment-grid {
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          left: 50%;
+          z-index: 99999;
+          width: min(1180px, calc(100vw - 3rem));
+          transform: translateX(-50%);
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: var(--card-gap);
+          pointer-events: none;
+        }
+
+        .debug-alignment-grid span {
+          background: rgba(255, 0, 0, 0.07);
+          border-left: 1px solid rgba(255, 0, 0, 0.35);
+          border-right: 1px solid rgba(255, 0, 0, 0.35);
         }
 
         .case-nav {
@@ -656,12 +712,12 @@ export default function ProjectThreePage() {
         }
 
         .case-hero h1 {
-          width: min(980px, 100%);
+          width: min(820px, 100%);
           font-family: var(--font-serif);
           font-style: italic;
-          font-size: clamp(4rem, 10vw, 10rem);
-          line-height: 0.9;
-          letter-spacing: -0.055em;
+          font-size: clamp(3.1rem, 6.8vw, 6.9rem);
+          line-height: 0.95;
+          letter-spacing: -0.05em;
           color: var(--color-ink);
           margin: 0;
         }
@@ -675,37 +731,170 @@ export default function ProjectThreePage() {
           margin: 2rem 0 0;
         }
 
+        .hero-layout {
+          display: grid;
+          grid-template-columns: minmax(0, 0.85fr) 420px;
+          align-items: center;
+          gap: clamp(2rem, 5vw, 5rem);
+        }
+
+        .hero-text {
+          min-width: 0;
+        }
+
+        .hero-strawberry {
+          width: 100%;
+          max-width: 420px;
+          justify-self: end;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .hero-strawberry img {
+          width: 100%;
+          height: auto;
+          display: block;
+          object-fit: contain;
+          filter: drop-shadow(0 24px 45px rgba(26, 24, 20, 0.16));
+        }
+
         .case-section {
-          padding: 8rem 0;
+          padding: var(--section-y) 0;
           border-top: 1px solid rgba(26, 24, 20, 0.08);
         }
 
+        .case-section > * {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+
+        .case-section > * + * {
+          margin-top: var(--content-gap);
+        }
+
+        .section-header + .stats-grid,
+        .section-header + .research-grid,
+        .section-header + .timeline,
+        .section-header + .quote-grid,
+        .section-header + .funnel,
+        .section-header + .pull-quote,
+        .section-header + .problem-layout,
+        .section-header + .reflection-grid,
+        .overview-header + .snapshot-grid,
+        .snapshot-grid + .large-image-card,
+        .pull-quote + .insight-grid {
+          margin-top: var(--content-gap);
+        }
+
         .section-header {
-          width: min(860px, 100%);
-          margin-bottom: 3rem;
+          width: min(920px, 100%);
         }
 
         .section-header h2 {
           font-family: var(--font-serif);
           font-style: italic;
-          font-size: clamp(2.8rem, 6vw, 6.8rem);
-          line-height: 0.95;
-          letter-spacing: -0.055em;
+          font-size: clamp(1.7rem, 2.45vw, 3rem);
+          line-height: 1.02;
+          letter-spacing: -0.04em;
           color: var(--color-ink);
           margin: 0;
         }
 
-        .body-copy {
-          width: min(720px, 100%);
-          margin-top: 1.6rem;
+        .context-layout {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: var(--card-gap);
+          align-items: start;
         }
 
+        .context-header {
+          grid-column: 1 / span 2;
+          width: 100%;
+        }
+
+        .context-header h2 {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(1.7rem, 2.45vw, 3rem);
+          line-height: 1.02;
+          letter-spacing: -0.04em;
+          color: var(--color-ink);
+          margin: 0;
+        }
+
+        .context-body {
+          width: 100%;
+          margin-top: var(--inner-text-gap);
+        }
+
+        .context-body p {
+          font-family: var(--font-sans);
+          font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+          line-height: 1.8;
+          color: rgba(26, 24, 20, 0.68);
+          margin: 0;
+        }
+
+        .context-body p + p {
+          margin-top: 1rem;
+        }
+
+        .context-side-stats {
+          grid-column: 3 / span 2;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: var(--card-gap);
+          padding-top: 2.35rem;
+        }
+
+        .context-wide-stat {
+          grid-column: 1 / span 2;
+        }
+
+        .overview-header {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: var(--card-gap);
+          align-items: start;
+        }
+
+        .overview-headline {
+          grid-column: 1 / span 2;
+        }
+
+        .overview-headline h2 {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(1.7rem, 2.45vw, 3rem);
+          line-height: 1.02;
+          letter-spacing: -0.04em;
+          color: var(--color-ink);
+          margin: 0;
+        }
+
+        .overview-body {
+          grid-column: 3 / span 2;
+          padding-top: var(--inner-text-gap);
+        }
+
+        .overview-body p,
         .body-copy p {
           font-family: var(--font-sans);
           font-size: clamp(0.98rem, 1.1vw, 1.1rem);
           line-height: 1.8;
           color: rgba(26, 24, 20, 0.68);
-          margin: 0 0 1rem;
+          margin: 0;
+        }
+
+        .overview-body p + p,
+        .body-copy p + p {
+          margin-top: 1rem;
+        }
+
+        .body-copy {
+          width: min(760px, 100%);
+          margin-top: var(--inner-text-gap);
         }
 
         .small-note {
@@ -719,15 +908,18 @@ export default function ProjectThreePage() {
 
         .snapshot-grid,
         .stats-grid,
+        .research-grid,
+        .quote-grid,
+        .timeline,
         .insight-grid,
-        .reflection-grid {
+        .reflection-grid,
+        .problem-layout {
           display: grid;
-          gap: 1rem;
+          gap: var(--card-gap);
         }
 
         .snapshot-grid {
           grid-template-columns: repeat(4, 1fr);
-          margin-bottom: 1.3rem;
         }
 
         .stats-grid.three {
@@ -736,6 +928,25 @@ export default function ProjectThreePage() {
 
         .stats-grid.four {
           grid-template-columns: repeat(4, 1fr);
+        }
+
+        .research-grid,
+        .quote-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .timeline {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .insight-grid,
+        .reflection-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .problem-layout {
+          grid-template-columns: 1.25fr 0.9fr;
+          align-items: stretch;
         }
 
         .snapshot-card,
@@ -752,8 +963,18 @@ export default function ProjectThreePage() {
           box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
         }
 
+        .snapshot-card,
+        .stat-card,
+        .research-card,
+        .insight-card,
+        .reflection-card,
+        .cause-card,
+        .final-problem-card {
+          padding: 1.35rem;
+        }
+
         .snapshot-card {
-          padding: 1.1rem;
+          min-height: 210px;
         }
 
         .snapshot-card p,
@@ -791,66 +1012,47 @@ export default function ProjectThreePage() {
           color: rgba(26, 24, 20, 0.62);
         }
 
-        .large-image-placeholder {
+        .large-image-card {
           width: 100%;
           aspect-ratio: 16 / 7;
           border-radius: 34px;
-          background-color: rgba(246, 231, 161, 0.52);
-          border: 1px dashed rgba(26, 24, 20, 0.22);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.32);
+          overflow: hidden;
+          background-color: rgba(246, 231, 161, 0.32);
+          border: 1px solid rgba(26, 24, 20, 0.14);
+          box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
         }
 
-        .large-image-placeholder span {
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          color: rgba(26, 24, 20, 0.48);
+        .large-image-card img {
+          width: 100%;
+          height: 100%;
+          display: block;
+          object-fit: cover;
         }
 
         .stat-card {
-          padding: 1.4rem;
+          min-height: 165px;
+          padding: 1.2rem;
           background-color: rgba(246, 231, 161, 0.74);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
 
         .stat-card h3 {
           font-family: var(--font-serif);
           font-style: italic;
-          font-size: clamp(3rem, 5vw, 5.2rem);
+          font-size: clamp(2.1rem, 3.2vw, 3.5rem);
           line-height: 0.9;
-          letter-spacing: -0.055em;
-          margin: 0 0 0.9rem;
+          letter-spacing: -0.05em;
+          margin: 0 0 0.7rem;
         }
 
         .stat-card p {
           font-family: var(--font-sans);
-          font-size: 0.94rem;
-          line-height: 1.55;
+          font-size: 0.86rem;
+          line-height: 1.5;
           color: rgba(26, 24, 20, 0.68);
           margin: 0;
-        }
-
-        .research-grid,
-        .quote-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1rem;
-        }
-
-        .research-card,
-        .insight-card,
-        .reflection-card {
-          padding: 1.35rem;
-        }
-
-        .timeline {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1rem;
-          position: relative;
         }
 
         .timeline-item {
@@ -978,25 +1180,7 @@ export default function ProjectThreePage() {
           font-size: clamp(2rem, 4vw, 4.7rem);
           line-height: 1;
           letter-spacing: -0.055em;
-          margin: 3rem 0 1rem;
           box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
-        }
-
-        .insight-grid,
-        .reflection-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-
-        .problem-layout {
-          display: grid;
-          grid-template-columns: 1.25fr 0.9fr;
-          gap: 1rem;
-          align-items: stretch;
-        }
-
-        .cause-card,
-        .final-problem-card {
-          padding: 1.4rem;
         }
 
         .flow-line + .flow-line {
@@ -1068,6 +1252,42 @@ export default function ProjectThreePage() {
         }
 
         @media (max-width: 900px) {
+          .debug-alignment-grid {
+            display: none;
+          }
+
+          .context-layout,
+          .overview-header {
+            grid-template-columns: 1fr;
+          }
+
+          .context-header,
+          .context-side-stats,
+          .context-wide-stat,
+          .overview-headline,
+          .overview-body {
+            grid-column: auto;
+          }
+
+          .context-side-stats {
+            grid-template-columns: 1fr;
+            padding-top: 0;
+          }
+
+          .overview-body {
+            padding-top: 0;
+          }
+
+          .hero-layout {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+          }
+
+          .hero-strawberry {
+            max-width: 240px;
+            justify-self: start;
+          }
+
           .case-nav {
             height: 60px;
           }
@@ -1078,6 +1298,10 @@ export default function ProjectThreePage() {
 
           .case-section {
             padding: 5rem 0;
+          }
+
+          .case-section > * + * {
+            margin-top: 2.5rem;
           }
 
           .snapshot-grid,
@@ -1095,7 +1319,7 @@ export default function ProjectThreePage() {
             grid-template-columns: 1fr;
           }
 
-          .large-image-placeholder {
+          .large-image-card {
             aspect-ratio: 4 / 3;
           }
 
