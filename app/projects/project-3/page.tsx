@@ -320,46 +320,38 @@ export default function ProjectThreePage() {
       </section>
 
       <section className="case-section">
-        <div className="context-layout">
-          <div className="context-header">
-            <SectionLabel>CONTEXT</SectionLabel>
+  <div className="context-layout">
+    <div className="context-heading">
+      <SectionLabel>CONTEXT</SectionLabel>
 
-            <h2>
-              Mahabaleshwar’s strawberry identity is shaped by climate,
-              cultivation, and careful handling.
-            </h2>
+      <h2>
+        Mahabaleshwar’s strawberry identity is shaped by climate, cultivation,
+        and careful handling.
+      </h2>
+    </div>
 
-            <div className="context-body">
-              <p>
-                Mahabaleshwar’s cool climate, hilly terrain, and fertile soil
-                make it one of India’s most important strawberry-growing regions.
-                The crop is closely connected to the region’s economy, local
-                markets, tourism, and seasonal farming practices.
-              </p>
+    <div className="context-body">
+      <p>
+        Mahabaleshwar’s cool climate, hilly terrain, and fertile soil make it
+        one of India’s most important strawberry-growing regions. The crop is
+        closely connected to the region’s economy, local markets, tourism, and
+        seasonal farming practices.
+      </p>
 
-              <p>
-                But strawberry farming is not just about growing the fruit. It
-                involves a complete system — sourcing plants, preparing beds,
-                irrigation, pest control, harvesting, sorting, packaging,
-                transport, and market timing.
-              </p>
-            </div>
-          </div>
+      <p>
+        But strawberry farming is not just about growing the fruit. It involves
+        a complete system — sourcing plants, preparing beds, irrigation, pest
+        control, harvesting, sorting, packaging, transport, and market timing.
+      </p>
+    </div>
 
-          <div className="context-side-stats">
-            {contextStats.slice(0, 2).map((stat) => (
-              <StatCard key={stat.big} big={stat.big} small={stat.small} />
-            ))}
-
-            <div className="context-wide-stat">
-              <StatCard
-                big={contextStats[2].big}
-                small={contextStats[2].small}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+    <div className="context-stats-row">
+      {contextStats.map((stat) => (
+        <StatCard key={stat.big} big={stat.big} small={stat.small} />
+      ))}
+    </div>
+  </div>
+</section>
 
       <section className="case-section">
         <SectionHeader
@@ -802,66 +794,51 @@ export default function ProjectThreePage() {
         }
 
         .context-layout {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: var(--card-gap);
-          align-items: start;
-        }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--card-gap);
+  align-items: start;
+}
 
-        .context-header {
-          grid-column: 1 / span 2;
-          width: 100%;
-        }
+.context-heading {
+  grid-column: 1 / span 2;
+}
 
-        .context-header h2 {
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.7rem, 2.45vw, 3rem);
-          line-height: 1.02;
-          letter-spacing: -0.04em;
-          color: var(--color-ink);
-          margin: 0;
-        }
+.context-heading h2 {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.7rem, 2.45vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  margin: 0;
+}
 
-        .context-body {
-          width: 100%;
-          margin-top: var(--inner-text-gap);
-        }
+.context-body {
+  grid-column: 3 / span 2;
+  padding-top: var(--inner-text-gap);
+}
 
-        .context-body p {
-          font-family: var(--font-sans);
-          font-size: clamp(0.98rem, 1.1vw, 1.1rem);
-          line-height: 1.8;
-          color: rgba(26, 24, 20, 0.68);
-          margin: 0;
-        }
+.context-body p {
+  font-family: var(--font-sans);
+  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+  line-height: 1.8;
+  color: rgba(26, 24, 20, 0.68);
+  margin: 0;
+}
 
-        .context-body p + p {
-          margin-top: 1rem;
-        }
+.context-body p + p {
+  margin-top: 1rem;
+}
 
-        .context-side-stats {
-          grid-column: 3 / span 2;
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: var(--card-gap);
-          padding-top: 2.35rem;
-        }
-
-        .context-wide-stat {
-          grid-column: 1 / span 2;
-        }
-
-        .overview-header {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: var(--card-gap);
-          align-items: start;
-        }
-
-        .overview-headline {
-          grid-column: 1 / span 2;
-        }
+.context-stats-row {
+  grid-column: 1 / -1;
+  width: min(980px, 100%);
+  margin: var(--content-gap) auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--card-gap);
+}
 
         .overview-headline h2 {
           font-family: var(--font-serif);
@@ -1030,30 +1007,30 @@ export default function ProjectThreePage() {
         }
 
         .stat-card {
-          min-height: 165px;
-          padding: 1.2rem;
-          background-color: rgba(246, 231, 161, 0.74);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
+  min-height: 165px;
+  padding: 1.35rem;
+  background-color: rgba(246, 231, 161, 0.74);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 
         .stat-card h3 {
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(2.1rem, 3.2vw, 3.5rem);
-          line-height: 0.9;
-          letter-spacing: -0.05em;
-          margin: 0 0 0.7rem;
-        }
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.5rem, 2vw, 2.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  margin: 0 0 0.7rem;
+}
 
-        .stat-card p {
-          font-family: var(--font-sans);
-          font-size: 0.86rem;
-          line-height: 1.5;
-          color: rgba(26, 24, 20, 0.68);
-          margin: 0;
-        }
+.stat-card p {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: rgba(26, 24, 20, 0.62);
+  margin: 0;
+}
 
         .timeline-item {
           border-radius: 28px;
@@ -1257,22 +1234,27 @@ export default function ProjectThreePage() {
           }
 
           .context-layout,
-          .overview-header {
-            grid-template-columns: 1fr;
-          }
+.overview-header {
+  grid-template-columns: 1fr;
+}
 
-          .context-header,
-          .context-side-stats,
-          .context-wide-stat,
-          .overview-headline,
-          .overview-body {
-            grid-column: auto;
-          }
+.context-heading,
+.context-body,
+.context-stats-row,
+.overview-headline,
+.overview-body {
+  grid-column: auto;
+}
 
-          .context-side-stats {
-            grid-template-columns: 1fr;
-            padding-top: 0;
-          }
+.context-body {
+  padding-top: 0;
+}
+
+.context-stats-row {
+  width: 100%;
+  grid-template-columns: 1fr;
+  margin-top: 2.5rem;
+}
 
           .overview-body {
             padding-top: 0;
