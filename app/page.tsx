@@ -1139,14 +1139,16 @@ function Projects() {
           scale: projectCard3Scale,
         },
         {
-          title: "Project 4",
-          x: "-64%",
-          top: "54%",
-          y: projectCard4Y,
-          opacity: projectCard4Opacity,
-          rotate: projectCard4Rotate,
-          scale: projectCard4Scale,
-        },
+  title: "Mahabaleshwar Strawberries",
+  label: "Project 4",
+  image: "/project-4-cover.jpeg",
+  x: "-64%",
+  top: "54%",
+  y: projectCard4Y,
+  opacity: projectCard4Opacity,
+  rotate: projectCard4Rotate,
+  scale: projectCard4Scale,
+},
         {
           title: "Project 5",
           x: "-32%",
@@ -1166,7 +1168,7 @@ function Projects() {
           scale: projectCard6Scale,
         },
       ].map((card) => {
-        const isProjectFour = card.title === "Project 4";
+        const isProjectFour = card.label === "Project 4";
 
         const cardContent = (
           <motion.div
@@ -1207,17 +1209,30 @@ function Projects() {
                 overflow: "hidden",
               }}
             >
-              <span
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.62rem",
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "rgba(26, 24, 20, 0.55)",
-                }}
-              >
-                image space
-              </span>
+              {card.image ? (
+  <img
+    src={card.image}
+    alt={card.title}
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      display: "block",
+    }}
+  />
+) : (
+  <span
+    style={{
+      fontFamily: "var(--font-mono)",
+      fontSize: "0.62rem",
+      letterSpacing: "0.14em",
+      textTransform: "uppercase",
+      color: "rgba(26, 24, 20, 0.55)",
+    }}
+  >
+    image space
+  </span>
+)}
             </div>
 
             <div
@@ -1254,7 +1269,7 @@ function Projects() {
                   whiteSpace: "nowrap",
                 }}
               >
-                case study
+                {card.label}
               </span>
             </div>
           </motion.div>
