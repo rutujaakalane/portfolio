@@ -9,6 +9,8 @@ import {
   useTransform,
 } from "framer-motion";
 
+import Link from "next/link";
+
 interface Project {
   id: string;
   label: string;
@@ -901,57 +903,153 @@ function Projects() {
   });
 
   const projectDotScale = useTransform(
-  scrollYProgress,
-  [0, 0.20, 0.38, 0.73, 0.83, 1],
-  [1, 1, 190, 190, 1, 1]
-);
+    scrollYProgress,
+    [0, 0.20, 0.38, 0.73, 0.83, 1],
+    [1, 1, 190, 190, 1, 1]
+  );
 
-const projectDotOpacity = useTransform(
-  scrollYProgress,
-  [0, 0.175, 0.20, 0.83, 0.87],
-  [0, 0, 1, 1, 0]
-);
+  const projectDotOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.175, 0.20, 0.83, 0.87],
+    [0, 0, 1, 1, 0]
+  );
 
-const projectsTop = useTransform(
-  scrollYProgress,
-  [0, 0.10, 0.73, 0.83],
-  ["95vh", "50%", "50%", "-20vh"]
-);
+  const projectsTop = useTransform(
+    scrollYProgress,
+    [0, 0.10, 0.73, 0.83],
+    ["95vh", "50%", "50%", "-20vh"]
+  );
 
-const projectsOpacity = useTransform(
-  scrollYProgress,
-  [0, 0.06, 0.73, 0.83],
-  [0, 1, 1, 0]
-);
+  const projectsOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.06, 0.73, 0.83],
+    [0, 1, 1, 0]
+  );
 
-// Project cards appear one after another after the yellow screen fills
-const projectCard1Y = useTransform(scrollYProgress, [0, 0.22, 0.30, 0.38], ["85vh", "85vh", "0vh", "-150vh"]);
-const projectCard2Y = useTransform(scrollYProgress, [0, 0.28, 0.36, 0.44], ["85vh", "85vh", "0vh", "-150vh"]);
-const projectCard3Y = useTransform(scrollYProgress, [0, 0.34, 0.42, 0.50], ["85vh", "85vh", "0vh", "-150vh"]);
-const projectCard4Y = useTransform(scrollYProgress, [0, 0.40, 0.48, 0.54], ["85vh", "85vh", "0vh", "-150vh"]);
-const projectCard5Y = useTransform(scrollYProgress, [0, 0.46, 0.53, 0.58], ["85vh", "85vh", "0vh", "-130vh"]);
-const projectCard6Y = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615], ["85vh", "85vh", "0vh", "-120vh"]);
+  // Project cards appear one after another after the yellow screen fills
+  const projectCard1Y = useTransform(
+    scrollYProgress,
+    [0, 0.22, 0.30, 0.38],
+    ["85vh", "85vh", "0vh", "-150vh"]
+  );
+  const projectCard2Y = useTransform(
+    scrollYProgress,
+    [0, 0.28, 0.36, 0.44],
+    ["85vh", "85vh", "0vh", "-150vh"]
+  );
+  const projectCard3Y = useTransform(
+    scrollYProgress,
+    [0, 0.34, 0.42, 0.50],
+    ["85vh", "85vh", "0vh", "-150vh"]
+  );
+  const projectCard4Y = useTransform(
+    scrollYProgress,
+    [0, 0.40, 0.48, 0.54],
+    ["85vh", "85vh", "0vh", "-150vh"]
+  );
+  const projectCard5Y = useTransform(
+    scrollYProgress,
+    [0, 0.46, 0.53, 0.58],
+    ["85vh", "85vh", "0vh", "-130vh"]
+  );
+  const projectCard6Y = useTransform(
+    scrollYProgress,
+    [0, 0.515, 0.575, 0.615],
+    ["85vh", "85vh", "0vh", "-120vh"]
+  );
 
-const projectCard1Opacity = useTransform(scrollYProgress, [0, 0.22, 0.26, 0.36, 0.40], [0, 0, 1, 1, 0]);
-const projectCard2Opacity = useTransform(scrollYProgress, [0, 0.28, 0.32, 0.42, 0.46], [0, 0, 1, 1, 0]);
-const projectCard3Opacity = useTransform(scrollYProgress, [0, 0.34, 0.38, 0.48, 0.52], [0, 0, 1, 1, 0]);
-const projectCard4Opacity = useTransform(scrollYProgress, [0, 0.40, 0.44, 0.52, 0.56], [0, 0, 1, 1, 0]);
-const projectCard5Opacity = useTransform(scrollYProgress, [0, 0.46, 0.50, 0.56, 0.60], [0, 0, 1, 1, 0]);
-const projectCard6Opacity = useTransform(scrollYProgress, [0, 0.515, 0.555, 0.605, 0.635], [0, 0, 1, 1, 0]);
+  const projectCard1Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.22, 0.26, 0.36, 0.40],
+    [0, 0, 1, 1, 0]
+  );
+  const projectCard2Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.28, 0.32, 0.42, 0.46],
+    [0, 0, 1, 1, 0]
+  );
+  const projectCard3Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.34, 0.38, 0.48, 0.52],
+    [0, 0, 1, 1, 0]
+  );
+  const projectCard4Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.40, 0.44, 0.52, 0.56],
+    [0, 0, 1, 1, 0]
+  );
+  const projectCard5Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.46, 0.50, 0.56, 0.60],
+    [0, 0, 1, 1, 0]
+  );
+  const projectCard6Opacity = useTransform(
+    scrollYProgress,
+    [0, 0.515, 0.555, 0.605, 0.635],
+    [0, 0, 1, 1, 0]
+  );
 
-const projectCard1Rotate = useTransform(scrollYProgress, [0, 0.22, 0.30, 0.38], [4, 4, -1.5, -5]);
-const projectCard2Rotate = useTransform(scrollYProgress, [0, 0.28, 0.36, 0.44], [-5, -5, 2, 5]);
-const projectCard3Rotate = useTransform(scrollYProgress, [0, 0.34, 0.42, 0.50], [5, 5, -2, -5]);
-const projectCard4Rotate = useTransform(scrollYProgress, [0, 0.40, 0.48, 0.54], [-4, -4, 1.5, 4]);
-const projectCard5Rotate = useTransform(scrollYProgress, [0, 0.46, 0.53, 0.58], [3, 3, -1, -3]);
-const projectCard6Rotate = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615], [-3, -3, 1.5, 0]);
+  const projectCard1Rotate = useTransform(
+    scrollYProgress,
+    [0, 0.22, 0.30, 0.38],
+    [4, 4, -1.5, -5]
+  );
+  const projectCard2Rotate = useTransform(
+    scrollYProgress,
+    [0, 0.28, 0.36, 0.44],
+    [-5, -5, 2, 5]
+  );
+  const projectCard3Rotate = useTransform(
+    scrollYProgress,
+    [0, 0.34, 0.42, 0.50],
+    [5, 5, -2, -5]
+  );
+  const projectCard4Rotate = useTransform(
+    scrollYProgress,
+    [0, 0.40, 0.48, 0.54],
+    [-4, -4, 1.5, 4]
+  );
+  const projectCard5Rotate = useTransform(
+    scrollYProgress,
+    [0, 0.46, 0.53, 0.58],
+    [3, 3, -1, -3]
+  );
+  const projectCard6Rotate = useTransform(
+    scrollYProgress,
+    [0, 0.515, 0.575, 0.615],
+    [-3, -3, 1.5, 0]
+  );
 
-const projectCard1Scale = useTransform(scrollYProgress, [0, 0.22, 0.30, 0.38], [0.95, 0.95, 1.02, 0.98]);
-const projectCard2Scale = useTransform(scrollYProgress, [0, 0.28, 0.36, 0.44], [0.95, 0.95, 1.02, 0.98]);
-const projectCard3Scale = useTransform(scrollYProgress, [0, 0.34, 0.42, 0.50], [0.95, 0.95, 1.02, 0.98]);
-const projectCard4Scale = useTransform(scrollYProgress, [0, 0.40, 0.48, 0.54], [0.95, 0.95, 1.02, 0.98]);
-const projectCard5Scale = useTransform(scrollYProgress, [0, 0.46, 0.53, 0.58], [0.95, 0.95, 1.02, 0.98]);
-const projectCard6Scale = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615], [0.95, 0.95, 1.02, 1]);
+  const projectCard1Scale = useTransform(
+    scrollYProgress,
+    [0, 0.22, 0.30, 0.38],
+    [0.95, 0.95, 1.02, 0.98]
+  );
+  const projectCard2Scale = useTransform(
+    scrollYProgress,
+    [0, 0.28, 0.36, 0.44],
+    [0.95, 0.95, 1.02, 0.98]
+  );
+  const projectCard3Scale = useTransform(
+    scrollYProgress,
+    [0, 0.34, 0.42, 0.50],
+    [0.95, 0.95, 1.02, 0.98]
+  );
+  const projectCard4Scale = useTransform(
+    scrollYProgress,
+    [0, 0.40, 0.48, 0.54],
+    [0.95, 0.95, 1.02, 0.98]
+  );
+  const projectCard5Scale = useTransform(
+    scrollYProgress,
+    [0, 0.46, 0.53, 0.58],
+    [0.95, 0.95, 1.02, 0.98]
+  );
+  const projectCard6Scale = useTransform(
+    scrollYProgress,
+    [0, 0.515, 0.575, 0.615],
+    [0.95, 0.95, 1.02, 1]
+  );
 
   return (
     <section
@@ -979,186 +1077,208 @@ const projectCard6Scale = useTransform(scrollYProgress, [0, 0.515, 0.575, 0.615]
       />
 
       {/* Butter-yellow expanding and reversing dot */}
-<motion.div
-  style={{
-    position: "fixed",
-    left: "50%",
-    top: "50%",
-    x: "-50%",
-    y: "-50%",
-    width: "34px",
-    height: "34px",
-    borderRadius: "50%",
-    backgroundColor: "#F7E9A8",
-    scale: projectDotScale,
-    opacity: projectDotOpacity,
-    zIndex: 6500,
-    pointerEvents: "none",
-  }}
-/>
-
-{/* FigJam dots over butter-yellow */}
-<motion.div
-  style={{
-    position: "fixed",
-    inset: 0,
-    backgroundImage:
-      "radial-gradient(circle, rgba(26, 24, 20, 0.42) var(--dot-size), transparent var(--dot-size))",
-    backgroundSize: "var(--dot-space) var(--dot-space)",
-    opacity: projectDotOpacity,
-    zIndex: 6600,
-    pointerEvents: "none",
-  }}
-/>
-
-{/* Project cards */}
-{[
-  {
-    title: "Project 1",
-    x: "-50%",
-    top: "50%",
-    y: projectCard1Y,
-    opacity: projectCard1Opacity,
-    rotate: projectCard1Rotate,
-    scale: projectCard1Scale,
-  },
-  {
-    title: "Project 2",
-    x: "-82%",
-    top: "52%",
-    y: projectCard2Y,
-    opacity: projectCard2Opacity,
-    rotate: projectCard2Rotate,
-    scale: projectCard2Scale,
-  },
-  {
-    title: "Project 3",
-    x: "-18%",
-    top: "50%",
-    y: projectCard3Y,
-    opacity: projectCard3Opacity,
-    rotate: projectCard3Rotate,
-    scale: projectCard3Scale,
-  },
-  {
-    title: "Project 4",
-    x: "-64%",
-    top: "54%",
-    y: projectCard4Y,
-    opacity: projectCard4Opacity,
-    rotate: projectCard4Rotate,
-    scale: projectCard4Scale,
-  },
-  {
-    title: "Project 5",
-    x: "-32%",
-    top: "51%",
-    y: projectCard5Y,
-    opacity: projectCard5Opacity,
-    rotate: projectCard5Rotate,
-    scale: projectCard5Scale,
-  },
-  {
-    title: "Project 6",
-    x: "-50%",
-    top: "53%",
-    y: projectCard6Y,
-    opacity: projectCard6Opacity,
-    rotate: projectCard6Rotate,
-    scale: projectCard6Scale,
-  },
-].map((card) => (
-  <motion.div
-    key={card.title}
-    data-cursor="read"
-    style={{
-      position: "fixed",
-      left: "50%",
-      top: card.top,
-      x: card.x,
-      y: card.y,
-      opacity: card.opacity,
-      rotate: card.rotate,
-      scale: card.scale,
-      zIndex: 7600,
-      width: "clamp(280px, 30vw, 440px)",
-      borderRadius: "28px",
-      backgroundColor: "rgba(253, 250, 245, 0.98)",
-      border: "1px solid rgba(26, 24, 20, 0.18)",
-      boxShadow: "0 32px 90px rgba(26, 24, 20, 0.18)",
-      padding: "1rem",
-      pointerEvents: "auto",
-      willChange: "transform",
-    }}
-  >
-    <div
-      style={{
-        width: "100%",
-        aspectRatio: "4 / 3",
-        borderRadius: "20px",
-        backgroundColor: "rgba(246, 231, 161, 0.52)",
-        border: "1px dashed rgba(26, 24, 20, 0.32)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginBottom: "1rem",
-        overflow: "hidden",
-      }}
-    >
-      <span
+      <motion.div
         style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "0.62rem",
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          color: "rgba(26, 24, 20, 0.55)",
+          position: "fixed",
+          left: "50%",
+          top: "50%",
+          x: "-50%",
+          y: "-50%",
+          width: "34px",
+          height: "34px",
+          borderRadius: "50%",
+          backgroundColor: "#F7E9A8",
+          scale: projectDotScale,
+          opacity: projectDotOpacity,
+          zIndex: 6500,
+          pointerEvents: "none",
         }}
-      >
-        image space
-      </span>
-    </div>
+      />
 
-    <div
-      style={{
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "space-between",
-        gap: "1rem",
-        padding: "0 0.25rem 0.15rem",
-      }}
-    >
-      <h3
+      {/* FigJam dots over butter-yellow */}
+      <motion.div
         style={{
-          fontFamily: "var(--font-serif)",
-          fontStyle: "italic",
-          fontSize: "clamp(1.8rem, 2.7vw, 2.7rem)",
-          lineHeight: 0.95,
-          letterSpacing: "-0.04em",
-          color: "var(--color-ink)",
-          margin: 0,
+          position: "fixed",
+          inset: 0,
+          backgroundImage:
+            "radial-gradient(circle, rgba(26, 24, 20, 0.42) var(--dot-size), transparent var(--dot-size))",
+          backgroundSize: "var(--dot-space) var(--dot-space)",
+          opacity: projectDotOpacity,
+          zIndex: 6600,
+          pointerEvents: "none",
         }}
-      >
-        {card.title}
-      </h3>
+      />
 
-      <span
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "0.62rem",
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
-          color: "rgba(26, 24, 20, 0.58)",
-          paddingBottom: "0.25rem",
-          whiteSpace: "nowrap",
-        }}
-      >
-        case study
-      </span>
-    </div>
-  </motion.div>
-))}
+      {/* Project cards */}
+      {[
+        {
+          title: "Project 1",
+          x: "-50%",
+          top: "50%",
+          y: projectCard1Y,
+          opacity: projectCard1Opacity,
+          rotate: projectCard1Rotate,
+          scale: projectCard1Scale,
+        },
+        {
+          title: "Project 2",
+          x: "-82%",
+          top: "52%",
+          y: projectCard2Y,
+          opacity: projectCard2Opacity,
+          rotate: projectCard2Rotate,
+          scale: projectCard2Scale,
+        },
+        {
+          title: "Project 3",
+          x: "-18%",
+          top: "50%",
+          y: projectCard3Y,
+          opacity: projectCard3Opacity,
+          rotate: projectCard3Rotate,
+          scale: projectCard3Scale,
+        },
+        {
+          title: "Project 4",
+          x: "-64%",
+          top: "54%",
+          y: projectCard4Y,
+          opacity: projectCard4Opacity,
+          rotate: projectCard4Rotate,
+          scale: projectCard4Scale,
+        },
+        {
+          title: "Project 5",
+          x: "-32%",
+          top: "51%",
+          y: projectCard5Y,
+          opacity: projectCard5Opacity,
+          rotate: projectCard5Rotate,
+          scale: projectCard5Scale,
+        },
+        {
+          title: "Project 6",
+          x: "-50%",
+          top: "53%",
+          y: projectCard6Y,
+          opacity: projectCard6Opacity,
+          rotate: projectCard6Rotate,
+          scale: projectCard6Scale,
+        },
+      ].map((card) => {
+        const isProjectFour = card.title === "Project 4";
 
-{/* Projects title */}
+        const cardContent = (
+          <motion.div
+            key={card.title}
+            data-cursor={isProjectFour ? "read" : undefined}
+            style={{
+              position: "fixed",
+              left: "50%",
+              top: card.top,
+              x: card.x,
+              y: card.y,
+              opacity: card.opacity,
+              rotate: card.rotate,
+              scale: card.scale,
+              zIndex: 7600,
+              width: "clamp(280px, 30vw, 440px)",
+              borderRadius: "28px",
+              backgroundColor: "rgba(253, 250, 245, 0.98)",
+              border: "1px solid rgba(26, 24, 20, 0.18)",
+              boxShadow: "0 32px 90px rgba(26, 24, 20, 0.18)",
+              padding: "1rem",
+              pointerEvents: isProjectFour ? "auto" : "none",
+              cursor: isProjectFour ? "pointer" : "default",
+              willChange: "transform",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                aspectRatio: "4 / 3",
+                borderRadius: "20px",
+                backgroundColor: "rgba(246, 231, 161, 0.52)",
+                border: "1px dashed rgba(26, 24, 20, 0.32)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: "1rem",
+                overflow: "hidden",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.62rem",
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "rgba(26, 24, 20, 0.55)",
+                }}
+              >
+                image space
+              </span>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                gap: "1rem",
+                padding: "0 0.25rem 0.15rem",
+              }}
+            >
+              <h3
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontStyle: "italic",
+                  fontSize: "clamp(1.8rem, 2.7vw, 2.7rem)",
+                  lineHeight: 0.95,
+                  letterSpacing: "-0.04em",
+                  color: "var(--color-ink)",
+                  margin: 0,
+                }}
+              >
+                {card.title}
+              </h3>
+
+              <span
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.62rem",
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "rgba(26, 24, 20, 0.58)",
+                  paddingBottom: "0.25rem",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                case study
+              </span>
+            </div>
+          </motion.div>
+        );
+
+        if (isProjectFour) {
+          return (
+            <Link
+              key={card.title}
+              href="/projects/project-4"
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+              }}
+            >
+              {cardContent}
+            </Link>
+          );
+        }
+
+        return cardContent;
+      })}
+
+      {/* Projects title */}
       <motion.div
         style={{
           position: "fixed",
@@ -2526,19 +2646,71 @@ function ContactSection() {
 /* Page */
 
 export default function HomePage() {
-  const [splashDone, setSplashDone] = useState(false);
+  const [shouldSkipSplash] = useState(() => {
+    if (typeof window === "undefined") return false;
+
+    const params = new URLSearchParams(window.location.search);
+    return params.has("project");
+  });
+
+  const [splashDone, setSplashDone] = useState(shouldSkipSplash);
 
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
 
-    window.scrollTo(0, 0);
+    const params = new URLSearchParams(window.location.search);
+    const projectNumber = params.get("project");
+
+    if (!projectNumber) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    const projectProgressMap: Record<string, number> = {
+      "1": 0.30,
+      "2": 0.36,
+      "3": 0.42,
+      "4": 0.48,
+      "5": 0.53,
+      "6": 0.575,
+    };
+
+    const targetProgress = projectProgressMap[projectNumber];
+
+    if (!targetProgress) return;
+
+    const scrollToProjectCard = () => {
+      const projectsSection = document.getElementById("projects");
+
+      if (!projectsSection) return;
+
+      const viewportHeight = window.innerHeight;
+      const sectionTop = projectsSection.offsetTop;
+      const sectionHeight = projectsSection.offsetHeight;
+
+      const scrollStart = sectionTop - viewportHeight;
+      const scrollRange = sectionHeight + viewportHeight;
+
+      const targetY = scrollStart + scrollRange * targetProgress;
+
+      window.scrollTo({
+        top: targetY,
+        behavior: "auto",
+      });
+
+      window.history.replaceState(null, "", "/#projects");
+    };
+
+    const timeout = window.setTimeout(scrollToProjectCard, 120);
+
+    return () => window.clearTimeout(timeout);
   }, []);
 
   return (
     <>
-      <Splash onDone={() => setSplashDone(true)} />
+      {!shouldSkipSplash && <Splash onDone={() => setSplashDone(true)} />}
       <Navbar visible={splashDone} />
       <Hero visible={splashDone} />
 <Projects />

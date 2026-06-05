@@ -237,9 +237,9 @@ export default function ProjectThreePage() {
           Rutuja Kalane
         </Link>
 
-        <Link href="/#projects" className="back-link">
-          Back to projects ↗
-        </Link>
+        <Link href="/?project=4#projects" className="back-link">
+  Back to projects ↗
+</Link>
       </nav>
 
       <header className="case-hero">
@@ -619,7 +619,7 @@ export default function ProjectThreePage() {
       </section>
 
       <footer className="case-footer">
-        <Link href="/#projects">Back to projects</Link>
+        <Link href="/?project=4#projects">Back to projects</Link>
       </footer>
 
       <style jsx global>{`
@@ -740,24 +740,24 @@ export default function ProjectThreePage() {
         }
 
         .hero-layout {
-          display: grid;
-          grid-template-columns: minmax(0, 0.85fr) 420px;
-          align-items: center;
-          gap: clamp(2rem, 5vw, 5rem);
-        }
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) 300px;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+}
 
         .hero-text {
           min-width: 0;
         }
 
         .hero-strawberry {
-          width: 100%;
-          max-width: 420px;
-          justify-self: end;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
+  width: 100%;
+  max-width: 280px;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
         .hero-strawberry img {
           width: 100%;
@@ -1578,9 +1578,9 @@ export default function ProjectThreePage() {
           }
 
           .hero-strawberry {
-            max-width: 240px;
-            justify-self: start;
-          }
+  max-width: 180px;
+  justify-self: start;
+}
 
           .case-nav {
             height: 60px;
