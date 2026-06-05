@@ -107,34 +107,16 @@ const quoteCards = [
       "“We have been growing strawberries for years, but every season still depends on timing, care, and weather.”",
   },
   {
-    speaker: "Bhavesh Borane",
-    role: "On cultivation",
-    quote:
-      "“First we prepare the soil beds, then set up drip irrigation, plant the saplings, and wait for the crop to flower.”",
-  },
-  {
     speaker: "Sunil Bhilare",
     role: "Strawberry farmer",
     quote:
       "“Strawberries cannot wait for long. Once they are harvested, they need to move quickly or they start losing quality.”",
   },
   {
-    speaker: "Sunil Bhilare",
-    role: "On shelf life",
-    quote:
-      "“Even with cold storage, strawberries only stay fresh for a few days. After that, the value starts dropping.”",
-  },
-  {
     speaker: "Santosh Jadhav",
     role: "Strawberry farmer",
     quote:
       "“If care is delayed in the early stage, the loss shows later. Water, fertilizer, and protection have to happen at the right time.”",
-  },
-  {
-    speaker: "Santosh Jadhav",
-    role: "On farming pressure",
-    quote:
-      "“A strawberry crop needs attention every day. One small delay can affect the whole harvest.”",
   },
 ];
 
@@ -244,13 +226,12 @@ function FlowLine({ title, items }: { title: string; items: string[] }) {
 export default function ProjectThreePage() {
   return (
     <main className="case-page">
-      <div className="debug-alignment-grid" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-        <span />
-      </div>
-
+      {/* <div className="debug-alignment-grid" aria-hidden="true">
+  <span />
+  <span />
+  <span />
+  <span />
+</div> */}
       <nav className="case-nav">
         <Link href="/" className="nav-name">
           Rutuja Kalane
@@ -491,21 +472,25 @@ export default function ProjectThreePage() {
         </div>
 
         <div className="funnel">
-          {funnelSteps.map((step, index) => (
-            <div
-              className={`funnel-step ${
-                index === funnelSteps.length - 1 ? "final" : ""
-              }`}
-              key={step}
-              style={{
-                width: `${100 - index * 9}%`,
-              }}
-            >
-              <span>Step {index + 1}</span>
-              <p>{step}</p>
-            </div>
-          ))}
+  {funnelSteps.map((step, index) => (
+    <div
+      className={`funnel-step ${
+        index === funnelSteps.length - 1 ? "final" : ""
+      }`}
+      key={step}
+    >
+      <div className="funnel-content">
+  <p>{step}</p>
+</div>
+
+      {index < funnelSteps.length - 1 && (
+        <div className="funnel-arrow" aria-hidden="true">
+          ↓
         </div>
+      )}
+    </div>
+  ))}
+</div>
       </section>
 
       <section className="case-section">
@@ -1122,10 +1107,22 @@ export default function ProjectThreePage() {
           grid-template-columns: repeat(4, 1fr);
         }
 
-        .research-grid,
-        .quote-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
+        .research-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.quote-grid {
+  width: min(980px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.quote-card:nth-child(3) {
+  grid-column: 1 / -1;
+  width: calc((100% - var(--card-gap)) / 2);
+  justify-self: center;
+}
 
         .timeline {
           grid-template-columns: repeat(3, 1fr);
@@ -1136,10 +1133,28 @@ export default function ProjectThreePage() {
           grid-template-columns: repeat(3, 1fr);
         }
 
+
+
         .problem-layout {
-          grid-template-columns: 1.25fr 0.9fr;
-          align-items: stretch;
-        }
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+        .cause-card {
+  width: min(980px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.final-problem-card {
+  width: min(900px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}         
 
         .snapshot-card,
         .stat-card,
@@ -1147,12 +1162,17 @@ export default function ProjectThreePage() {
         .quote-card,
         .insight-card,
         .reflection-card,
-        .cause-card,
         .final-problem-card {
           border-radius: 28px;
           background-color: rgba(253, 250, 245, 0.96);
           border: 1px solid rgba(26, 24, 20, 0.14);
           box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
+        }
+
+        .cause-card {
+          background: transparent;
+          border: 0;
+          box-shadow: none;
         }
 
         .snapshot-card,
@@ -1288,103 +1308,141 @@ export default function ProjectThreePage() {
         }
 
         .quote-card {
-          padding: 1.5rem;
-          background-color: rgba(253, 250, 245, 0.96);
-          min-height: 260px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
+  padding: 1.15rem;
+  background-color: rgba(253, 250, 245, 0.96);
+  min-height: 170px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
         .quote-card blockquote {
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.6rem, 2.5vw, 2.8rem);
-          line-height: 1.05;
-          letter-spacing: -0.045em;
-          color: var(--color-ink);
-          margin: 0;
-        }
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: clamp(0.9rem, 1.05vw, 1.05rem);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: rgba(26, 24, 20, 0.76);
+  margin: 0;
+}
 
         .quote-card h3 {
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          margin: 1.4rem 0 0.3rem;
-        }
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 1.1rem 0 0.25rem;
+}
 
         .quote-card p {
-          font-family: var(--font-sans);
-          font-size: 0.86rem;
-          color: rgba(26, 24, 20, 0.55);
-          margin: 0;
-        }
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  color: rgba(26, 24, 20, 0.55);
+  margin: 0;
+}
 
         .funnel {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.85rem;
-        }
+  width: min(760px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-        .funnel-step {
-          border-radius: 999px;
-          background-color: rgba(253, 250, 245, 0.96);
-          border: 1px solid rgba(26, 24, 20, 0.14);
-          padding: 1rem 1.25rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 0.75rem;
-          box-shadow: 0 18px 50px rgba(26, 24, 20, 0.07);
-          text-align: center;
-        }
+.funnel-step {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-        .funnel-step span {
-          font-family: var(--font-mono);
-          font-size: 0.58rem;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: rgba(26, 24, 20, 0.45);
-          white-space: nowrap;
-        }
+.funnel-content {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+}
 
-        .funnel-step p {
-          font-family: var(--font-sans);
-          font-size: 0.95rem;
-          color: rgba(26, 24, 20, 0.7);
-          margin: 0;
-        }
+.funnel-step span {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(26, 24, 20, 0.46);
+  white-space: nowrap;
+}
 
-        .funnel-step.final {
-          background-color: rgba(246, 231, 161, 0.82);
-          border-color: rgba(26, 24, 20, 0.18);
-        }
+.funnel-step p {
+  font-family: var(--font-sans);
+  font-size: clamp(1.18rem, 1.45vw, 1.45rem);
+  line-height: 1.45;
+  color: rgba(26, 24, 20, 0.78);
+  margin: 0;
+}
+
+.funnel-arrow {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  line-height: 1;
+  color: rgba(26, 24, 20, 0.36);
+  margin: 0.9rem 0 1rem;
+  transform: none;
+}
+
+.funnel-step.final .funnel-content {
+  background-color: rgba(246, 231, 161, 0.58);
+  border-radius: 999px;
+  padding: 0.9rem 1.4rem;
+  width: fit-content;
+  max-width: 100%;
+}
 
         .pull-quote {
-          border-radius: 34px;
-          background-color: rgba(246, 231, 161, 0.74);
-          border: 1px solid rgba(26, 24, 20, 0.14);
-          padding: clamp(1.5rem, 4vw, 3rem);
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(2rem, 4vw, 4.7rem);
-          line-height: 1;
-          letter-spacing: -0.055em;
-          box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
-        }
+  width: min(900px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 28px;
+  background-color: rgba(246, 231, 161, 0.62);
+  border: 1px solid rgba(26, 24, 20, 0.12);
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.35rem, 2.2vw, 2.35rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  color: var(--color-ink);
+  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
+}
 
         .flow-line + .flow-line {
           margin-top: 2rem;
         }
 
+        .cause-card + .final-problem-card {
+  margin-top: clamp(3.5rem, 5vw, 5rem);
+}
+
         .flow-items {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
+          justify-content: center;
           gap: 0.6rem;
         }
+
+        .flow-title {
+          text-align: center;
+        }
+
+        .flow-title {
+  text-align: center;
+  font-size: 0.68rem;
+  margin-bottom: 1rem;
+}
 
         .flow-step-wrap {
           display: flex;
@@ -1393,36 +1451,44 @@ export default function ProjectThreePage() {
         }
 
         .flow-pill {
-          font-family: var(--font-sans);
-          font-size: 0.86rem;
-          color: rgba(26, 24, 20, 0.72);
-          border-radius: 999px;
-          border: 1px solid rgba(26, 24, 20, 0.13);
-          background-color: rgba(253, 250, 245, 0.8);
-          padding: 0.6rem 0.8rem;
-          white-space: nowrap;
-        }
+  font-family: var(--font-sans);
+  font-size: clamp(0.98rem, 1.15vw, 1.1rem);
+  color: rgba(26, 24, 20, 0.74);
+  border-radius: 999px;
+  border: 1px solid rgba(26, 24, 20, 0.14);
+  background-color: rgba(253, 250, 245, 0.82);
+  padding: 0.72rem 1rem;
+  white-space: nowrap;
+}
 
         .flow-arrow {
-          font-family: var(--font-mono);
-          color: rgba(26, 24, 20, 0.45);
-        }
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: rgba(26, 24, 20, 0.45);
+}
 
         .final-problem-card {
-          background-color: rgba(246, 231, 161, 0.82);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
+  width: min(900px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 28px;
+  background-color: rgba(246, 231, 161, 0.62);
+  border: 1px solid rgba(26, 24, 20, 0.12);
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
+  display: block;
+}
 
         .final-problem-card h3 {
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.8rem, 3vw, 3.4rem);
-          line-height: 1.03;
-          letter-spacing: -0.05em;
-          margin: 0;
-        }
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.35rem, 2.2vw, 2.35rem);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  margin: 0;
+}
 
         .scope-section {
           border-top: 1px solid rgba(26, 24, 20, 0.14);
@@ -1446,6 +1512,10 @@ export default function ProjectThreePage() {
         @media (max-width: 900px) {
           .debug-alignment-grid {
             display: none;
+          }
+
+          .quote-card:nth-child(3) {
+            width: 100%;
           }
 
      .context-layout,
@@ -1538,22 +1608,34 @@ export default function ProjectThreePage() {
             grid-template-columns: 1fr;
           }
 
-          .research-grid,
-          .quote-grid {
-            grid-template-columns: 1fr;
-          }
+          .research-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.quote-grid {
+  width: min(980px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-columns: repeat(2, 1fr);
+}
 
           .large-image-card {
             aspect-ratio: 4 / 3;
           }
 
-          .funnel-step {
-            width: 100% !important;
-            border-radius: 24px;
-            flex-direction: column;
-            gap: 0.4rem;
-          }
+          .funnel {
+  width: 100%;
+}
 
+.funnel-content {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.funnel-step.final .funnel-content {
+  border-radius: 24px;
+}
           .flow-items {
             flex-direction: column;
             align-items: flex-start;
