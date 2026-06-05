@@ -474,18 +474,21 @@ export default function ProjectThreePage() {
 </section>
 
       <section className="case-section">
-        <SectionHeader
-          label="RESEARCH MAP"
-          headline="The focus narrowed as patterns started repeating."
-          body={
+        <div className="split-case-header">
+          <div className="split-case-headline">
+            <SectionLabel>RESEARCH MAP</SectionLabel>
+            <h2>The focus narrowed as patterns started repeating.</h2>
+          </div>
+
+          <div className="split-case-body">
             <p>
               We began with a broad topic — agriculture and sustainability — but
               the fieldwork helped us narrow the direction. The strongest
               pattern was not only how strawberries were grown, but what happened
               after they were harvested.
             </p>
-          }
-        />
+          </div>
+        </div>
 
         <div className="funnel">
           {funnelSteps.map((step, index) => (
@@ -506,26 +509,31 @@ export default function ProjectThreePage() {
       </section>
 
       <section className="case-section">
-        <SectionHeader
-          label="SYNTHESIS"
-          headline="We turned field notes into patterns, then patterns into a direction."
-          body={
-            <>
-              <p>
-                After the field visit, we synthesized our secondary research,
-                interview notes, observations, and farmer stories. The goal was
-                not to choose the most dramatic problem, but to identify a
-                focused issue that was repeated, visible, and connected to both
-                farmer livelihood and sustainability.
-              </p>
-              <p>
-                Several themes appeared across the research: water scarcity,
-                labor shortage, crop dependency, short shelf life, disease
-                management, transport pressure, and post-harvest waste.
-              </p>
-            </>
-          }
-        />
+        <div className="split-case-header">
+          <div className="split-case-headline">
+            <SectionLabel>SYNTHESIS</SectionLabel>
+            <h2>
+              We turned field notes into patterns, then patterns into a
+              direction.
+            </h2>
+          </div>
+
+          <div className="split-case-body">
+            <p>
+              After the field visit, we synthesized our secondary research,
+              interview notes, observations, and farmer stories. The goal was
+              not to choose the most dramatic problem, but to identify a focused
+              issue that was repeated, visible, and connected to both farmer
+              livelihood and sustainability.
+            </p>
+
+            <p>
+              Several themes appeared across the research: water scarcity,
+              labor shortage, crop dependency, short shelf life, disease
+              management, transport pressure, and post-harvest waste.
+            </p>
+          </div>
+        </div>
 
         <div className="pull-quote">
           Strawberries were losing value after harvest, while plant waste was
@@ -544,28 +552,33 @@ export default function ProjectThreePage() {
       </section>
 
       <section className="case-section">
-        <SectionHeader
-          label="PROBLEM STATEMENT"
-          headline="A focused problem emerged around spoilage, stacking, and unused plant waste."
-          body={
-            <>
-              <p>
-                Strawberries are delicate and prone to spoilage, especially when
-                stacked during post-harvest handling, packaging, and
-                transportation. Direct surface contact can bruise the fruit,
-                shorten its shelf life, and reduce the quality of produce
-                reaching the market.
-              </p>
-              <p>
-                At the same time, once the harvesting season ends, strawberry
-                plants dry up and are typically discarded as waste. These dried
-                plants are not reused in a meaningful way, even though they have
-                potential to be explored as compost, mulch, or biodegradable
-                material.
-              </p>
-            </>
-          }
-        />
+        <div className="split-case-header">
+          <div className="split-case-headline">
+            <SectionLabel>PROBLEM STATEMENT</SectionLabel>
+            <h2>
+              A focused problem emerged around spoilage, stacking, and unused
+              plant waste.
+            </h2>
+          </div>
+
+          <div className="split-case-body">
+            <p>
+              Strawberries are delicate and prone to spoilage, especially when
+              stacked during post-harvest handling, packaging, and
+              transportation. Direct surface contact can bruise the fruit,
+              shorten its shelf life, and reduce the quality of produce reaching
+              the market.
+            </p>
+
+            <p>
+              At the same time, once the harvesting season ends, strawberry
+              plants dry up and are typically discarded as waste. These dried
+              plants are not reused in a meaningful way, even though they have
+              potential to be explored as compost, mulch, or biodegradable
+              material.
+            </p>
+          </div>
+        </div>
 
         <div className="problem-layout">
           <div className="cause-card">
@@ -586,10 +599,13 @@ export default function ProjectThreePage() {
       </section>
 
       <section className="case-section scope-section">
-        <SectionHeader
-          label="SCOPE"
-          headline="This case study ends at problem framing."
-          body={
+        <div className="split-case-header">
+          <div className="split-case-headline">
+            <SectionLabel>SCOPE</SectionLabel>
+            <h2>This case study ends at problem framing.</h2>
+          </div>
+
+          <div className="split-case-body">
             <p>
               Although solution directions were explored later, this portfolio
               case study focuses only on the research and problem-identification
@@ -597,8 +613,8 @@ export default function ProjectThreePage() {
               topic to a focused problem statement through secondary research,
               fieldwork, farmer conversations, and synthesis.
             </p>
-          }
-        />
+          </div>
+        </div>
       </section>
 
       <section className="case-section reflection-section">
@@ -1010,6 +1026,50 @@ export default function ProjectThreePage() {
   margin: 0;
 }
 
+.split-case-header {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--card-gap);
+  align-items: start;
+}
+
+.split-case-headline {
+  grid-column: 1 / span 2;
+  min-width: 0;
+}
+
+.split-case-headline h2 {
+  width: 100%;
+  max-width: 520px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.7rem, 2.45vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.split-case-body {
+  grid-column: 3 / span 2;
+  min-width: 0;
+  padding-top: var(--inner-text-gap);
+}
+
+.split-case-body p {
+  max-width: 620px;
+  font-family: var(--font-sans);
+  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+  line-height: 1.8;
+  color: rgba(26, 24, 20, 0.68);
+  margin: 0;
+}
+
+.split-case-body p + p {
+  margin-top: 1rem;
+}
+
+
         .overview-body p,
         .body-copy p {
           font-family: var(--font-sans);
@@ -1392,7 +1452,8 @@ export default function ProjectThreePage() {
 .overview-header,
 .secondary-header,
 .primary-header,
-.heard-header {
+.heard-header,
+.split-case-header {
   grid-template-columns: 1fr;
 }     
 
@@ -1406,7 +1467,9 @@ export default function ProjectThreePage() {
 .primary-headline,
 .primary-body,
 .heard-headline,
-.heard-body {
+.heard-body,
+.split-case-headline,
+.split-case-body {
   grid-column: auto;
 }
 
@@ -1434,6 +1497,10 @@ export default function ProjectThreePage() {
           .heard-body {
   padding-top: 0;
 }
+
+          .split-case-body {
+            padding-top: 0;
+          }
 
           .hero-layout {
             grid-template-columns: 1fr;
