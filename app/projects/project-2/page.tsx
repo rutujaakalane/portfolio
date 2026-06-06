@@ -6,9 +6,9 @@ import { useState } from "react";
 
 const snapshotCards = [
   { label: "ROLE", main: "UX Researcher", sub: "Analysis, redesign proposals" },
-  { label: "TIMELINE", main: "Lorem 2025", sub: "Semester 2 assignment" },
-  { label: "TOOLS", main: "Figma, Claude", sub: "Canva, Presentation tools" },
-  { label: "TYPE", main: "Academic study", sub: "Psychology & Human Factors" },
+  { label: "TIMELINE", main: "7 Days", sub: "1 week of research, screen study, and redesign" },
+  { label: "TOOLS", main: "Figma, Claude", sub: "Presentation, prototyping, AI-assisted research" },
+  { label: "TYPE", main: "Psychology-Based Case Study", sub: "Bias mapping & redesign proposals" },
 ];
 
 const journeySteps = [
@@ -216,7 +216,7 @@ function StoryWalkthrough() {
     {
       scene: null,
       you: "Hmm, let me look at the menu… 🤔",
-      other: "Sir, might I suggest the Grilled Salmon? It's our most ordered dish. Almost everyone who comes here picks it. 😊",
+      other: "Sir, might I suggest the Paneer Tikka? It's our most ordered dish. Almost everyone who comes here picks it. 😊",
       otherLabel: "WAITER",
     },
     {
@@ -237,7 +237,15 @@ function StoryWalkthrough() {
   const current = steps[step];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+    <div
+  style={{
+    minHeight: "340px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    gap: "1.5rem",
+  }}
+>
       {/* Scene box */}
       {current.scene && (
         <div
@@ -247,7 +255,7 @@ function StoryWalkthrough() {
             border: "1px solid rgba(26,24,20,0.12)",
             padding: "1.1rem 1.4rem",
             fontFamily: "var(--font-sans)",
-            fontSize: "clamp(0.95rem, 1.1vw, 1.1rem)",
+            fontSize: "clamp(1.05rem, 1.25vw, 1.22rem)",
             lineHeight: 1.65,
             color: "rgba(26,24,20,0.72)",
             textAlign: "center",
@@ -292,7 +300,7 @@ function StoryWalkthrough() {
               margin: "0 0 1rem",
             }}
           >
-            Social Proof
+             Nudge Theory
           </h3>
           <p
             style={{
@@ -304,7 +312,7 @@ function StoryWalkthrough() {
               margin: "0 auto",
             }}
           >
-            You never really chose. The waiter nudged you. And Netflix? Netflix does the exact same thing — pre-selecting a plan and calling it "Most Popular."
+            You never really chose. The waiter nudged you. And Netflix? Netflix does something remarkably similar — pre-selecting a plan and labelling it 'Most Popular' to make the decision feel already made."
           </p>
         </div>
       )}
@@ -329,7 +337,7 @@ function StoryWalkthrough() {
                   border: "1px solid rgba(26,24,20,0.14)",
                   padding: "0.9rem 1.1rem",
                   fontFamily: "var(--font-sans)",
-                  fontSize: "0.9rem",
+                  fontSize: "1rem",
                   lineHeight: 1.5,
                   color: "rgba(26,24,20,0.76)",
                   boxShadow: "0 8px 24px rgba(26,24,20,0.06)",
@@ -367,7 +375,7 @@ function StoryWalkthrough() {
                   borderRadius: "18px 18px 4px 18px",
                   backgroundColor: "rgba(246,231,161,0.72)",
                   border: "1px solid rgba(26,24,20,0.12)",
-                  padding: "0.9rem 1.1rem",
+                  padding: "1.05rem 1.25rem",
                   fontFamily: "var(--font-sans)",
                   fontSize: "0.9rem",
                   lineHeight: 1.5,
@@ -509,57 +517,78 @@ function JourneyMap() {
             onClick={() => setActive(active === i ? null : i)}
             style={{
               borderRadius: "20px",
-              backgroundColor:
-                active === i ? "rgba(246,231,161,0.88)" : step.color,
-              border: `1px solid ${active === i ? "rgba(26,24,20,0.22)" : "rgba(26,24,20,0.12)"}`,
-              boxShadow:
-                active === i
-                  ? "0 16px 40px rgba(26,24,20,0.12)"
-                  : "0 8px 20px rgba(26,24,20,0.06)",
-              padding: "1.1rem 0.8rem",
+              backgroundColor: active === i ? "rgba(246,231,161,0.88)" : step.color,
+              border: `1px solid ${
+                active === i ? "rgba(26,24,20,0.22)" : "rgba(26,24,20,0.12)"
+              }`,
+              boxShadow: active === i
+                ? "0 16px 40px rgba(26,24,20,0.12)"
+                : "0 8px 20px rgba(26,24,20,0.06)",
+              padding: "1.4rem 0.8rem",
               cursor: "pointer",
               textAlign: "center",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "0.5rem",
+              gap: "0.4rem",
               transition: "all 240ms ease",
               transform: active === i ? "translateY(-4px)" : "none",
             }}
           >
-            <span style={{ fontSize: "1.4rem" }}>{step.icon}</span>
+            <span style={{ fontSize: "1.6rem", lineHeight: 1 }}>
+              {step.icon}
+            </span>
+
             <span
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "0.56rem",
+                fontSize: "0.54rem",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color: "rgba(26,24,20,0.5)",
+                color: "rgba(26,24,20,0.4)",
               }}
             >
               {String(i + 1).padStart(2, "0")}
             </span>
+
             <span
               style={{
                 fontFamily: "var(--font-serif)",
                 fontStyle: "italic",
-                fontSize: "clamp(0.95rem, 1.2vw, 1.3rem)",
-                lineHeight: 1.0,
+                fontSize: "clamp(0.95rem, 1.2vw, 1.25rem)",
+                lineHeight: 1,
                 letterSpacing: "-0.03em",
                 color: "var(--color-ink)",
               }}
             >
               {step.screen}
             </span>
+
             <span
               style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "0.76rem",
-                color: "rgba(26,24,20,0.55)",
+                width: "28px",
+                height: "1px",
+                backgroundColor: "rgba(26,24,20,0.18)",
+                display: "block",
+                margin: "0.2rem 0",
               }}
-            >
-              {step.emotion}
-            </span>
+            />
+
+            <span
+  style={{
+    fontFamily: "var(--font-mono)",
+    fontSize: "0.72rem",
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+    color: "rgba(26,24,20,0.86)",
+    backgroundColor: "rgba(253,250,245,0.78)",
+    border: "1px solid rgba(26,24,20,0.14)",
+    borderRadius: "999px",
+    padding: "0.34rem 0.78rem",
+  }}
+>
+  {step.emotion}
+</span>
           </button>
         ))}
       </div>
@@ -728,14 +757,23 @@ export default function ProjectTwoPage() {
 
       {/* Hero */}
       <header className="p2-hero">
-        <div className="p2-hero-inner">
-          <p className="p2-label">Psychology & Human Factors — UX Case Study</p>
-          <h1>How Netflix Gets You to Subscribe Without You Realising It</h1>
-          <p className="p2-hero-sub">
-            A psychology-driven UX analysis of Netflix's onboarding funnel — examining cognitive biases, dark patterns, and ethical redesign opportunities.
-          </p>
-        </div>
-      </header>
+  <div className="p2-hero-inner">
+    <div className="p2-hero-heading-row">
+      <div className="p2-hero-copy">
+        <p className="p2-label">Psychology & Human Factors — UX Case Study</p>
+        <h1>How Netflix Gets You to Subscribe Without You Realising It</h1>
+      </div>
+
+      <div className="p2-netflix-logo" aria-hidden="true">
+        <img src="/netflix-logo.png" alt="" />
+      </div>
+    </div>
+
+    <p className="p2-hero-sub">
+      A psychology-driven UX analysis of Netflix's onboarding funnel — examining cognitive biases, dark patterns, and redesign opportunities.
+    </p>
+  </div>
+</header>
 
       {/* Snapshot */}
       <section className="p2-section">
@@ -755,14 +793,14 @@ export default function ProjectTwoPage() {
         <div className="p2-split-header">
           <div className="p2-split-headline">
             <p className="p2-label">OVERVIEW</p>
-            <h2>A closer look at how a world-class product uses psychology — brilliantly and problematically.</h2>
+            <h2>A closer look at how a world-class product uses psychology — brilliantly.</h2>
           </div>
           <div className="p2-split-body">
             <p>
-              Netflix has one of the most studied onboarding flows in the digital product world. Every screen, every word, every default is an intentional decision backed by user psychology research. This case study examines five key screens in the subscription journey through the lens of cognitive biases and design ethics.
+              Netflix has one of the most studied onboarding flows in the digital product world. Every screen, every word, every default is an intentional decision backed by user psychology research. This case study examines five key screens in the subscription journey through the lens of cognitive biases and design.
             </p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. The goal was not only to identify what works but to distinguish where good persuasion ends and manipulation begins — and to propose alternatives that serve users more honestly.
+              The goal was not only to identify what works but to understand the psychology behind each design decision — and to explore how the same principles could be applied with even greater transparency.
             </p>
           </div>
         </div>
@@ -773,7 +811,7 @@ export default function ProjectTwoPage() {
         <div className="p2-split-header">
           <div className="p2-split-headline">
             <p className="p2-label">THE HOOK</p>
-            <h2>It starts with a waiter and a salmon dish.</h2>
+            <h2>It starts with a waiter and a paneer tikka.</h2>
           </div>
           <div className="p2-split-body">
             <p>
@@ -791,7 +829,7 @@ export default function ProjectTwoPage() {
         <div className="p2-split-header">
           <div className="p2-split-headline">
             <p className="p2-label">USER JOURNEY MAP</p>
-            <h2>Five screens. Five emotional states. One engineered path.</h2>
+            <h2>Five screens. Five emotional states.</h2>
           </div>
           <div className="p2-split-body">
             <p>
@@ -992,6 +1030,35 @@ export default function ProjectTwoPage() {
       </footer>
 
       <style jsx global>{`
+        
+        .p2-hero-heading-row {
+  position: relative;
+  display: block;
+}
+
+.p2-hero-copy {
+  width: 100%;
+}
+
+.p2-netflix-logo {
+  position: absolute;
+  right: -18rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.p2-netflix-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+        
         .p2-page {
           --section-y: clamp(5.5rem, 7.5vw, 8rem);
           --content-gap: clamp(2.8rem, 4vw, 4.5rem);
@@ -1190,14 +1257,15 @@ export default function ProjectTwoPage() {
 
         /* Story wrap */
         .p2-story-wrap {
-          width: min(820px, 100%);
-          margin: 0 auto;
-          border-radius: 28px;
-          background-color: rgba(253, 250, 245, 0.92);
-          border: 1px solid rgba(26, 24, 20, 0.12);
-          box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
-          padding: clamp(1.5rem, 3vw, 2.2rem);
-        }
+  width: min(940px, 100%);
+  min-height: 420px;
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+  border-radius: 28px;
+  background: rgba(253, 250, 245, 0.78);
+  border: 1px solid rgba(26, 24, 20, 0.12);
+  padding: clamp(1.8rem, 3vw, 2.7rem);
+  box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
+}
 
         /* Journey wrap */
         .p2-journey-wrap {
@@ -1513,6 +1581,16 @@ export default function ProjectTwoPage() {
           .p2-redesign-grid {
             grid-template-columns: repeat(2, 1fr);
           }
+
+          .p2-hero-heading-row {
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.p2-netflix-logo {
+  max-width: 140px;
+  justify-self: start;
+}
 
           .p2-split-header {
             grid-template-columns: 1fr;
