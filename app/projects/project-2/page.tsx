@@ -163,31 +163,34 @@ const redesignCards = [
     label: "REDESIGN 01",
     title: "No default plan selection",
     desc: `Removing the pre-selected plan gives every user equal footing. The "Most Popular" badge stays as a soft informational nudge — but the decision belongs to the user.`,
+    image: "/redesign-1.png",
   },
   {
     label: "REDESIGN 02",
     title: `"Help me choose" quiz`,
-    desc: `Two quick questions — "How many people watch?" and "What device?" — cuts through noise instantly and recommends the right plan. Less confusion, more confidence.`,
+    desc: `Two quick questions — "How many people watch?" and "What device?" — cuts through noise instantly and recommends the right plan.`,
+    image: "/redesign-2.png",
   },
   {
     label: "REDESIGN 03",
     title: "Visible auto-renewal consent",
     desc: "Moving the renewal notice above the fold and making it a required checkbox forces awareness. The user must actively read and agree — not passively scroll past.",
+    image: "/redesign-3.png",
   },
 ];
 
 const reflectionCards = [
   {
     title: "What I noticed",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Studying Netflix showed how invisible psychology can be when it's executed well. Every screen is a deliberate decision.",
+    text: "Psychology is everywhere in product design — most of the time you just don't stop to name it. Every screen in the Netflix flow has a deliberate reason for looking exactly the way it does.",
   },
   {
     title: "What I learned",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. The line between persuasion and manipulation is thin. Design can guide without deceiving — the redesigns show that.",
+    text: "Understanding the principles behind a design decision is more valuable than just knowing what looks good. Naming what's happening is the first step to doing it better.",
   },
   {
     title: "What this changed",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. I now look at every UI asking: who does this actually serve? The user, or the business metric behind it?",
+    text: "I now approach every interface asking what each element is actually doing — not just visually, but behaviourally. That shift in perspective is the real takeaway from this project.",
   },
 ];
 
@@ -793,17 +796,72 @@ function NetflixPrototype() {
       </div>
       <div style={{ maxWidth:"920px", margin:"0 auto", padding:"16px 24px 40px" }}>
         <div style={{ background:"#f3f4f6", border:"1.5px solid #e0e0e0", borderRadius:"8px", padding:"12px 16px", display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:"20px", gap:"12px" }}>
-          <p style={{ fontSize:"13px", color:"#333", margin:0 }}><strong>Not sure which plan to pick?</strong> Answer 2 quick questions and we'll suggest the best fit.</p>
+          <p style={{ fontSize:"13px", color:"#333", margin:0 }}>
+  <strong>Not sure which plan to pick?</strong>{" "}
+  <span
+    style={{
+      display: "inline-block",
+      marginLeft: "6px",
+      padding: "2px 7px",
+      borderRadius: "999px",
+      background: "#22c55e",
+      color: "#fff",
+      fontSize: "9px",
+      fontWeight: 800,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      verticalAlign: "middle",
+    }}
+  >
+    Redesign
+  </span>{" "}
+  Answer 2 quick questions and we'll suggest the best fit.
+</p>
           <button onClick={()=>{ setQuizOpen(true); setQuizStep(1); setQuizAnswers({}); }} style={{ background:"#000", color:"#fff", border:"none", padding:"9px 18px", borderRadius:"4px", fontSize:"12px", fontWeight:600, cursor:"pointer", whiteSpace:"nowrap" }}>Help me choose →</button>
         </div>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:"8px", marginBottom:"16px" }}>
           {plans.map(plan => (
             <div key={plan.id} onClick={()=>setSelectedPlan({name:plan.name,price:plan.price})}
-              style={{ border:`2px solid ${selectedPlan?.name===plan.name?"#000":"#e0e0e0"}`, borderRadius:"6px", overflow:"hidden", cursor:"pointer", position:"relative", paddingTop: plan.popular ? "22px":"0", background:"#fff", boxShadow: selectedPlan?.name===plan.name?"0 0 0 1px #000":"none" }}>
-              {plan.popular && <div style={{ position:"absolute", top:0, left:"50%", transform:"translateX(-50%)", background:"#000", color:"#fff", fontSize:"10px", fontWeight:700, padding:"3px 12px", borderRadius:"0 0 6px 6px", whiteSpace:"nowrap" }}>Most Popular</div>}
+              style={{
+  border: `2px solid ${selectedPlan?.name === plan.name ? "#000" : "#e0e0e0"}`,
+  borderRadius: "6px",
+  overflow: "hidden",
+  cursor: "pointer",
+  position: "relative",
+  background: "#fff",
+  boxShadow: selectedPlan?.name === plan.name ? "0 0 0 1px #000" : "none",
+}}>
+              
               <div style={{ padding:"12px", color:"#fff", background:plan.headerColor, position:"relative" }}>
-                <div style={{ fontSize:"15px", fontWeight:700 }}>{plan.name}</div>
-                <div style={{ fontSize:"12px", opacity:0.85 }}>{plan.res}</div>
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "8px",
+    }}
+  >
+    <div style={{ fontSize:"15px", fontWeight:700 }}>{plan.name}</div>
+
+    {plan.popular && (
+      <span
+        style={{
+          background: "rgba(255,255,255,0.18)",
+          border: "1px solid rgba(255,255,255,0.42)",
+          color: "#fff",
+          fontSize: "9px",
+          fontWeight: 800,
+          padding: "3px 7px",
+          borderRadius: "999px",
+          whiteSpace: "nowrap",
+        }}
+      >
+        Most Popular
+      </span>
+    )}
+  </div>
+
+  <div style={{ fontSize:"12px", opacity:0.85 }}>{plan.res}</div>
                 {selectedPlan?.name===plan.name && <div style={{ position:"absolute", bottom:"6px", right:"6px", width:"18px", height:"18px", background:"#fff", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"10px" }}>✓</div>}
               </div>
               <div style={{ padding:"10px" }}>
@@ -919,7 +977,7 @@ function NetflixPrototype() {
   return (
     <div style={{ position:"relative", fontFamily:"'Helvetica Neue',Helvetica,Arial,sans-serif" }}>
       {/* Screens */}
-      <div style={{ overflowY:"auto", maxHeight:"640px" }}>
+      <div style={{ overflowY:"visible", height:"auto" }}>
         {screen==="landing" && <ScreenLanding />}
         {screen==="plans" && <ScreenPlans />}
         {screen==="payment-method" && <ScreenPaymentMethod />}
@@ -1213,18 +1271,7 @@ export default function ProjectTwoPage() {
         <span style={{ backgroundColor: "#28C840" }} />
       </div>
 
-      <div className="p2-browser-url">
-        claude.ai/public/artifacts/dee867d3-18d7-4c4d-ad2f-286c7950df26
-      </div>
-
-      <a
-        href="https://claude.ai/public/artifacts/dee867d3-18d7-4c4d-ad2f-286c7950df26"
-        target="_blank"
-        rel="noreferrer"
-        className="p2-browser-open"
-      >
-        Open ↗
-      </a>
+      
     </div>
 
     <div className="p2-browser-screen">
@@ -1238,11 +1285,11 @@ export default function ProjectTwoPage() {
         <div className="p2-split-header">
           <div className="p2-split-headline">
             <p className="p2-label">REDESIGN PROPOSALS</p>
-            <h2>Three changes that keep psychology honest.</h2>
+            <h2>Three changes that put the user back in the driver's seat.</h2>
           </div>
           <div className="p2-split-body">
             <p>
-              The redesigns don't remove psychological influence — they redirect it. The goal is to guide users toward good decisions for them, not just profitable ones for Netflix.
+            
             </p>
           </div>
         </div>
@@ -1251,18 +1298,8 @@ export default function ProjectTwoPage() {
           {redesignCards.map((card, i) => (
             <div className="p2-redesign-card" key={card.label}>
               <div className="p2-redesign-preview">
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "0.58rem",
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    color: "rgba(26,24,20,0.45)",
-                  }}
-                >
-                  mockup placeholder
-                </span>
-              </div>
+  <img src={card.image} alt={card.title} />
+</div>
               <div className="p2-redesign-text">
                 <p className="p2-label">{card.label}</p>
                 <h3>{card.title}</h3>
@@ -1278,11 +1315,11 @@ export default function ProjectTwoPage() {
         <div className="p2-split-header">
           <div className="p2-split-headline">
             <p className="p2-label">KEY TAKEAWAYS</p>
-            <h2>What Netflix does brilliantly. What it does wrong.</h2>
+            <h2>What Netflix gets right — and what it leaves on the table.</h2>
           </div>
           <div className="p2-split-body">
             <p>
-              Understanding both sides — good and manipulative — is the point. Design is never neutral.
+              
             </p>
           </div>
         </div>
@@ -1299,7 +1336,7 @@ export default function ProjectTwoPage() {
             </ul>
           </div>
           <div className="p2-takeaway-card p2-takeaway-bad">
-            <p className="p2-label">Good UX gone wrong</p>
+            <p className="p2-label">Room to grow</p>
             <ul>
               <li>Pre-selected plans exploit Default Bias</li>
               <li>Auto-renewal hidden in fine print</li>
@@ -1314,7 +1351,7 @@ export default function ProjectTwoPage() {
       <section className="p2-section p2-reflection-section">
         <p className="p2-label">REFLECTION</p>
         <h2 className="p2-reflection-headline">
-          What studying Netflix taught me about design ethics.
+          What I walked away with.
         </h2>
         <div className="p2-reflection-grid">
           {reflectionCards.map((card) => (
@@ -1751,6 +1788,7 @@ export default function ProjectTwoPage() {
   padding: 0.75rem 1.1rem;
   background-color: rgba(246, 231, 161, 0.72);
   border-bottom: 1px solid rgba(26, 24, 20, 0.12);
+  min-height: 42px;
 }
 
 .p2-browser-dots {
@@ -1794,7 +1832,8 @@ export default function ProjectTwoPage() {
 
 .p2-browser-screen {
   width: 100%;
-  height: 640px;
+  height: auto;
+  min-height: 560px;
   background-color: rgba(253, 250, 245, 0.5);
 }
 
@@ -1816,14 +1855,23 @@ export default function ProjectTwoPage() {
         }
 
         .p2-redesign-preview {
-          width: 100%;
-          aspect-ratio: 4/3;
-          background-color: rgba(246, 231, 161, 0.42);
-          border-bottom: 1px dashed rgba(26, 24, 20, 0.2);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: rgba(253, 250, 245, 0.96);
+  border-bottom: 1px solid rgba(26, 24, 20, 0.1);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.p2-redesign-preview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
 
         .p2-redesign-text {
           padding: 1.2rem;
@@ -1851,40 +1899,46 @@ export default function ProjectTwoPage() {
 
         /* Takeaways */
         .p2-takeaway-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: var(--card-gap);
-          width: min(980px, 100%);
-          margin: 0 auto;
-        }
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--card-gap);
+  width: min(980px, 100%);
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+}
 
         .p2-takeaway-card {
-          border-radius: 28px;
-          border: 1px solid rgba(26, 24, 20, 0.13);
-          box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
-          padding: 1.6rem;
-        }
+  border-radius: 28px;
+  background-color: rgba(253, 250, 245, 0.96);
+  border: 1px solid rgba(26, 24, 20, 0.13);
+  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
+  padding: 2rem;
+  min-height: 300px;
+  transition: all 240ms ease;
+}
 
-        .p2-takeaway-good {
-          background-color: rgba(246, 231, 161, 0.62);
-        }
+.p2-takeaway-good,
+.p2-takeaway-bad {
+  background-color: rgba(253, 250, 245, 0.96);
+}
 
-        .p2-takeaway-bad {
-          background-color: rgba(253, 250, 245, 0.96);
-        }
+.p2-takeaway-card:hover {
+  background-color: rgba(246, 231, 161, 0.62);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 22px 60px rgba(26, 24, 20, 0.12);
+}
 
         .p2-takeaway-card ul {
-          font-family: var(--font-sans);
-          font-size: 0.9rem;
-          line-height: 1.7;
-          color: rgba(26, 24, 20, 0.68);
-          padding-left: 1.2rem;
-          margin: 0.8rem 0 0;
-        }
+  font-family: var(--font-sans);
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: rgba(26, 24, 20, 0.72);
+  padding-left: 1.3rem;
+  margin: 1rem 0 0;
+}
 
         .p2-takeaway-card li {
-          margin-bottom: 0.25rem;
-        }
+  margin-bottom: 0.45rem;
+}
 
         /* Reflection */
         .p2-reflection-section {
@@ -1909,12 +1963,19 @@ export default function ProjectTwoPage() {
         }
 
         .p2-reflection-card {
-          border-radius: 28px;
-          background-color: rgba(253, 250, 245, 0.96);
-          border: 1px solid rgba(26, 24, 20, 0.13);
-          box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
-          padding: 1.35rem;
-        }
+  border-radius: 28px;
+  background-color: rgba(253, 250, 245, 0.96);
+  border: 1px solid rgba(26, 24, 20, 0.13);
+  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
+  padding: 1.35rem;
+  transition: all 240ms ease;
+}
+
+.p2-reflection-card:hover {
+  background-color: rgba(246, 231, 161, 0.62);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 22px 60px rgba(26, 24, 20, 0.12);
+}
 
         .p2-reflection-card h3 {
           font-family: var(--font-serif);
