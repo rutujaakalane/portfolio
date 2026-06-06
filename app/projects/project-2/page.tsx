@@ -32,10 +32,7 @@ const screenAnalysis = [
         name: "Fitts' Law",
         desc: "One CTA, nothing competing. Your eye has no choice but to land on it.",
       },
-      {
-        name: "Aspirational Copy",
-        desc: `"Unlimited movies, shows, and more" — sells a feeling, not a feature.`,
-      },
+      
     ],
   },
   {
@@ -86,30 +83,23 @@ const screenAnalysis = [
         name: "Sunk Cost Setup",
         desc: `Card details entered = psychological commitment. "I've come this far…"`,
       },
-      {
-        name: "Dark Pattern",
-        desc: "Auto-renewal mentioned in fine print only. User doesn't actively consent.",
-      },
+      
     ],
   },
   {
-    screen: "Welcome Screen",
-    number: "05",
-    biases: [
-      {
-        name: "Positive Reinforcement",
-        desc: "Celebration moment = dopamine hit. You feel rewarded for subscribing.",
-      },
-      {
-        name: "Endowment Effect",
-        desc: "The moment something feels yours, you value it more and won't cancel.",
-      },
-      {
-        name: "Default Bias",
-        desc: "Content is curated and pre-loaded. No active effort needed to stay.",
-      },
-    ],
-  },
+  screen: "Welcome Screen",
+  number: "05",
+  biases: [
+    {
+      name: "Positive Reinforcement",
+      desc: "Celebration moment = dopamine hit. You feel rewarded for subscribing.",
+    },
+    {
+      name: "Endowment Effect",
+      desc: "The moment something feels yours, you value it more and won't cancel.",
+    },
+  ],
+}
 ];
 
 const psychTable = [
@@ -140,14 +130,14 @@ const psychTable = [
   {
     element: "Red CTA button",
     principle: "Visceral Design",
-    problem: "No problem",
-    solution: "It's good UX — keep it",
+    problem: "Creates a clear, confident action",
+    solution: "Strong design decision",
   },
   {
     element: "Welcome celebration",
     principle: "Positive Reinforcement",
-    problem: "No problem",
-    solution: "It's good UX — keep it",
+    problem: "Guides user forward naturally",
+    solution: "Already serving the user well",
   },
 ];
 
@@ -517,7 +507,7 @@ function JourneyMap() {
             onClick={() => setActive(active === i ? null : i)}
             style={{
               borderRadius: "20px",
-              backgroundColor: active === i ? "rgba(246,231,161,0.88)" : step.color,
+              backgroundColor: "rgba(253,250,245,0.96)",
               border: `1px solid ${
                 active === i ? "rgba(26,24,20,0.22)" : "rgba(26,24,20,0.12)"
               }`,
@@ -532,9 +522,22 @@ function JourneyMap() {
               alignItems: "center",
               gap: "0.4rem",
               transition: "all 240ms ease",
-              transform: active === i ? "translateY(-4px)" : "none",
+              transform: active === i ? "translateY(-6px)" : "none",}}
+
+              onMouseEnter={(e) => {
+  e.currentTarget.style.transform = "translateY(-8px) scale(1.025)";
+  e.currentTarget.style.boxShadow = "0 20px 55px rgba(26,24,20,0.12)";
+}}
+onMouseLeave={(e) => {
+  e.currentTarget.style.transform =
+    active === i ? "translateY(-6px)" : "none";
+  e.currentTarget.style.boxShadow =
+    active === i
+      ? "0 16px 40px rgba(26,24,20,0.12)"
+      : "0 8px 20px rgba(26,24,20,0.06)";
             }}
           >
+
             <span style={{ fontSize: "1.6rem", lineHeight: 1 }}>
               {step.icon}
             </span>
@@ -593,40 +596,7 @@ function JourneyMap() {
         ))}
       </div>
 
-      {active !== null && (
-        <div
-          style={{
-            borderRadius: "20px",
-            backgroundColor: "rgba(246,231,161,0.38)",
-            border: "1px solid rgba(26,24,20,0.10)",
-            padding: "1rem 1.3rem",
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.88rem",
-            lineHeight: 1.6,
-            color: "rgba(26,24,20,0.68)",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.58rem",
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "rgba(26,24,20,0.45)",
-              marginRight: "0.5rem",
-            }}
-          >
-            Emotion at this step →
-          </span>
-          User feels{" "}
-          <strong style={{ color: "var(--color-ink)" }}>
-            {journeySteps[active].emotion.toLowerCase()}
-          </strong>{" "}
-          on the {journeySteps[active].screen}. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit — this is a placeholder note about what
-          this emotional state means for conversion.
-        </div>
-      )}
+    
     </div>
   );
 }
@@ -642,9 +612,12 @@ function ScreenTabs() {
       {/* Tab row */}
       <div
         style={{
+          width: "100%",
           display: "flex",
-          gap: "0.5rem",
+          gap: "0.9rem",
           flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         {screenAnalysis.map((s, i) => (
@@ -653,17 +626,19 @@ function ScreenTabs() {
             onClick={() => setActive(i)}
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "0.62rem",
-              letterSpacing: "0.1em",
+              fontSize: "0.82rem",
+              letterSpacing: "0.11em",
               textTransform: "uppercase",
-              color: active === i ? "var(--color-ink)" : "rgba(26,24,20,0.5)",
+              color: active === i ? "var(--color-ink)" : "rgba(26,24,20,0.68)",
               backgroundColor:
                 active === i
-                  ? "rgba(246,231,161,0.82)"
-                  : "rgba(253,250,245,0.7)",
-              border: `1px solid ${active === i ? "rgba(26,24,20,0.18)" : "rgba(26,24,20,0.12)"}`,
+                  ? "rgba(246,231,161,0.9)"
+                  : "rgba(253,250,245,0.86)",
+              border: `1px solid ${
+                active === i ? "rgba(26,24,20,0.22)" : "rgba(26,24,20,0.15)"
+              }`,
               borderRadius: "999px",
-              padding: "0.5rem 0.9rem",
+              padding: "0.9rem 1.35rem",
               cursor: "pointer",
               transition: "all 200ms ease",
             }}
@@ -677,8 +652,14 @@ function ScreenTabs() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "0.85rem",
+          gridTemplateColumns:
+            current.biases.length === 2
+              ? "repeat(2, minmax(0, 420px))"
+              : "repeat(3, minmax(0, 1fr))",
+          gap: "1.2rem",
+          width: "100%",
+          justifyContent: "center",
+          margin: "0 auto",
         }}
       >
         {current.biases.map((bias, i) => (
@@ -686,21 +667,28 @@ function ScreenTabs() {
             key={bias.name}
             style={{
               borderRadius: "22px",
-              backgroundColor:
-                i === 2
-                  ? "rgba(253,250,245,0.96)"
-                  : i === 0
-                  ? "rgba(246,231,161,0.62)"
-                  : "rgba(253,250,245,0.96)",
+              backgroundColor: "rgba(253,250,245,0.96)",
               border: "1px solid rgba(26,24,20,0.13)",
               boxShadow: "0 16px 40px rgba(26,24,20,0.07)",
-              padding: "1.2rem",
+              padding: "1.8rem",
+              minHeight: "230px",
+              transition: "all 240ms ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-8px) scale(1.02)";
+              e.currentTarget.style.boxShadow =
+                "0 22px 60px rgba(26,24,20,0.12)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "none";
+              e.currentTarget.style.boxShadow =
+                "0 16px 40px rgba(26,24,20,0.07)";
             }}
           >
             <p
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "0.56rem",
+                fontSize: "0.68rem",
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 color: "rgba(26,24,20,0.48)",
@@ -713,7 +701,7 @@ function ScreenTabs() {
               style={{
                 fontFamily: "var(--font-serif)",
                 fontStyle: "italic",
-                fontSize: "clamp(1.1rem, 1.5vw, 1.6rem)",
+                fontSize: "clamp(1.55rem, 2vw, 2.25rem)",
                 lineHeight: 1.0,
                 letterSpacing: "-0.03em",
                 color: "var(--color-ink)",
@@ -725,7 +713,7 @@ function ScreenTabs() {
             <p
               style={{
                 fontFamily: "var(--font-sans)",
-                fontSize: "0.86rem",
+                fontSize: "1rem",
                 lineHeight: 1.6,
                 color: "rgba(26,24,20,0.64)",
                 margin: 0,
@@ -833,7 +821,7 @@ export default function ProjectTwoPage() {
           </div>
           <div className="p2-split-body">
             <p>
-              The Netflix onboarding flow is designed so that each screen resolves the emotional state of the previous one — building trust incrementally and reducing friction at every step. Tap a screen to explore.
+              The Netflix onboarding flow is designed so that each screen resolves the emotional state of the previous one — building trust incrementally and reducing friction at every step.
             </p>
           </div>
         </div>
@@ -847,11 +835,11 @@ export default function ProjectTwoPage() {
         <div className="p2-split-header">
           <div className="p2-split-headline">
             <p className="p2-label">SCREEN ANALYSIS</p>
-            <h2>Every screen carries at least three psychological principles.</h2>
+            <h2>Netflix knows exactly what it's doing.</h2>
           </div>
           <div className="p2-split-body">
             <p>
-              Select a screen to see the psychological principles at work. Some are excellent UX. Some are ethically questionable. The goal is to name them clearly.
+              Select a screen to see the psychological principles at work.
             </p>
           </div>
         </div>
@@ -860,23 +848,17 @@ export default function ProjectTwoPage() {
         </div>
       </section>
 
-      {/* Pull quote */}
-      <section className="p2-section p2-no-border">
-        <div className="p2-pull-quote">
-          "You never really chose. The waiter nudged you. Netflix pre-selects a paid plan, labels it 'Most Popular,' and you just… don't disagree."
-        </div>
-      </section>
 
       {/* Psychology Table */}
       <section className="p2-section">
         <div className="p2-split-header">
           <div className="p2-split-headline">
             <p className="p2-label">PSYCHOLOGY MAPPING</p>
-            <h2>Mapping UX elements to biases, problems, and solutions.</h2>
+            <h2>Mapping UX elements to biases, effect on users, and opportunities.</h2>
           </div>
           <div className="p2-split-body">
             <p>
-              Not every psychological technique is a problem. Some are great UX. The table below distinguishes between patterns that serve users and patterns that exploit them.
+              A screen-by-screen map of the psychology shaping the Netflix onboarding experience.
             </p>
           </div>
         </div>
@@ -885,8 +867,8 @@ export default function ProjectTwoPage() {
           <div className="p2-table-header">
             <span>UX Element</span>
             <span>Psychology Principle</span>
-            <span>Problem</span>
-            <span>Solution</span>
+            <span>Effect on user</span>
+            <span>Design Opportunity</span>
           </div>
           {psychTable.map((row, i) => (
             <div
@@ -1279,20 +1261,25 @@ export default function ProjectTwoPage() {
 
         /* Pull quote */
         .p2-pull-quote {
-          width: min(900px, 100%);
-          margin: 0 auto;
-          border-radius: 28px;
-          background-color: rgba(246, 231, 161, 0.6);
-          border: 1px solid rgba(26, 24, 20, 0.12);
-          padding: clamp(1.5rem, 3vw, 2.4rem);
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.3rem, 2.1vw, 2.25rem);
-          line-height: 1.1;
-          letter-spacing: -0.04em;
-          color: var(--color-ink);
-          box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
-        }
+  width: min(820px, 100%);
+  min-height: 220px;
+  margin: 0 auto;
+  border-radius: 28px;
+  background-color: rgba(246, 231, 161, 0.6);
+  border: 1px solid rgba(26, 24, 20, 0.12);
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.25rem, 1.9vw, 2rem);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
         /* Table */
         .p2-table-wrap {
@@ -1313,21 +1300,21 @@ export default function ProjectTwoPage() {
         }
 
         .p2-table-header span {
-          font-family: var(--font-mono);
-          font-size: 0.58rem;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: rgba(26, 24, 20, 0.52);
-        }
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(26, 24, 20, 0.62);
+}
 
         .p2-table-row {
-          display: grid;
-          grid-template-columns: 1.2fr 1.4fr 1.5fr 1.5fr;
-          padding: 0.9rem 1.4rem;
-          border-bottom: 1px solid rgba(26, 24, 20, 0.07);
-          align-items: start;
-          gap: 0;
-        }
+  display: grid;
+  grid-template-columns: 1.2fr 1.4fr 1.5fr 1.5fr;
+  padding: 1.15rem 1.4rem;
+  border-bottom: 1px solid rgba(26, 24, 20, 0.07);
+  align-items: start;
+  gap: 0;
+}
 
         .p2-table-row:last-child {
           border-bottom: none;
@@ -1338,29 +1325,33 @@ export default function ProjectTwoPage() {
         }
 
         .p2-table-element {
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          letter-spacing: 0.06em;
-          color: var(--color-ink);
-        }
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+  color: rgba(26, 24, 20, 0.9);
+}
 
-        .p2-table-principle {
-          font-family: var(--font-sans);
-          font-size: 0.86rem;
-          color: rgba(26, 24, 20, 0.72);
-        }
+.p2-table-principle {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(26, 24, 20, 0.82);
+}
 
-        .p2-table-problem {
-          font-family: var(--font-sans);
-          font-size: 0.86rem;
-          color: rgba(26, 24, 20, 0.65);
-        }
+.p2-table-problem {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(26, 24, 20, 0.78);
+}
 
-        .p2-table-solution {
-          font-family: var(--font-sans);
-          font-size: 0.86rem;
-          color: rgba(26, 24, 20, 0.65);
-        }
+.p2-table-solution {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(26, 24, 20, 0.78);
+}
 
         /* Pain points */
         .p2-pain-grid {
