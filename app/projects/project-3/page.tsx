@@ -5,15 +5,15 @@ import { useState, useEffect, useRef } from "react";
 // ── Data ──────────────────────────────────────────────────────
 
 const snapshotCards = [
-  { label: "ROLE", main: "UX Designer", sub: "Research, ideation, prototyping, team project" },
-  { label: "TIMELINE", main: "1.5 Months", sub: "Juno · Track A · April 2026" },
+  { label: "ROLE", main: "UX Designer", sub: "Research, ideation, prototyping" },
+  { label: "TIMELINE", main: "1.5 Months", sub: "April 2026" },
   { label: "TOOLS", main: "Figma, Claude", sub: "Design, prototyping & AI backend" },
   { label: "TYPE", main: "Live Product", sub: "Fully developed & working AI" },
 ];
 
 const secondaryStats = [
   { big: "73%", small: "of Gen Z report feeling emotionally unsupported by the people around them" },
-  { big: "1 in 4", small: "young adults say they cannot afford regular therapy sessions" },
+  { big: "1 in 4", small: "young adults feel they do not have a safe space to process emotions honestly" },
   { big: "68%", small: "of users say AI chatbots agree with everything they say, even when they're wrong" },
 ];
 
@@ -44,6 +44,7 @@ const personas = [
   {
     type: "PRIMARY PERSONA",
     name: "Aryan Mehta",
+    image: "/aryan-persona.png",
     meta: "22 · Engineering student · Mumbai",
     quote: '"I just want someone to tell me if I\'m actually wrong, not just agree with me to be nice."',
     goals: ["Process difficult emotions without judgment", "Get honest feedback on decisions", "Break cycles of overthinking"],
@@ -55,6 +56,7 @@ const personas = [
   {
     type: "SECONDARY PERSONA",
     name: "Priya Sharma",
+    image: "/priya-persona.png",
     meta: "26 · Working professional · Bangalore",
     quote: '"I need something that actually challenges me, not just tells me what I want to hear."',
     goals: ["Manage work-related anxiety", "Make better decisions under pressure", "Build emotional resilience"],
@@ -97,7 +99,7 @@ const reflectionCards = [
   },
   {
     title: "What I learned",
-    text: "Design thinking works best when the problem is genuinely hard. The gap between over-agreeable AI and inaccessible therapy was a real, painful space to design into.",
+    text: "Design thinking works best when the problem is genuinely hard. The gap between over-agreeable AI and therapy was a real, painful space to design into.",
   },
   {
     title: "What SAGE became",
@@ -150,17 +152,18 @@ function TensionDiagram() {
       </div>
 
       <div className="s3-tension-center">
-        <div className="s3-tension-vs">vs</div>
         <div className="s3-tension-arrow-left">←</div>
         <div className="s3-sage-badge">SAGE</div>
         <div className="s3-tension-arrow-right">→</div>
       </div>
 
       <div className="s3-tension-side s3-tension-right">
-        <p className="s3-tension-label">UNAFFORDABLE THERAPY</p>
-        <h3>Inaccessible when<br />you need it most</h3>
-        <p className="s3-tension-desc">Professional but expensive, hard to access, and time-limited.</p>
-      </div>
+  <p className="s3-tension-label">EMPATHY GAP IN AI</p>
+  <h3>Lacks emotional<br />depth and care</h3>
+  <p className="s3-tension-desc">
+    AI companions can sound supportive, but often fall short in providing meaningful mental health support.
+  </p>
+</div>
     </div>
   );
 }
@@ -261,7 +264,7 @@ export default function ProjectThreeSagePage() {
           <p className="s3-label">AI Product Design · Live Product · Track A · Juno · April 2026</p>
           <h1>SAGE — The AI That Finally Tells You What You Need to Hear</h1>
           <p className="s3-hero-sub">
-            A design thinking project that became a real, working product. SAGE is an AI companion built for the gap between over-agreeable chatbots and inaccessible therapy.
+            A design thinking project that became a real, working product. SAGE is an AI companion built for the gap between over-agreeable chatbots and therapy.
           </p>
         </div>
         {/* Decorative coded visual */}
@@ -297,7 +300,7 @@ export default function ProjectThreeSagePage() {
           </div>
           <div className="s3-split-body">
             <p>
-              SAGE began as Assignment 3 for Juno's Track A — a brief to design a futuristic technology product using design thinking methodology. The team identified a real, painful gap: most AI companions are over-agreeable, and professional therapy is out of reach for most young adults.
+              SAGE began as college Assignment— a brief to design a futuristic technology product using design thinking methodology. The team identified a real, painful gap: most AI companions often lack emotional depth and can fall short in providing meaningful mental health support.
             </p>
             <p>
               What started as research and prototyping became a fully developed, working AI. SAGE is live — built with a Claude AI backend and designed to give users honest, growth-oriented responses instead of empty validation.
@@ -311,11 +314,11 @@ export default function ProjectThreeSagePage() {
         <div className="s3-split-header">
           <div className="s3-split-headline">
             <p className="s3-label">THE PROBLEM</p>
-            <h2>There was nothing in between "yes, you're right" and "that'll be ₹2,000 per session."</h2>
+            <h2>There was nothing in between “you’re right” and support that actually helped users reflect.</h2>
           </div>
           <div className="s3-split-body">
             <p>
-              Over-agreeable AI chatbots leave users stuck in validation loops. Professional therapy is unaffordable or inaccessible. The people around us either agree to avoid conflict or give unsolicited harsh opinions. The honesty gap is real.
+              Over-agreeable AI chatbots leave users stuck in validation loops. The people around us either agree to avoid conflict or give unsolicited harsh opinions. The honesty gap is real.
             </p>
           </div>
         </div>
@@ -380,15 +383,54 @@ export default function ProjectThreeSagePage() {
           </div>
         </div>
         <div className="s3-pov-card">
-          <p className="s3-label">POINT OF VIEW STATEMENT</p>
-          <blockquote>
-            Young adults who are emotionally aware but financially limited <strong>need</strong> an honest, accessible thinking partner <strong>because</strong> over-agreeable AI leaves them stuck and professional therapy remains out of reach.
-          </blockquote>
-        </div>
-        {/* Image placeholder */}
-        <div className="s3-image-placeholder">
-          <span className="s3-placeholder-label">↑ Add your empathy map / define stage image here</span>
-        </div>
+  <p className="s3-label">PROBLEM STATEMENT</p>
+
+  <div className="s3-pov-text">
+    <p>
+      Young adults have many places to vent, but very few spaces where they can
+      think honestly.
+    </p>
+
+    <p>
+      They may avoid opening up to people around them because they fear judgment
+      or feel like a burden. AI tools often agree without offering meaningful
+      reflection.
+    </p>
+
+    <p>
+      The real gap is not simply access to support — it is access to honest,
+      empathetic, and context-aware engagement.
+    </p>
+  </div>
+</div>
+
+<div className="s3-design-tension-card">
+  <p className="s3-label">CORE DESIGN TENSION</p>
+
+  <div className="s3-design-tension-grid">
+    <div className="s3-design-tension-box">
+      <p>Too Honest</p>
+      <span>
+        Users feel attacked and leave. Trust breaks before it builds.
+      </span>
+    </div>
+
+    <div className="s3-design-tension-vs">vs</div>
+
+    <div className="s3-design-tension-box">
+      <p>Too Warm</p>
+      <span>
+        Users feel validated but unchanged. Nothing actually shifts.
+      </span>
+    </div>
+  </div>
+
+  <h3>
+    SAGE lives in the precise middle — honest enough to challenge, gentle enough
+    to feel safe.
+  </h3>
+</div>
+
       </section>
 
       {/* Personas */}
@@ -400,7 +442,7 @@ export default function ProjectThreeSagePage() {
           </div>
           <div className="s3-split-body">
             <p>
-              Personas were built from research patterns — not invented. Each one reflects real frustrations and real goals heard during the interview process.
+              Personas were built from research patterns. Each one reflects real frustrations and real goals heard during the interview process.
             </p>
           </div>
         </div>
@@ -410,8 +452,8 @@ export default function ProjectThreeSagePage() {
               <div className="s3-persona-header">
                 {/* Image placeholder */}
                 <div className="s3-persona-photo">
-                  <span>?</span>
-                </div>
+  <img src={p.image} alt={p.name} />
+</div>
                 <div>
                   <p className="s3-label">{p.type}</p>
                   <h3>{p.name}</h3>
@@ -503,45 +545,9 @@ export default function ProjectThreeSagePage() {
           ))}
         </div>
 
-        {/* Chat preview placeholder */}
-        <div className="s3-chat-preview">
-          <div className="s3-chat-header">
-            <div className="s3-chat-dot" />
-            <span>SAGE · Live AI</span>
-          </div>
-          <div className="s3-chat-body">
-            <div className="s3-chat-msg s3-chat-user">
-              <div className="s3-bubble s3-bubble-user">
-                I think I should quit my job. Everyone agrees it's a bad environment.
-              </div>
-              <span className="s3-chat-who">You</span>
-            </div>
-            <div className="s3-chat-msg s3-chat-sage">
-              <div className="s3-bubble s3-bubble-sage">
-                I hear you — and a bad environment is real. But I want to ask something: when you say <em>"everyone agrees"</em>, are you looking for confirmation, or are you still deciding? Because those are different conversations.
-              </div>
-              <span className="s3-chat-who">SAGE</span>
-            </div>
-            <div className="s3-chat-msg s3-chat-user">
-              <div className="s3-bubble s3-bubble-user">
-                …I think I'm still deciding, actually.
-              </div>
-              <span className="s3-chat-who">You</span>
-            </div>
-            <div className="s3-chat-msg s3-chat-sage">
-              <div className="s3-bubble s3-bubble-sage">
-                Good. Then let's talk about what's actually holding you back — not what's wrong with the job.
-              </div>
-              <span className="s3-chat-who">SAGE</span>
-            </div>
-          </div>
-          <p className="s3-chat-note">Representative SAGE conversation — showing honest, growth-oriented response design</p>
-        </div>
-
+      
         {/* Screens image placeholder */}
-        <div className="s3-image-placeholder s3-image-placeholder-tall">
-          <span className="s3-placeholder-label">↑ Add your Figma wireframes / final screens here</span>
-        </div>
+        
       </section>
 
       {/* Reflection */}
@@ -865,13 +871,13 @@ export default function ProjectThreeSagePage() {
 
         /* ── Tension diagram ── */
         .s3-tension {
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          gap: 1.25rem;
-          align-items: center;
-          width: min(980px, 100%);
-          margin: 0 auto;
-        }
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.25rem;
+  align-items: center;
+  width: min(980px, 100%);
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+}
 
         .s3-tension-side {
           border-radius: 28px;
@@ -989,30 +995,120 @@ export default function ProjectThreeSagePage() {
 
         /* ── POV card ── */
         .s3-pov-card {
-          width: min(900px, 100%);
-          margin: 0 auto;
-          border-radius: 28px;
-          background-color: rgba(246,231,161,0.62);
-          border: 1px solid rgba(26,24,20,0.12);
-          padding: clamp(1.8rem, 3vw, 2.8rem);
-          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
-        }
+  width: min(900px, 100%);
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+  border-radius: 28px;
+  background-color: rgba(246,231,161,0.62);
+  border: 1px solid rgba(26,24,20,0.12);
+  padding: clamp(1.8rem, 3vw, 2.8rem);
+  box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+}
 
-        .s3-pov-card blockquote {
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.3rem, 2vw, 2.1rem);
-          line-height: 1.15;
-          letter-spacing: -0.04em;
-          color: var(--color-ink);
-          margin: 0.8rem 0 0;
-        }
+         .s3-pov-text {
+  margin-top: 1.4rem;
+  max-width: 880px;
+}
 
-        .s3-pov-card blockquote strong {
-          font-style: normal;
-          font-weight: 500;
-          color: var(--color-ink);
-        }
+.s3-pov-text p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.35rem, 2vw, 2.15rem);
+  line-height: 1.22;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.s3-pov-text p + p {
+  margin-top: 1.15rem;
+}
+
+.s3-design-tension-card {
+  width: min(980px, 100%);
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+  border-radius: 28px;
+  background-color: rgba(253, 250, 245, 0.96);
+  border: 1px solid rgba(26, 24, 20, 0.13);
+  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
+  padding: clamp(1.6rem, 3vw, 2.5rem);
+}
+
+.s3-design-tension-card .s3-label {
+  margin-bottom: 1.6rem;
+}
+
+.s3-design-tension-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.s3-design-tension-box {
+  border-radius: 24px;
+  background-color: rgba(253, 250, 245, 0.96);
+  border: 1px solid rgba(26, 24, 20, 0.12);
+  padding: 1.6rem;
+  text-align: center;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 240ms ease;
+}
+
+.s3-design-tension-box:hover {
+  background-color: rgba(246, 231, 161, 0.5);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.1);
+}
+
+.s3-design-tension-box p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.35rem, 1.9vw, 2rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  margin: 0 0 0.8rem;
+}
+
+.s3-design-tension-box span {
+  font-family: var(--font-sans);
+  font-size: clamp(0.95rem, 1.08vw, 1.08rem);
+  line-height: 1.65;
+  color: rgba(26, 24, 20, 0.66);
+}
+
+.s3-design-tension-vs {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.6rem;
+  color: rgba(26, 24, 20, 0.34);
+}
+
+.s3-design-tension-card h3 {
+  width: min(720px, 100%);
+  margin: 1.8rem auto 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.35rem, 2vw, 2.15rem);
+  line-height: 1.18;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  text-align: center;
+  font-weight: 400;
+}
+
+@media (max-width: 900px) {
+  .s3-design-tension-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .s3-design-tension-vs {
+    text-align: center;
+  }
+}
 
         /* ── Image placeholder ── */
         .s3-image-placeholder {
@@ -1068,19 +1164,23 @@ export default function ProjectThreeSagePage() {
         }
 
         .s3-persona-photo {
-          width: 72px;
-          height: 72px;
-          flex-shrink: 0;
-          border-radius: 16px;
-          background: linear-gradient(135deg, rgba(246,231,161,0.6), rgba(26,24,20,0.08));
-          border: 1px solid rgba(26,24,20,0.12);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-family: var(--font-serif);
-          font-size: 1.8rem;
-          color: rgba(26,24,20,0.2);
-        }
+  width: 86px;
+  height: 86px;
+  flex-shrink: 0;
+  border-radius: 18px;
+  background: rgba(253,250,245,0.96);
+  border: 1px solid rgba(26,24,20,0.12);
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(26,24,20,0.08);
+}
+
+.s3-persona-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
 
         .s3-persona-header h3 {
           font-family: var(--font-serif);
@@ -1159,13 +1259,13 @@ export default function ProjectThreeSagePage() {
 
         /* ── DT Funnel ── */
         .s3-dt-funnel {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          width: min(720px, 100%);
-          margin: 0 auto;
-          gap: 0;
-        }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(720px, 100%);
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+  gap: 0;
+}
 
         .s3-dt-step {
           display: flex;
