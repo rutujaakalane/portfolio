@@ -86,12 +86,21 @@ export default function ProjectSixPage() {
       {/* ── HERO ─────────────────────────────────────────── */}
       <header className="p6-hero">
         <div className="p6-hero-inner">
-          <p className="p6-label">Autodesk Maya · Arnold Renderer · Solo</p>
-          <h1>Learning to Think in Three Dimensions</h1>
-          <p className="p6-hero-sub">
-            Two 3D models. One Maya beginner. A living room, a spaceship, and the beginning of a new design practice.
-          </p>
-        </div>
+  <div className="p6-hero-heading-row">
+    <div className="p6-hero-copy">
+      <p className="p6-label">Autodesk Maya · Arnold Renderer · Solo</p>
+      <h1>Learning to Think in Three Dimensions</h1>
+    </div>
+
+    <div className="p6-maya-logo" aria-hidden="true">
+      <img src="/maya-logo.png" alt="" />
+    </div>
+  </div>
+
+  <p className="p6-hero-sub">
+    Two 3D models. One Maya beginner. A living room, a spaceship, and the beginning of a new design practice.
+  </p>
+</div>
 
         {/* Hero render — living room (primary) */}
         <div className="p6-hero-render">
@@ -412,6 +421,34 @@ export default function ProjectSixPage() {
         .p6-hero-inner {
           max-width: 820px;
         }
+
+        .p6-hero-heading-row {
+  position: relative;
+  display: block;
+}
+
+.p6-hero-copy {
+  width: 100%;
+}
+
+.p6-maya-logo {
+  position: absolute;
+  right: -17rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.p6-maya-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 
         .p6-hero h1 {
           font-family: var(--font-serif);
