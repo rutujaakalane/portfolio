@@ -1,534 +1,367 @@
 "use client";
 import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+
+// ── Data ──────────────────────────────────────────────────────
 
 const snapshotCards = [
-  {
-    label: "ROLE",
-    main: "Researcher",
-    sub: "Visual documentation, interviews, layout",
-  },
-  {
-    label: "TIMELINE",
-    main: "March – April 2025",
-    sub: "1 month",
-  },
-  {
-    label: "TEAM",
-    main: "Team of 4",
-    sub: "Rural & cultural exposure project",
-  },
-  {
-    label: "FOCUS",
-    main: "Ethnographic research",
-    sub: "Agriculture & sustainability",
-  },
+  { label: "ROLE", main: "UX Designer", sub: "Research, ideation, prototyping" },
+  { label: "TIMELINE", main: "1.5 Months", sub: "April 2026" },
+  { label: "TOOLS", main: "Figma, Claude", sub: "Design, prototyping & AI backend" },
+  { label: "TYPE", main: "Live Product", sub: "Fully developed & working AI" },
 ];
 
-const contextStats = [
-  {
-    big: "85%",
-    small: "of India’s strawberries are produced in Mahabaleshwar",
-  },
-  {
-    big: "Oct–Apr",
-    small: "main strawberry cultivation season",
-  },
-  {
-    big: "91%",
-    small: "water content in strawberries, making them delicate and highly perishable",
-  },
+const secondaryStats = [
+  { big: "73%", small: "of Gen Z report feeling emotionally unsupported by the people around them" },
+  { big: "1 in 4", small: "young adults feel they do not have a safe space to process emotions honestly" },
+  { big: "68%", small: "of users say AI chatbots agree with everything they say, even when they're wrong" },
 ];
 
-const secondaryCards = [
+const primaryInsights = [
   {
     number: "01",
-    title: "Agriculture Systems",
-    text: "Traditional, commercial, organic, sustainable, horticulture, and plantation farming practices.",
+    title: "Over-agreeable AI",
+    text: "Most AI companions validate every thought without challenge — leaving users stuck in unhealthy patterns rather than helping them grow.",
   },
   {
     number: "02",
-    title: "Strawberry Cultivation",
-    text: "Propagation through runners and tissue culture, raised beds, mulching, fertilizers, irrigation, pests, and diseases.",
+    title: "Therapy is inaccessible",
+    text: "Cost, availability, and stigma keep most young adults from accessing professional mental health support when they need it most.",
   },
   {
     number: "03",
-    title: "Harvesting & Handling",
-    text: "Manual harvesting, sorting, stacking, ventilated baskets, clamshell containers, and cold-chain requirements.",
+    title: "Overthinking alone",
+    text: "Users described a cycle of rumination with no productive outlet — they needed a space to think out loud and get honest feedback.",
   },
   {
     number: "04",
-    title: "Sustainability",
-    text: "Water conservation, reduced chemical dependency, soil health, crop diversification, and agricultural waste.",
+    title: "The honesty gap",
+    text: "People around them either agreed to avoid conflict or gave unsolicited harsh opinions. There was nothing in between.",
   },
 ];
 
-const primaryStats = [
+const personas = [
   {
-    big: "3 Days",
-    small: "of field study and observation",
+    type: "PRIMARY PERSONA",
+    name: "Aryan Mehta",
+    image: "/aryan-persona.png",
+    meta: "22 · Engineering student · Mumbai",
+    quote: '"I just want someone to tell me if I\'m actually wrong, not just agree with me to be nice."',
+    goals: ["Process difficult emotions without judgment", "Get honest feedback on decisions", "Break cycles of overthinking"],
+    frustrations: ["Friends always take his side", "Can't afford therapy", "AI chatbots feel hollow and sycophantic"],
+    tag1: "Overthinker",
+    tag2: "Self-aware",
+    tag3: "Emotionally intelligent",
   },
   {
-    big: "~17",
-    small: "farmer conversations and informal discussions",
-  },
-  {
-    big: "Field Documentation",
-    small: "photos, notes, observations, and transcripts",
-  },
-  {
-    big: "1 Clear Direction",
-    small: "post-harvest loss and plant waste",
-  },
-];
-
-const timelineItems = [
-  {
-    day: "Day 1",
-    title: "First conversations",
-    text: "Village visit, farmer/vendor conversations, and initial observations around farming practices.",
-  },
-  {
-    day: "Day 2",
-    title: "Farm visits",
-    text: "Deeper interviews, field observation, and documentation of strawberry cultivation methods.",
-  },
-  {
-    day: "Day 3",
-    title: "Pattern spotting",
-    text: "Recurring challenges, synthesis direction, and early problem framing.",
+    type: "SECONDARY PERSONA",
+    name: "Priya Sharma",
+    image: "/priya-persona.png",
+    meta: "26 · Working professional · Bangalore",
+    quote: '"I need something that actually challenges me, not just tells me what I want to hear."',
+    goals: ["Manage work-related anxiety", "Make better decisions under pressure", "Build emotional resilience"],
+    frustrations: ["No time for therapy appointments", "Journaling feels one-sided", "Wants growth, not just comfort"],
+    tag1: "Ambitious",
+    tag2: "Stressed",
+    tag3: "Growth-oriented",
   },
 ];
 
-const quoteCards = [
-  {
-    speaker: "Bhavesh Borane",
-    role: "Organic farmer",
-    quote:
-      "“We have been growing strawberries for years, but every season still depends on timing, care, and weather.”",
-  },
-  {
-    speaker: "Sunil Bhilare",
-    role: "Strawberry farmer",
-    quote:
-      "“Strawberries cannot wait for long. Once they are harvested, they need to move quickly or they start losing quality.”",
-  },
-  {
-    speaker: "Santosh Jadhav",
-    role: "Strawberry farmer",
-    quote:
-      "“If care is delayed in the early stage, the loss shows later. Water, fertilizer, and protection have to happen at the right time.”",
-  },
+const scamperCards = [
+  { letter: "S", word: "Substitute", title: "Replace validation", desc: "Substitute hollow validation responses with grounded, honest reflection prompts that challenge the user's thinking." },
+  { letter: "C", word: "Combine", title: "Therapy + AI", desc: "Combine therapeutic communication techniques with AI accessibility to bridge the gap between expensive therapy and nothing." },
+  { letter: "A", word: "Adapt", title: "CBT principles", desc: "Adapt Cognitive Behavioural Therapy frameworks into conversational AI responses without requiring a therapist." },
+  { letter: "M", word: "Modify", title: "Tone calibration", desc: "Modify response tone based on emotional context — knowing when to be gentle, when to push back, when to simply listen." },
+  { letter: "P", word: "Put to other use", title: "Daily check-ins", desc: "Use the AI not just in crisis moments but as a daily emotional check-in habit that builds long-term resilience." },
+  { letter: "E", word: "Eliminate", title: "Remove sycophancy", desc: "Eliminate agreement-by-default from the AI response model entirely — honesty becomes the core design principle." },
+  { letter: "R", word: "Reverse", title: "Flip the dynamic", desc: "Instead of the AI asking 'how are you?', it asks 'what do you actually need right now?' — reversing the passive support model." },
 ];
 
-const funnelSteps = [
-  "Agriculture & Sustainability",
-  "Mahabaleshwar’s farming ecosystem",
-  "Strawberry cultivation",
-  "Harvesting and post-harvest handling",
-  "Spoilage, shelf life, and discarded plant waste",
+const hmwCards = [
+  { q: "How might we design an AI that feels honest without feeling harsh?", a: "By calibrating tone with empathy — truth delivered with care, not judgment." },
+  { q: "How might we make emotional support accessible to those who can't afford therapy?", a: "By building a free, always-available AI grounded in evidence-based techniques." },
+  { q: "How might we help users break cycles of overthinking?", a: "By prompting structured reflection instead of open-ended venting loops." },
+  { q: "How might we build trust in an AI's honesty?", a: "By being transparent about what the AI is doing and why it responds the way it does." },
+  { q: "How might we ensure the AI doesn't replace human connection?", a: "By positioning SAGE as a thinking partner, not a substitute for relationships." },
+  { q: "How might we design for emotional safety while still challenging the user?", a: "By letting users set their own honesty level — from gentle nudge to direct challenge." },
 ];
 
-const synthesisCards = [
-  {
-    number: "01",
-    title: "Shelf Life Pressure",
-    text: "Strawberries need to be sold quickly because they spoil within a few days.",
-  },
-  {
-    number: "02",
-    title: "Handling & Stacking",
-    text: "Surface contact during stacking can bruise the fruit and speed up deterioration.",
-  },
-  {
-    number: "03",
-    title: "Plant Waste",
-    text: "After harvest, dried strawberry plants are usually discarded instead of being reused.",
-  },
-];
-
-const fruitFlow = [
-  "Stacking",
-  "Surface contact",
-  "Bruising",
-  "Faster spoilage",
-  "Reduced market value",
-];
-
-const plantFlow = [
-  "Harvest ends",
-  "Plants dry",
-  "Discarded waste",
-  "Missed material opportunity",
+const pillars = [
+  { icon: "🧭", title: "Radical Honesty", body: "SAGE tells you what you need to hear, not what you want to hear — always delivered with care." },
+  { icon: "🛡️", title: "Emotional Safety", body: "A judgment-free space where users can think out loud, process, and explore without fear." },
+  { icon: "🌱", title: "Growth-Oriented", body: "Every interaction is designed to move the user forward — not just to comfort them in place." },
 ];
 
 const reflectionCards = [
   {
-    title: "What worked",
-    text: "Starting with research helped us avoid forcing a solution too early. The field visit made the problem more grounded than secondary research alone could have done.",
+    title: "What surprised me",
+    text: "The hardest design problem wasn't making SAGE smart — it was making it feel honest without feeling cold. Tone is a design decision.",
   },
   {
     title: "What I learned",
-    text: "Design research is not just about collecting information. It is about noticing patterns, asking better questions, and understanding the system before deciding what should be designed.",
+    text: "Design thinking works best when the problem is genuinely hard. The gap between over-agreeable AI and therapy was a real, painful space to design into.",
   },
   {
-    title: "My role in this project",
-    text: "I contributed across research strategy, secondary research, field interviews, visual documentation, booklet layout, synthesis, and problem statement framing.",
+    title: "What SAGE became",
+    text: "What started as a college assignment became a working product that anyone can use. That shift — from concept to live tool — changed how I think about what design is for.",
   },
 ];
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <p className="case-label">{children}</p>;
-}
+// ── Animated Stat ─────────────────────────────────────────────
 
-function SectionHeader({
-  label,
-  headline,
-  body,
-}: {
-  label: string;
-  headline: string;
-  body?: React.ReactNode;
-}) {
-  return (
-    <div className="section-header">
-      <SectionLabel>{label}</SectionLabel>
-      <h2>{headline}</h2>
-      {body && <div className="body-copy">{body}</div>}
-    </div>
-  );
-}
+function AnimatedStat({ big, small }: { big: string; small: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
-function StatCard({ big, small }: { big: string; small: string }) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <div className="stat-card">
+    <div
+      ref={ref}
+      className="s3-stat-card"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(20px)",
+        transition: "opacity 0.7s ease, transform 0.7s ease",
+      }}
+    >
       <h3>{big}</h3>
       <p>{small}</p>
     </div>
   );
 }
 
-function FlowLine({ title, items }: { title: string; items: string[] }) {
+// ── Tension Diagram ───────────────────────────────────────────
+
+function TensionDiagram() {
   return (
-    <div className="flow-line">
-      <p className="flow-title">{title}</p>
-      <div className="flow-items">
-        {items.map((item, index) => (
-          <div className="flow-step-wrap" key={item}>
-            <span className="flow-pill">{item}</span>
-            {index < items.length - 1 && <span className="flow-arrow">→</span>}
-          </div>
-        ))}
+    <div className="s3-tension">
+      <div className="s3-tension-side s3-tension-left">
+        <p className="s3-tension-label">OVER-AGREEABLE AI</p>
+        <h3>Tells you what<br />you want to hear</h3>
+        <p className="s3-tension-desc">Validates everything. Challenges nothing. Leaves you stuck.</p>
       </div>
+
+      <div className="s3-tension-center">
+        <div className="s3-tension-arrow-left">←</div>
+        <div className="s3-sage-badge">SAGE</div>
+        <div className="s3-tension-arrow-right">→</div>
+      </div>
+
+      <div className="s3-tension-side s3-tension-right">
+  <p className="s3-tension-label">EMPATHY GAP IN AI</p>
+  <h3>Lacks emotional<br />depth and care</h3>
+  <p className="s3-tension-desc">
+    AI companions can sound supportive, but often fall short in providing meaningful mental health support.
+  </p>
+</div>
     </div>
   );
 }
 
-export default function ProjectThreePage() {
-  return (
-    <main className="case-page">
-      {/* <div className="debug-alignment-grid" aria-hidden="true">
-  <span />
-  <span />
-  <span />
-  <span />
-</div> */}
-      <nav className="case-nav">
-        <Link href="/" className="nav-name">
-          Rutuja Kalane
-        </Link>
+// ── Ideation Tabs ─────────────────────────────────────────────
 
-        <Link href="/?project=4#projects" className="back-link">
-  Back to projects ↗
-</Link>
+function IdeationTabs() {
+  const [tab, setTab] = useState<"scamper" | "hmw">("scamper");
+
+  return (
+    <div className="s3-tabs-wrap">
+      <div className="s3-tab-row">
+        <button
+          onClick={() => setTab("scamper")}
+          className={`s3-tab-btn ${tab === "scamper" ? "s3-tab-active" : ""}`}
+        >
+          SCAMPER
+        </button>
+        <button
+          onClick={() => setTab("hmw")}
+          className={`s3-tab-btn ${tab === "hmw" ? "s3-tab-active" : ""}`}
+        >
+          How Might We
+        </button>
+      </div>
+
+      {tab === "scamper" && (
+        <div className="s3-scamper-grid">
+          {scamperCards.map((card) => (
+            <div className="s3-scamper-card" key={card.letter}>
+              <span className="s3-scamper-letter">{card.letter}</span>
+              <p className="s3-label">{card.word}</p>
+              <h3>{card.title}</h3>
+              <p className="s3-card-body">{card.desc}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {tab === "hmw" && (
+        <div className="s3-hmw-grid">
+          {hmwCards.map((card, i) => (
+            <div className="s3-hmw-card" key={i}>
+              <p className="s3-hmw-q">{card.q}</p>
+              <span className="s3-hmw-arrow">→</span>
+              <p className="s3-hmw-a">{card.a}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Design Thinking Funnel ────────────────────────────────────
+
+const dtSteps = [
+  { label: "01", title: "Empathise", sub: "Secondary research · user interviews · surveys" },
+  { label: "02", title: "Define", sub: "POV statement · problem framing · tension map" },
+  { label: "03", title: "Ideate", sub: "SCAMPER · HMW questions · concept sketches" },
+  { label: "04", title: "Prototype", sub: "Figma wireframes · AI conversation design" },
+  { label: "05", title: "Build", sub: "Live product · Claude backend · deployed" },
+];
+
+function DTFunnel() {
+  return (
+    <div className="s3-dt-funnel">
+      {dtSteps.map((step, i) => (
+        <div className="s3-dt-step" key={step.label}>
+          <div className="s3-dt-node">
+            <span className="s3-dt-num">{step.label}</span>
+          </div>
+          <div className="s3-dt-content">
+            <h4>{step.title}</h4>
+            <p>{step.sub}</p>
+          </div>
+          {i < dtSteps.length - 1 && <div className="s3-dt-line" />}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Page ──────────────────────────────────────────────────────
+
+export default function ProjectThreeSagePage() {
+  return (
+    <main className="s3-page">
+      {/* Nav */}
+      <nav className="s3-nav">
+        <Link href="/" className="s3-nav-name">Rutuja Kalane</Link>
+        <Link href="/?project=4#projects" className="s3-back-link">Back to projects ↗</Link>
       </nav>
 
-      <header className="case-hero">
-        <div className="hero-layout">
-          <div className="hero-text">
-            <p className="case-label">Research case study</p>
-            <h1>Mahabaleshwar Strawberries: A Research Case Study</h1>
-            <p className="hero-subtitle">
-              Understanding strawberry farming, post-harvest loss, and
-              sustainability through field research.
-            </p>
-          </div>
-
-          <div className="hero-strawberry" aria-hidden="true">
-            <img src="/strawberry.png" alt="" />
+      {/* Hero */}
+      <header className="s3-hero">
+        <div className="s3-hero-inner">
+          <p className="s3-label">AI Product Design · Live Product · Track A · Juno · April 2026</p>
+          <h1>SAGE — The AI That Finally Tells You What You Need to Hear</h1>
+          <p className="s3-hero-sub">
+            A design thinking project that became a real, working product. SAGE is an AI companion built for the gap between over-agreeable chatbots and therapy.
+          </p>
+        </div>
+        {/* Decorative coded visual */}
+        <div className="s3-hero-deco" aria-hidden="true">
+          <div className="s3-deco-ring s3-deco-ring-1" />
+          <div className="s3-deco-ring s3-deco-ring-2" />
+          <div className="s3-deco-ring s3-deco-ring-3" />
+          <div className="s3-deco-core">
+            <span>SAGE</span>
           </div>
         </div>
       </header>
 
-      <section className="case-section">
-        <div className="overview-header">
-          <div className="overview-headline">
-            <SectionLabel>OVERVIEW</SectionLabel>
-            <h2>
-              A one-month field research study on Mahabaleshwar’s strawberry
-              farming ecosystem.
-            </h2>
-          </div>
-
-          <div className="overview-body">
-            <p>
-              This project began as a rural and cultural exposure study focused
-              on agriculture and sustainability in Mahabaleshwar. As a team, we
-              explored how strawberries are grown, handled, transported, and
-              eventually lost or wasted within the farming cycle.
-            </p>
-            <p>
-              Through secondary research, field visits, farmer conversations,
-              visual documentation, and thematic analysis, we worked toward one
-              clear outcome, that is framing a research-backed problem statement
-              rooted in the realities of strawberry farmers.
-            </p>
-          </div>
-        </div>
-
-        <div className="snapshot-grid">
+      {/* Snapshot */}
+      <section className="s3-section">
+        <div className="s3-snapshot-grid">
           {snapshotCards.map((card) => (
-            <div className="snapshot-card" key={card.label}>
-              <p>{card.label}</p>
+            <div className="s3-snapshot-card" key={card.label}>
+              <p className="s3-label">{card.label}</p>
               <h3>{card.main}</h3>
               <span>{card.sub}</span>
             </div>
           ))}
         </div>
-
-        <div className="large-image-card">
-          <img src="/strawberry-2.jpg" alt="Strawberry farm field visit" />
-        </div>
       </section>
 
-      <section className="case-section">
-        <div className="context-layout">
-          <div className="context-heading">
-            <SectionLabel>CONTEXT</SectionLabel>
-
-            <h2>
-              Mahabaleshwar’s strawberry identity is shaped by climate,
-              cultivation, and careful handling.
-            </h2>
+      {/* Overview */}
+      <section className="s3-section">
+        <div className="s3-split-header">
+          <div className="s3-split-headline">
+            <p className="s3-label">OVERVIEW</p>
+            <h2>An AI that grew from a college brief into a live product anyone can use.</h2>
           </div>
-
-          <div className="context-body">
+          <div className="s3-split-body">
             <p>
-              Mahabaleshwar’s cool climate, hilly terrain, and fertile soil make
-              it one of India’s most important strawberry-growing regions. The
-              crop is closely connected to the region’s economy, local markets,
-              tourism, and seasonal farming practices.
+              SAGE began as college Assignment— a brief to design a futuristic technology product using design thinking methodology. The team identified a real, painful gap: most AI companions often lack emotional depth and can fall short in providing meaningful mental health support.
             </p>
-
             <p>
-              But strawberry farming is not just about growing the fruit. It
-              involves a complete system — sourcing plants, preparing beds,
-              irrigation, pest control, harvesting, sorting, packaging,
-              transport, and market timing.
+              What started as research and prototyping became a fully developed, working AI. SAGE is live — built with a Claude AI backend and designed to give users honest, growth-oriented responses instead of empty validation.
             </p>
-          </div>
-
-          <div className="context-stats-row">
-            {contextStats.map((stat) => (
-              <StatCard key={stat.big} big={stat.big} small={stat.small} />
-            ))}
           </div>
         </div>
       </section>
 
-      <section className="case-section">
-  <div className="secondary-header">
-    <div className="secondary-headline">
-      <SectionLabel>SECONDARY RESEARCH</SectionLabel>
+      {/* The Problem */}
+      <section className="s3-section">
+        <div className="s3-split-header">
+          <div className="s3-split-headline">
+            <p className="s3-label">THE PROBLEM</p>
+            <h2>There was nothing in between “you’re right” and support that actually helped users reflect.</h2>
+          </div>
+          <div className="s3-split-body">
+            <p>
+              Over-agreeable AI chatbots leave users stuck in validation loops. The people around us either agree to avoid conflict or give unsolicited harsh opinions. The honesty gap is real.
+            </p>
+          </div>
+        </div>
+        <TensionDiagram />
+      </section>
 
-      <h2>
-        Before entering the field, we studied the farming system around
-        strawberries.
-      </h2>
-    </div>
-
-    <div className="secondary-body">
-      <p>
-        We began by studying agriculture and sustainability at a broader level,
-        then slowly narrowed our focus toward strawberry farming in
-        Mahabaleshwar. This helped us understand the crop cycle, farming methods,
-        post-harvest handling, and sustainability concerns before speaking to
-        farmers directly.
-      </p>
-    </div>
-  </div>
-
-  <div className="research-grid">
-    {secondaryCards.map((card) => (
-      <div className="research-card" key={card.title}>
-        <p>{card.number}</p>
-        <h3>{card.title}</h3>
-        <span>{card.text}</span>
-      </div>
-    ))}
-  </div>
-</section>
-
-      <section className="case-section">
-  <div className="primary-header">
-    <div className="primary-headline">
-      <SectionLabel>PRIMARY RESEARCH</SectionLabel>
-
-      <h2>
-        Then we went to Mahabaleshwar to listen, observe, and document.
-      </h2>
-    </div>
-
-    <div className="primary-body">
-      <p>
-        The field study helped us understand what secondary research could not
-        fully show — the everyday decisions, constraints, and lived experiences
-        behind strawberry farming.
-      </p>
-
-      <p>
-        We visited farms, spoke with farmers and vendors, observed cultivation
-        practices, and documented recurring challenges around water, labor, shelf
-        life, diseases, packaging, and post-harvest handling.
-      </p>
-    </div>
-  </div>
-
-  <div className="stats-grid four">
-    {primaryStats.map((stat) => (
-      <StatCard key={stat.big} big={stat.big} small={stat.small} />
-    ))}
-  </div>
-</section>
-
-      <section className="case-section">
-        <SectionHeader
-          label="FIELD VISIT"
-          headline="Three days of conversations, farms, and observations."
-        />
-
-        <div className="timeline">
-          {timelineItems.map((item, index) => (
-            <div className="timeline-item" key={item.day}>
-              <div className="timeline-dot">{index + 1}</div>
-              <p>{item.day}</p>
-              <h3>{item.title}</h3>
-              <span>{item.text}</span>
-            </div>
+      {/* Secondary Research */}
+      <section className="s3-section">
+        <div className="s3-split-header">
+          <div className="s3-split-headline">
+            <p className="s3-label">SECONDARY RESEARCH</p>
+            <h2>The data confirmed what we already felt was true.</h2>
+          </div>
+          <div className="s3-split-body">
+            <p>
+              Before speaking to users, the team mapped the existing landscape of AI companions, mental health access, and Gen Z emotional patterns. The numbers were stark.
+            </p>
+          </div>
+        </div>
+        <div className="s3-stat-grid">
+          {secondaryStats.map((s) => (
+            <AnimatedStat key={s.big} big={s.big} small={s.small} />
           ))}
         </div>
       </section>
 
-      <section className="case-section">
-  <div className="heard-header">
-    <div className="heard-headline">
-      <SectionLabel>WHAT WE HEARD</SectionLabel>
-
-      <h2>The field conversations made the research more human.</h2>
-
-      <p className="small-note">
-        These dialogues are reconstructed from field conversations and interview
-        notes to communicate recurring farmer concerns clearly.
-      </p>
-    </div>
-
-    <div className="heard-body">
-      <p>
-        Instead of treating the farmers’ challenges as isolated data points, we
-        looked at what kept repeating across conversations. Their stories helped
-        us understand the pressure of timing, crop care, labor, disease, shelf
-        life, and waste.
-      </p>
-    </div>
-  </div>
-
-  <div className="quote-grid">
-    {quoteCards.map((card) => (
-      <div className="quote-card" key={`${card.speaker}-${card.role}`}>
-        <blockquote>{card.quote}</blockquote>
-        <div>
-          <h3>{card.speaker}</h3>
-          <p>{card.role}</p>
-        </div>
-      </div>
-    ))}
-  </div>
-</section>
-
-      <section className="case-section">
-        <div className="split-case-header">
-          <div className="split-case-headline">
-            <SectionLabel>RESEARCH MAP</SectionLabel>
-            <h2>The focus narrowed as patterns started repeating.</h2>
+      {/* Primary Research */}
+      <section className="s3-section">
+        <div className="s3-split-header">
+          <div className="s3-split-headline">
+            <p className="s3-label">PRIMARY RESEARCH</p>
+            <h2>Then we talked to people. Four patterns kept coming up.</h2>
           </div>
-
-          <div className="split-case-body">
+          <div className="s3-split-body">
             <p>
-              We began with a broad topic — agriculture and sustainability — but
-              the fieldwork helped us narrow the direction. The strongest
-              pattern was not only how strawberries were grown, but what happened
-              after they were harvested.
+              Through user interviews and surveys, the team spoke to young adults about their emotional support habits, their experiences with AI companions, and what they actually needed from a tool like this.
             </p>
           </div>
         </div>
-
-        <div className="funnel">
-  {funnelSteps.map((step, index) => (
-    <div
-      className={`funnel-step ${
-        index === funnelSteps.length - 1 ? "final" : ""
-      }`}
-      key={step}
-    >
-      <div className="funnel-content">
-  <p>{step}</p>
-</div>
-
-      {index < funnelSteps.length - 1 && (
-        <div className="funnel-arrow" aria-hidden="true">
-          ↓
-        </div>
-      )}
-    </div>
-  ))}
-</div>
-      </section>
-
-      <section className="case-section">
-        <div className="split-case-header">
-          <div className="split-case-headline">
-            <SectionLabel>SYNTHESIS</SectionLabel>
-            <h2>
-              We turned field notes into patterns, then patterns into a
-              direction.
-            </h2>
-          </div>
-
-          <div className="split-case-body">
-            <p>
-              After the field visit, we synthesized our secondary research,
-              interview notes, observations, and farmer stories. The goal was
-              not to choose the most dramatic problem, but to identify a focused
-              issue that was repeated, visible, and connected to both farmer
-              livelihood and sustainability.
-            </p>
-
-            <p>
-              Several themes appeared across the research: water scarcity,
-              labor shortage, crop dependency, short shelf life, disease
-              management, transport pressure, and post-harvest waste.
-            </p>
-          </div>
-        </div>
-
-        <div className="pull-quote">
-          Strawberries were losing value after harvest, while plant waste was
-          losing value after the season.
-        </div>
-
-        <div className="insight-grid">
-          {synthesisCards.map((card) => (
-            <div className="insight-card" key={card.title}>
-              <p>{card.number}</p>
+        <div className="s3-insights-grid">
+          {primaryInsights.map((card) => (
+            <div className="s3-insight-card" key={card.number}>
+              <p className="s3-label">{card.number}</p>
               <h3>{card.title}</h3>
               <span>{card.text}</span>
             </div>
@@ -536,81 +369,194 @@ export default function ProjectThreePage() {
         </div>
       </section>
 
-      <section className="case-section">
-        <div className="split-case-header">
-          <div className="split-case-headline">
-            <SectionLabel>PROBLEM STATEMENT</SectionLabel>
-            <h2>
-              A focused problem emerged around spoilage, stacking, and unused
-              plant waste.
-            </h2>
+      {/* Define — POV */}
+      <section className="s3-section">
+        <div className="s3-split-header">
+          <div className="s3-split-headline">
+            <p className="s3-label">DEFINE</p>
+            <h2>The research pointed to one clear, human problem.</h2>
           </div>
-
-          <div className="split-case-body">
+          <div className="s3-split-body">
             <p>
-              Strawberries are delicate and prone to spoilage, especially when
-              stacked during post-harvest handling, packaging, and
-              transportation. Direct surface contact can bruise the fruit,
-              shorten its shelf life, and reduce the quality of produce reaching
-              the market.
-            </p>
-
-            <p>
-              At the same time, once the harvesting season ends, strawberry
-              plants dry up and are typically discarded as waste. These dried
-              plants are not reused in a meaningful way, even though they have
-              potential to be explored as compost, mulch, or biodegradable
-              material.
+              The team synthesised interviews, secondary data, and observed patterns into a single point of view — the foundation everything else was built on.
             </p>
           </div>
         </div>
+        <div className="s3-pov-card">
+  <p className="s3-label">PROBLEM STATEMENT</p>
 
-        <div className="problem-layout">
-          <div className="cause-card">
-            <FlowLine title="Fruit handling" items={fruitFlow} />
-            <FlowLine title="Plant waste" items={plantFlow} />
-          </div>
+  <div className="s3-pov-text">
+    <p>
+      Young adults have many places to vent, but very few spaces where they can
+      think honestly.
+    </p>
 
-          <div className="final-problem-card">
-            <p>Final problem statement</p>
-            <h3>
-              Post-harvest losses in strawberry farming are significant due to
-              fruit spoilage from surface contact during stacking. Additionally,
-              dried strawberry plants are discarded after the harvest season,
-              representing an underutilized agricultural byproduct.
-            </h3>
+    <p>
+      They may avoid opening up to people around them because they fear judgment
+      or feel like a burden. AI tools often agree without offering meaningful
+      reflection.
+    </p>
+
+    <p>
+      The real gap is not simply access to support — it is access to honest,
+      empathetic, and context-aware engagement.
+    </p>
+  </div>
+</div>
+
+<div className="s3-design-tension-card">
+  <p className="s3-label">CORE DESIGN TENSION</p>
+
+  <div className="s3-design-tension-grid">
+    <div className="s3-design-tension-box">
+      <p>Too Honest</p>
+      <span>
+        Users feel attacked and leave. Trust breaks before it builds.
+      </span>
+    </div>
+
+    <div className="s3-design-tension-vs">vs</div>
+
+    <div className="s3-design-tension-box">
+      <p>Too Warm</p>
+      <span>
+        Users feel validated but unchanged. Nothing actually shifts.
+      </span>
+    </div>
+  </div>
+
+  <h3>
+    SAGE lives in the precise middle — honest enough to challenge, gentle enough
+    to feel safe.
+  </h3>
+</div>
+
+      </section>
+
+      {/* Personas */}
+      <section className="s3-section">
+        <div className="s3-split-header">
+          <div className="s3-split-headline">
+            <p className="s3-label">PERSONAS</p>
+            <h2>Two people. Two different contexts. The same core need.</h2>
           </div>
+          <div className="s3-split-body">
+            <p>
+              Personas were built from research patterns. Each one reflects real frustrations and real goals heard during the interview process.
+            </p>
+          </div>
+        </div>
+        <div className="s3-personas-grid">
+          {personas.map((p) => (
+            <div className="s3-persona-card" key={p.name}>
+              <div className="s3-persona-header">
+                {/* Image placeholder */}
+                <div className="s3-persona-photo">
+  <img src={p.image} alt={p.name} />
+</div>
+                <div>
+                  <p className="s3-label">{p.type}</p>
+                  <h3>{p.name}</h3>
+                  <span className="s3-persona-meta">{p.meta}</span>
+                </div>
+              </div>
+              <div className="s3-persona-body">
+                <div className="s3-persona-quote">
+                  <p>{p.quote}</p>
+                </div>
+                <div className="s3-persona-cols">
+                  <div>
+                    <p className="s3-label">GOALS</p>
+                    <ul>
+                      {p.goals.map((g) => <li key={g}>{g}</li>)}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="s3-label">FRUSTRATIONS</p>
+                    <ul>
+                      {p.frustrations.map((f) => <li key={f}>{f}</li>)}
+                    </ul>
+                  </div>
+                </div>
+                <div className="s3-persona-tags">
+                  <span>{p.tag1}</span>
+                  <span>{p.tag2}</span>
+                  <span>{p.tag3}</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      <section className="case-section scope-section">
-        <div className="split-case-header">
-          <div className="split-case-headline">
-            <SectionLabel>SCOPE</SectionLabel>
-            <h2>This case study ends at problem framing.</h2>
+      {/* Design Thinking Process */}
+      <section className="s3-section">
+        <div className="s3-split-header">
+          <div className="s3-split-headline">
+            <p className="s3-label">PROCESS</p>
+            <h2>Five stages. One working product at the end.</h2>
           </div>
-
-          <div className="split-case-body">
+          <div className="s3-split-body">
             <p>
-              Although solution directions were explored later, this portfolio
-              case study focuses only on the research and problem-identification
-              phase. The aim is to show how we moved from a broad agricultural
-              topic to a focused problem statement through secondary research,
-              fieldwork, farmer conversations, and synthesis.
+              The team followed the full design thinking framework — from empathy to prototype — but took it one step further. The prototype became a real, deployed product.
             </p>
           </div>
         </div>
+        <DTFunnel />
       </section>
 
-      <section className="case-section reflection-section">
-        <SectionHeader
-          label="REFLECTION"
-          headline="What this project taught me about research-led design."
-        />
+      {/* Ideation */}
+      <section className="s3-section">
+        <div className="s3-split-header">
+          <div className="s3-split-headline">
+            <p className="s3-label">IDEATION</p>
+            <h2>SCAMPER and HMW helped us pressure-test every assumption.</h2>
+          </div>
+          <div className="s3-split-body">
+            <p>
+              Before committing to a direction, the team used SCAMPER to challenge the product concept from every angle, and How Might We questions to reframe problems into design opportunities.
+            </p>
+          </div>
+        </div>
+        <IdeationTabs />
+      </section>
 
-        <div className="reflection-grid">
+      {/* Prototype / Product */}
+      <section className="s3-section">
+        <div className="s3-split-header">
+          <div className="s3-split-headline">
+            <p className="s3-label">THE PRODUCT</p>
+            <h2>SAGE is not a concept. It's a real, working AI.</h2>
+          </div>
+          <div className="s3-split-body">
+            <p>
+              Built with a Claude AI backend, SAGE is fully developed and accessible to anyone. It was designed around three core pillars that emerged directly from the research and define stages.
+            </p>
+          </div>
+        </div>
+
+        <div className="s3-pillars-grid">
+          {pillars.map((p) => (
+            <div className="s3-pillar-card" key={p.title}>
+              <span className="s3-pillar-icon">{p.icon}</span>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </div>
+          ))}
+        </div>
+
+      
+        {/* Screens image placeholder */}
+        
+      </section>
+
+      {/* Reflection */}
+      <section className="s3-section s3-reflection-section">
+        <p className="s3-label">REFLECTION</p>
+        <h2 className="s3-reflection-headline">What this project taught the team.</h2>
+        <div className="s3-reflection-grid">
           {reflectionCards.map((card) => (
-            <div className="reflection-card" key={card.title}>
+            <div className="s3-reflection-card" key={card.title}>
               <h3>{card.title}</h3>
               <p>{card.text}</p>
             </div>
@@ -618,15 +564,17 @@ export default function ProjectThreePage() {
         </div>
       </section>
 
-      <footer className="case-footer">
+      {/* Footer */}
+      <footer className="s3-footer">
         <Link href="/?project=4#projects">Back to projects</Link>
       </footer>
 
       <style jsx global>{`
-        .case-page {
-          --section-y: clamp(6rem, 8vw, 8rem);
-          --content-gap: clamp(3rem, 4vw, 4.5rem);
-          --inner-text-gap: clamp(1.5rem, 2vw, 2rem);
+
+        /* ── Page base ── */
+        .s3-page {
+          --section-y: clamp(5.5rem, 7.5vw, 8rem);
+          --content-gap: clamp(2.8rem, 4vw, 4.5rem);
           --card-gap: 1rem;
 
           min-height: 100vh;
@@ -641,1013 +589,1211 @@ export default function ProjectThreePage() {
           overflow-x: hidden;
         }
 
-        .debug-alignment-grid {
+        /* ── Nav ── */
+        .s3-nav {
           position: fixed;
-          top: 0;
-          bottom: 0;
-          left: 50%;
-          z-index: 99999;
-          width: min(1180px, calc(100vw - 3rem));
-          transform: translateX(-50%);
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: var(--card-gap);
-          pointer-events: none;
-        }
-
-        .debug-alignment-grid span {
-          background: rgba(255, 0, 0, 0.07);
-          border-left: 1px solid rgba(255, 0, 0, 0.35);
-          border-right: 1px solid rgba(255, 0, 0, 0.35);
-        }
-
-        .case-nav {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
+          top: 0; left: 0; right: 0;
           z-index: 50000;
           height: 64px;
           padding: 0 var(--container-px);
           display: flex;
           align-items: center;
           justify-content: space-between;
-          pointer-events: auto;
         }
 
-        .nav-name,
-        .back-link,
-        .case-footer a {
+        .s3-nav-name {
           font-family: var(--font-mono);
           font-size: 0.8rem;
           letter-spacing: 0.1em;
           text-transform: uppercase;
           color: var(--color-stone);
           text-decoration: none;
+        }
+
+        .s3-back-link {
+          font-family: var(--font-mono);
+          font-size: 0.8rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--color-ink);
+          border: 1px solid rgba(26,24,20,0.16);
+          padding: 0.65rem 1rem;
+          background: rgba(253,250,245,0.66);
+          text-decoration: none;
           border-radius: 999px;
         }
 
-        .back-link,
-        .case-footer a {
-          color: var(--color-ink);
-          border: 1px solid rgba(26, 24, 20, 0.16);
-          padding: 0.65rem 1rem;
-          background: rgba(253, 250, 245, 0.66);
-        }
-
-        .case-hero,
-        .case-section,
-        .case-footer {
+        /* ── Hero ── */
+        .s3-hero {
           width: min(1180px, calc(100vw - 3rem));
           margin: 0 auto;
+          min-height: 90vh;
+          display: grid;
+          grid-template-columns: 1fr 340px;
+          align-items: center;
+          gap: clamp(2rem, 5vw, 5rem);
+          padding-top: 7rem;
+          padding-bottom: 4rem;
         }
 
-        .case-hero {
-          min-height: 92vh;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding-top: 6rem;
+        .s3-hero-inner {
+          max-width: 780px;
         }
 
-        .case-label {
+        .s3-label {
           font-family: var(--font-mono);
-          font-size: 0.66rem;
+          font-size: 0.64rem;
           letter-spacing: 0.18em;
           text-transform: uppercase;
-          color: rgba(26, 24, 20, 0.52);
+          color: rgba(26,24,20,0.5);
           margin: 0 0 1rem;
         }
 
-        .case-hero h1 {
-          width: min(820px, 100%);
+        .s3-hero h1 {
           font-family: var(--font-serif);
           font-style: italic;
-          font-size: clamp(3.1rem, 6.8vw, 6.9rem);
+          font-size: clamp(2.6rem, 5.5vw, 6rem);
           line-height: 0.95;
           letter-spacing: -0.05em;
           color: var(--color-ink);
           margin: 0;
         }
 
-        .hero-subtitle {
-          width: min(660px, 100%);
+        .s3-hero-sub {
           font-family: var(--font-sans);
-          font-size: clamp(1rem, 1.4vw, 1.25rem);
+          font-size: clamp(1rem, 1.3vw, 1.2rem);
           line-height: 1.65;
-          color: rgba(26, 24, 20, 0.68);
-          margin: 2rem 0 0;
+          color: rgba(26,24,20,0.65);
+          margin: 1.8rem 0 0;
+          max-width: 640px;
         }
 
-        .hero-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) 300px;
-  align-items: center;
-  gap: clamp(2rem, 5vw, 5rem);
-}
-
-        .hero-text {
-          min-width: 0;
-        }
-
-        .hero-strawberry {
-  width: 100%;
-  max-width: 280px;
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-        .hero-strawberry img {
+        /* ── Hero deco ── */
+        .s3-hero-deco {
+          position: relative;
           width: 100%;
-          height: auto;
-          display: block;
-          object-fit: contain;
-          filter: drop-shadow(0 24px 45px rgba(26, 24, 20, 0.16));
+          aspect-ratio: 1;
+          max-width: 320px;
+          justify-self: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
-        .case-section {
+        .s3-deco-ring {
+          position: absolute;
+          border-radius: 50%;
+          border: 1px solid rgba(26,24,20,0.1);
+          animation: s3-spin linear infinite;
+        }
+
+        .s3-deco-ring-1 {
+          width: 90%;
+          height: 90%;
+          border-style: dashed;
+          animation-duration: 40s;
+        }
+
+        .s3-deco-ring-2 {
+          width: 65%;
+          height: 65%;
+          animation-duration: 28s;
+          animation-direction: reverse;
+          border-color: rgba(246,231,161,0.6);
+        }
+
+        .s3-deco-ring-3 {
+          width: 42%;
+          height: 42%;
+          animation-duration: 18s;
+          border-color: rgba(26,24,20,0.14);
+        }
+
+        @keyframes s3-spin {
+          from { transform: rotate(0deg); }
+          to   { transform: rotate(360deg); }
+        }
+
+        .s3-deco-core {
+          position: relative;
+          z-index: 2;
+          width: 28%;
+          height: 28%;
+          border-radius: 50%;
+          background: rgba(246,231,161,0.72);
+          border: 1px solid rgba(26,24,20,0.14);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .s3-deco-core span {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(0.9rem, 1.2vw, 1.3rem);
+          letter-spacing: -0.03em;
+          color: var(--color-ink);
+        }
+
+        /* ── Section ── */
+        .s3-section {
+          width: min(1180px, calc(100vw - 3rem));
+          margin: 0 auto;
           padding: var(--section-y) 0;
-          border-top: 1px solid rgba(26, 24, 20, 0.08);
+          border-top: 1px solid rgba(26,24,20,0.08);
         }
 
-        .case-section > * {
-          margin-top: 0;
-          margin-bottom: 0;
-        }
-
-        .case-section > * + * {
+        .s3-section > * + * {
           margin-top: var(--content-gap);
         }
 
-        .section-header + .stats-grid,
-        .section-header + .research-grid,
-        .section-header + .timeline,
-        .section-header + .quote-grid,
-        .section-header + .funnel,
-        .section-header + .pull-quote,
-        .section-header + .problem-layout,
-        .section-header + .reflection-grid,
-        .overview-header + .snapshot-grid,
-        .snapshot-grid + .large-image-card,
-        .pull-quote + .insight-grid {
-          margin-top: var(--content-gap);
-        }
-
-        .section-header {
-          width: min(920px, 100%);
-        }
-
-        .section-header h2 {
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.7rem, 2.45vw, 3rem);
-          line-height: 1.02;
-          letter-spacing: -0.04em;
-          color: var(--color-ink);
-          margin: 0;
-        }
-
-        .context-layout {
+        /* ── Split header ── */
+        .s3-split-header {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: var(--card-gap);
           align-items: start;
         }
 
-        .context-heading {
+        .s3-split-headline {
           grid-column: 1 / span 2;
         }
 
-        .context-heading h2 {
+        .s3-split-headline h2 {
           font-family: var(--font-serif);
           font-style: italic;
-          font-size: clamp(1.7rem, 2.45vw, 3rem);
+          font-size: clamp(1.65rem, 2.4vw, 2.9rem);
           line-height: 1.02;
           letter-spacing: -0.04em;
           color: var(--color-ink);
           margin: 0;
         }
 
-        .context-body {
+        .s3-split-body {
           grid-column: 3 / span 2;
-          padding-top: var(--inner-text-gap);
+          padding-top: 1.8rem;
         }
 
-        .context-body p {
+        .s3-split-body p {
           font-family: var(--font-sans);
-          font-size: clamp(0.98rem, 1.1vw, 1.1rem);
+          font-size: clamp(0.96rem, 1.08vw, 1.08rem);
           line-height: 1.8;
-          color: rgba(26, 24, 20, 0.68);
+          color: rgba(26,24,20,0.66);
           margin: 0;
         }
 
-        .context-body p + p {
+        .s3-split-body p + p {
           margin-top: 1rem;
         }
 
-        .context-stats-row {
-          grid-column: 1 / -1;
-          width: min(980px, 100%);
-          margin: var(--content-gap) auto 0;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: var(--card-gap);
-        }
-
-        .overview-header {
+        /* ── Snapshot ── */
+        .s3-snapshot-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
           gap: var(--card-gap);
-          align-items: start;
         }
 
-        .overview-headline {
-          grid-column: 1 / span 2;
-          min-width: 0;
-        }
-
-        .overview-headline h2 {
-          width: 100%;
-          max-width: 520px;
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.7rem, 2.45vw, 3rem);
-          line-height: 1.02;
-          letter-spacing: -0.04em;
-          color: var(--color-ink);
-          margin: 0;
-        }
-
-        .overview-body {
-          grid-column: 3 / span 2;
-          min-width: 0;
-          padding-top: var(--inner-text-gap);
-        }
-
-        .overview-body p {
-          max-width: 620px;
-        }
-
-        .secondary-header {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--card-gap);
-  align-items: start;
-}
-
-.secondary-headline {
-  grid-column: 1 / span 2;
-  min-width: 0;
-}
-
-.secondary-headline h2 {
-  width: 100%;
-  max-width: 520px;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.7rem, 2.45vw, 3rem);
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  color: var(--color-ink);
-  margin: 0;
-}
-
-.secondary-body {
-  grid-column: 3 / span 2;
-  min-width: 0;
-  padding-top: var(--inner-text-gap);
-}
-
-.secondary-body p {
-  max-width: 620px;
-  font-family: var(--font-sans);
-  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
-  line-height: 1.8;
-  color: rgba(26, 24, 20, 0.68);
-  margin: 0;
-}
-
-.primary-header {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--card-gap);
-  align-items: start;
-}
-
-.primary-headline {
-  grid-column: 1 / span 2;
-  min-width: 0;
-}
-
-.primary-headline h2 {
-  width: 100%;
-  max-width: 520px;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.7rem, 2.45vw, 3rem);
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  color: var(--color-ink);
-  margin: 0;
-}
-
-.primary-body {
-  grid-column: 3 / span 2;
-  min-width: 0;
-  padding-top: var(--inner-text-gap);
-}
-
-.primary-body p {
-  max-width: 620px;
-  font-family: var(--font-sans);
-  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
-  line-height: 1.8;
-  color: rgba(26, 24, 20, 0.68);
-  margin: 0;
-}
-
-.primary-body p + p {
-  margin-top: 1rem;
-}
-        
-        .heard-header {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--card-gap);
-  align-items: start;
-}
-
-.heard-headline {
-  grid-column: 1 / span 2;
-  min-width: 0;
-}
-
-.heard-headline h2 {
-  width: 100%;
-  max-width: 520px;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.7rem, 2.45vw, 3rem);
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  color: var(--color-ink);
-  margin: 0;
-}
-
-.heard-body {
-  grid-column: 3 / span 2;
-  min-width: 0;
-  padding-top: var(--inner-text-gap);
-}
-
-.heard-body p {
-  max-width: 620px;
-  font-family: var(--font-sans);
-  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
-  line-height: 1.8;
-  color: rgba(26, 24, 20, 0.68);
-  margin: 0;
-}
-
-.split-case-header {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--card-gap);
-  align-items: start;
-}
-
-.split-case-headline {
-  grid-column: 1 / span 2;
-  min-width: 0;
-}
-
-.split-case-headline h2 {
-  width: 100%;
-  max-width: 520px;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.7rem, 2.45vw, 3rem);
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  color: var(--color-ink);
-  margin: 0;
-}
-
-.split-case-body {
-  grid-column: 3 / span 2;
-  min-width: 0;
-  padding-top: var(--inner-text-gap);
-}
-
-.split-case-body p {
-  max-width: 620px;
-  font-family: var(--font-sans);
-  font-size: clamp(0.98rem, 1.1vw, 1.1rem);
-  line-height: 1.8;
-  color: rgba(26, 24, 20, 0.68);
-  margin: 0;
-}
-
-.split-case-body p + p {
-  margin-top: 1rem;
-}
-
-
-        .overview-body p,
-        .body-copy p {
-          font-family: var(--font-sans);
-          font-size: clamp(0.98rem, 1.1vw, 1.1rem);
-          line-height: 1.8;
-          color: rgba(26, 24, 20, 0.68);
-          margin: 0;
-        }
-
-        .overview-body p + p,
-        .body-copy p + p {
-          margin-top: 1rem;
-        }
-
-        .body-copy {
-          width: min(760px, 100%);
-          margin-top: var(--inner-text-gap);
-        }
-
-        .small-note {
-          font-family: var(--font-mono) !important;
-          font-size: 0.72rem !important;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: rgba(26, 24, 20, 0.45) !important;
-          margin-top: 1.4rem !important;
-        }
-
-        .snapshot-grid,
-        .stats-grid,
-        .research-grid,
-        .quote-grid,
-        .timeline,
-        .insight-grid,
-        .reflection-grid,
-        .problem-layout {
-          display: grid;
-          gap: var(--card-gap);
-        }
-
-        .snapshot-grid {
-          grid-template-columns: repeat(4, 1fr);
-        }
-
-        .stats-grid.three {
-          grid-template-columns: repeat(3, 1fr);
-        }
-
-        .stats-grid.four {
-          grid-template-columns: repeat(4, 1fr);
-        }
-
-        .research-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.quote-grid {
-  width: min(980px, 100%);
-  margin-left: auto;
-  margin-right: auto;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.quote-card:nth-child(3) {
-  grid-column: 1 / -1;
-  width: calc((100% - var(--card-gap)) / 2);
-  justify-self: center;
-}
-
-        .timeline {
-          grid-template-columns: repeat(3, 1fr);
-        }
-
-        .insight-grid,
-        .reflection-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-
-
-
-        .problem-layout {
-  grid-template-columns: 1fr;
-  align-items: center;
-  justify-items: center;
-}
-
-        .cause-card {
-  width: min(980px, 100%);
-  margin-left: auto;
-  margin-right: auto;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-}
-
-.final-problem-card {
-  width: min(900px, 100%);
-  margin-left: auto;
-  margin-right: auto;
-}         
-
-        .snapshot-card,
-        .stat-card,
-        .research-card,
-        .quote-card,
-        .insight-card,
-        .reflection-card,
-        .final-problem-card {
+        .s3-snapshot-card {
           border-radius: 28px;
-          background-color: rgba(253, 250, 245, 0.96);
-          border: 1px solid rgba(26, 24, 20, 0.14);
-          box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
-        }
-
-        .cause-card {
-          background: transparent;
-          border: 0;
-          box-shadow: none;
-        }
-
-        .snapshot-card,
-        .stat-card,
-        .research-card,
-        .insight-card,
-        .reflection-card,
-        .cause-card,
-        .final-problem-card {
+          background-color: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.13);
+          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
           padding: 1.35rem;
-        }
-
-        .snapshot-card {
-          min-height: 210px;
-        }
-
-        .snapshot-card p,
-        .research-card p,
-        .insight-card p,
-        .final-problem-card p,
-        .flow-title {
-          font-family: var(--font-mono);
-          font-size: 0.58rem;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: rgba(26, 24, 20, 0.52);
-          margin: 0 0 0.75rem;
-        }
-
-        .snapshot-card h3,
-        .research-card h3,
-        .insight-card h3,
-        .reflection-card h3 {
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.5rem, 2vw, 2.2rem);
-          line-height: 0.95;
-          letter-spacing: -0.045em;
-          margin: 0 0 0.7rem;
-        }
-
-        .snapshot-card span,
-        .research-card span,
-        .insight-card span,
-        .timeline-item span {
-          font-family: var(--font-sans);
-          font-size: 0.88rem;
-          line-height: 1.55;
-          color: rgba(26, 24, 20, 0.62);
-        }
-
-        .large-image-card {
-          width: 100%;
-          aspect-ratio: 16 / 7;
-          border-radius: 34px;
-          overflow: hidden;
-          background-color: rgba(246, 231, 161, 0.32);
-          border: 1px solid rgba(26, 24, 20, 0.14);
-          box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
-        }
-
-        .large-image-card img {
-          width: 100%;
-          height: 100%;
-          display: block;
-          object-fit: cover;
-        }
-
-        .stat-card {
-          min-height: 165px;
-          padding: 1.35rem;
-          background-color: rgba(246, 231, 161, 0.74);
+          min-height: 190px;
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .stat-card h3 {
+        .s3-snapshot-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 28px 65px rgba(26,24,20,0.11);
+        }
+
+        .s3-snapshot-card h3 {
           font-family: var(--font-serif);
           font-style: italic;
-          font-size: clamp(1.5rem, 2vw, 2.2rem);
+          font-size: clamp(1.4rem, 1.9vw, 2rem);
           line-height: 0.95;
-          letter-spacing: -0.045em;
+          letter-spacing: -0.04em;
+          margin: 0.7rem 0 0.6rem;
+        }
+
+        .s3-snapshot-card span {
+          font-family: var(--font-sans);
+          font-size: 0.84rem;
+          line-height: 1.5;
+          color: rgba(26,24,20,0.58);
+        }
+
+        /* ── Stat cards ── */
+        .s3-stat-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: var(--card-gap);
+        }
+
+        .s3-stat-card {
+          border-radius: 28px;
+          background-color: rgba(246,231,161,0.72);
+          border: 1px solid rgba(26,24,20,0.12);
+          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+          padding: 1.35rem;
+          min-height: 170px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          transition: transform 0.3s ease;
+        }
+
+        .s3-stat-card:hover {
+          transform: translateY(-6px);
+        }
+
+        .s3-stat-card h3 {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(2rem, 3vw, 3.2rem);
+          line-height: 0.9;
+          letter-spacing: -0.05em;
+          color: var(--color-ink);
           margin: 0 0 0.7rem;
         }
 
-        .stat-card p {
+        .s3-stat-card p {
           font-family: var(--font-sans);
-          font-size: 0.88rem;
+          font-size: 0.9rem;
           line-height: 1.55;
-          color: rgba(26, 24, 20, 0.62);
+          color: rgba(26,24,20,0.68);
           margin: 0;
         }
 
-        .timeline-item {
+        /* ── Tension diagram ── */
+        .s3-tension {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.25rem;
+  align-items: center;
+  width: min(980px, 100%);
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+}
+
+        .s3-tension-side {
           border-radius: 28px;
-          background-color: rgba(253, 250, 245, 0.96);
-          border: 1px solid rgba(26, 24, 20, 0.14);
-          padding: 1.35rem;
-          box-shadow: 0 24px 70px rgba(26, 24, 20, 0.08);
+          background-color: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.13);
+          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+          padding: 2rem;
+          transition: transform 0.3s ease;
         }
 
-        .timeline-dot {
-          width: 2.2rem;
-          height: 2.2rem;
-          border-radius: 50%;
-          background-color: rgba(246, 231, 161, 0.9);
-          border: 1px solid rgba(26, 24, 20, 0.14);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-family: var(--font-mono);
-          font-size: 0.72rem;
-          margin-bottom: 1rem;
+        .s3-tension-side:hover {
+          transform: translateY(-4px);
         }
 
-        .timeline-item p {
+        .s3-tension-label {
           font-family: var(--font-mono);
-          font-size: 0.62rem;
-          letter-spacing: 0.15em;
+          font-size: 0.58rem;
+          letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: rgba(26, 24, 20, 0.52);
-          margin: 0 0 0.65rem;
+          color: rgba(26,24,20,0.48);
+          margin: 0 0 0.75rem;
         }
 
-        .timeline-item h3 {
+        .s3-tension-side h3 {
           font-family: var(--font-serif);
           font-style: italic;
-          font-size: clamp(1.6rem, 2.2vw, 2.5rem);
-          line-height: 0.95;
-          letter-spacing: -0.045em;
-          margin: 0 0 0.7rem;
+          font-size: clamp(1.35rem, 1.8vw, 2rem);
+          line-height: 1.0;
+          letter-spacing: -0.04em;
+          margin: 0 0 0.75rem;
         }
 
-        .quote-card {
-  padding: 1.15rem;
-  background-color: rgba(253, 250, 245, 0.96);
-  min-height: 170px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-        .quote-card blockquote {
-  font-family: var(--font-sans);
-  font-style: normal;
-  font-size: clamp(0.9rem, 1.05vw, 1.05rem);
-  line-height: 1.45;
-  letter-spacing: -0.01em;
-  color: rgba(26, 24, 20, 0.76);
-  margin: 0;
-}
-
-        .quote-card h3 {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin: 1.1rem 0 0.25rem;
-}
-
-        .quote-card p {
-  font-family: var(--font-sans);
-  font-size: 0.76rem;
-  color: rgba(26, 24, 20, 0.55);
-  margin: 0;
-}
-
-        .funnel {
-  width: min(760px, 100%);
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.funnel-step {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.funnel-content {
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 1rem;
-  text-align: center;
-}
-
-.funnel-step span {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(26, 24, 20, 0.46);
-  white-space: nowrap;
-}
-
-.funnel-step p {
-  font-family: var(--font-sans);
-  font-size: clamp(1.18rem, 1.45vw, 1.45rem);
-  line-height: 1.45;
-  color: rgba(26, 24, 20, 0.78);
-  margin: 0;
-}
-
-.funnel-arrow {
-  font-family: var(--font-sans);
-  font-style: normal;
-  font-size: clamp(1.4rem, 2vw, 2rem);
-  line-height: 1;
-  color: rgba(26, 24, 20, 0.36);
-  margin: 0.9rem 0 1rem;
-  transform: none;
-}
-
-.funnel-step.final .funnel-content {
-  background-color: rgba(246, 231, 161, 0.58);
-  border-radius: 999px;
-  padding: 0.9rem 1.4rem;
-  width: fit-content;
-  max-width: 100%;
-}
-
-        .pull-quote {
-  width: min(900px, 100%);
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 28px;
-  background-color: rgba(246, 231, 161, 0.62);
-  border: 1px solid rgba(26, 24, 20, 0.12);
-  padding: clamp(1.5rem, 3vw, 2.4rem);
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: clamp(1.35rem, 2.2vw, 2.35rem);
-  line-height: 1.08;
-  letter-spacing: -0.045em;
-  color: var(--color-ink);
-  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
-}
-
-        .flow-line + .flow-line {
-          margin-top: 2rem;
+        .s3-tension-desc {
+          font-family: var(--font-sans);
+          font-size: 0.9rem;
+          line-height: 1.6;
+          color: rgba(26,24,20,0.6);
+          margin: 0;
         }
 
-        .cause-card + .final-problem-card {
-  margin-top: clamp(3.5rem, 5vw, 5rem);
-}
-
-        .flow-items {
+        .s3-tension-center {
           display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          justify-content: center;
-          gap: 0.6rem;
-        }
-
-        .flow-title {
-          text-align: center;
-        }
-
-        .flow-title {
-  text-align: center;
-  font-size: 0.68rem;
-  margin-bottom: 1rem;
-}
-
-        .flow-step-wrap {
-          display: flex;
+          flex-direction: column;
           align-items: center;
           gap: 0.6rem;
         }
 
-        .flow-pill {
-  font-family: var(--font-sans);
-  font-size: clamp(0.98rem, 1.15vw, 1.1rem);
-  color: rgba(26, 24, 20, 0.74);
-  border-radius: 999px;
-  border: 1px solid rgba(26, 24, 20, 0.14);
-  background-color: rgba(253, 250, 245, 0.82);
-  padding: 0.72rem 1rem;
-  white-space: nowrap;
-}
+        .s3-tension-vs {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: 1.5rem;
+          color: rgba(26,24,20,0.3);
+        }
 
-        .flow-arrow {
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  color: rgba(26, 24, 20, 0.45);
-}
+        .s3-tension-arrow-left,
+        .s3-tension-arrow-right {
+          font-family: var(--font-mono);
+          font-size: 1.1rem;
+          color: rgba(26,24,20,0.3);
+        }
 
-        .final-problem-card {
+        .s3-sage-badge {
+          background: rgba(246,231,161,0.9);
+          border: 1px solid rgba(26,24,20,0.14);
+          border-radius: 999px;
+          padding: 0.6rem 1.2rem;
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: 1.1rem;
+          letter-spacing: -0.03em;
+          color: var(--color-ink);
+          white-space: nowrap;
+        }
+
+        /* ── Insights grid ── */
+        .s3-insights-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: var(--card-gap);
+        }
+
+        .s3-insight-card {
+          border-radius: 28px;
+          background-color: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.13);
+          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+          padding: 1.35rem;
+          min-height: 240px;
+          display: flex;
+          flex-direction: column;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .s3-insight-card:hover {
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: 0 28px 65px rgba(26,24,20,0.11);
+        }
+
+        .s3-insight-card h3 {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(1.3rem, 1.7vw, 1.9rem);
+          line-height: 1.0;
+          letter-spacing: -0.04em;
+          margin: 0.6rem 0 0.6rem;
+          color: var(--color-ink);
+        }
+
+        .s3-insight-card span {
+          font-family: var(--font-sans);
+          font-size: 0.88rem;
+          line-height: 1.6;
+          color: rgba(26,24,20,0.62);
+        }
+
+        /* ── POV card ── */
+        .s3-pov-card {
   width: min(900px, 100%);
-  margin-left: auto;
-  margin-right: auto;
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
   border-radius: 28px;
-  background-color: rgba(246, 231, 161, 0.62);
-  border: 1px solid rgba(26, 24, 20, 0.12);
-  padding: clamp(1.5rem, 3vw, 2.4rem);
-  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
-  display: block;
+  background-color: rgba(246,231,161,0.62);
+  border: 1px solid rgba(26,24,20,0.12);
+  padding: clamp(1.8rem, 3vw, 2.8rem);
+  box-shadow: 0 20px 55px rgba(26,24,20,0.07);
 }
 
-        .final-problem-card h3 {
+         .s3-pov-text {
+  margin-top: 1.4rem;
+  max-width: 880px;
+}
+
+.s3-pov-text p {
   font-family: var(--font-serif);
   font-style: italic;
-  font-weight: 400;
-  font-size: clamp(1.35rem, 2.2vw, 2.35rem);
-  line-height: 1.12;
+  font-size: clamp(1.35rem, 2vw, 2.15rem);
+  line-height: 1.22;
   letter-spacing: -0.04em;
   color: var(--color-ink);
   margin: 0;
 }
 
-        .scope-section {
-          border-top: 1px solid rgba(26, 24, 20, 0.14);
-          border-bottom: 1px solid rgba(26, 24, 20, 0.14);
+.s3-pov-text p + p {
+  margin-top: 1.15rem;
+}
+
+.s3-design-tension-card {
+  width: min(980px, 100%);
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+  border-radius: 28px;
+  background-color: rgba(253, 250, 245, 0.96);
+  border: 1px solid rgba(26, 24, 20, 0.13);
+  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.07);
+  padding: clamp(1.6rem, 3vw, 2.5rem);
+}
+
+.s3-design-tension-card .s3-label {
+  margin-bottom: 1.6rem;
+}
+
+.s3-design-tension-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.s3-design-tension-box {
+  border-radius: 24px;
+  background-color: rgba(253, 250, 245, 0.96);
+  border: 1px solid rgba(26, 24, 20, 0.12);
+  padding: 1.6rem;
+  text-align: center;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 240ms ease;
+}
+
+.s3-design-tension-box:hover {
+  background-color: rgba(246, 231, 161, 0.5);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 55px rgba(26, 24, 20, 0.1);
+}
+
+.s3-design-tension-box p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.35rem, 1.9vw, 2rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  margin: 0 0 0.8rem;
+}
+
+.s3-design-tension-box span {
+  font-family: var(--font-sans);
+  font-size: clamp(0.95rem, 1.08vw, 1.08rem);
+  line-height: 1.65;
+  color: rgba(26, 24, 20, 0.66);
+}
+
+.s3-design-tension-vs {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.6rem;
+  color: rgba(26, 24, 20, 0.34);
+}
+
+.s3-design-tension-card h3 {
+  width: min(720px, 100%);
+  margin: 1.8rem auto 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.35rem, 2vw, 2.15rem);
+  line-height: 1.18;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  text-align: center;
+  font-weight: 400;
+}
+
+@media (max-width: 900px) {
+  .s3-design-tension-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .s3-design-tension-vs {
+    text-align: center;
+  }
+}
+
+        /* ── Image placeholder ── */
+        .s3-image-placeholder {
+          width: 100%;
+          aspect-ratio: 16 / 6;
+          border-radius: 28px;
+          border: 1.5px dashed rgba(26,24,20,0.2);
+          background-color: rgba(253,250,245,0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
-        .reflection-card p {
+        .s3-image-placeholder-tall {
+          aspect-ratio: 16 / 7;
+        }
+
+        .s3-placeholder-label {
+          font-family: var(--font-mono);
+          font-size: 0.68rem;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: rgba(26,24,20,0.35);
+        }
+
+        /* ── Personas ── */
+        .s3-personas-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: var(--card-gap);
+        }
+
+        .s3-persona-card {
+          border-radius: 28px;
+          background-color: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.13);
+          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+          overflow: hidden;
+          transition: transform 0.3s ease;
+        }
+
+        .s3-persona-card:hover {
+          transform: translateY(-4px);
+        }
+
+        .s3-persona-header {
+          display: flex;
+          gap: 1.25rem;
+          padding: 1.75rem;
+          background: linear-gradient(135deg, rgba(246,231,161,0.4), rgba(253,250,245,0.4));
+          border-bottom: 1px solid rgba(26,24,20,0.08);
+          align-items: center;
+        }
+
+        .s3-persona-photo {
+  width: 86px;
+  height: 86px;
+  flex-shrink: 0;
+  border-radius: 18px;
+  background: rgba(253,250,245,0.96);
+  border: 1px solid rgba(26,24,20,0.12);
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(26,24,20,0.08);
+}
+
+.s3-persona-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+        .s3-persona-header h3 {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(1.5rem, 2vw, 2.2rem);
+          line-height: 0.95;
+          letter-spacing: -0.04em;
+          margin: 0.35rem 0 0.3rem;
+        }
+
+        .s3-persona-meta {
           font-family: var(--font-sans);
-          font-size: 0.95rem;
-          line-height: 1.65;
-          color: rgba(26, 24, 20, 0.66);
+          font-size: 0.82rem;
+          color: rgba(26,24,20,0.55);
+        }
+
+        .s3-persona-body {
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+        }
+
+        .s3-persona-quote {
+          padding: 1rem 1.2rem;
+          border-left: 2.5px solid rgba(246,231,161,0.9);
+          background: rgba(246,231,161,0.15);
+          border-radius: 0 12px 12px 0;
+        }
+
+        .s3-persona-quote p {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: 1rem;
+          line-height: 1.6;
+          color: var(--color-ink);
           margin: 0;
         }
 
-        .case-footer {
+        .s3-persona-cols {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+
+        .s3-persona-cols ul {
+          font-family: var(--font-sans);
+          font-size: 0.88rem;
+          line-height: 1.6;
+          color: rgba(26,24,20,0.65);
+          padding-left: 1.1rem;
+          margin: 0.5rem 0 0;
+        }
+
+        .s3-persona-cols li {
+          margin-bottom: 0.3rem;
+        }
+
+        .s3-persona-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.4rem;
+        }
+
+        .s3-persona-tags span {
+          font-family: var(--font-mono);
+          font-size: 0.6rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          padding: 0.3rem 0.7rem;
+          background: rgba(253,250,245,0.8);
+          border: 1px solid rgba(26,24,20,0.14);
+          border-radius: 999px;
+          color: rgba(26,24,20,0.65);
+        }
+
+        /* ── DT Funnel ── */
+        .s3-dt-funnel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(720px, 100%);
+  margin: clamp(3rem, 5vw, 5rem) auto 0;
+  gap: 0;
+}
+
+        .s3-dt-step {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+        }
+
+        .s3-dt-node {
+          width: 2.8rem;
+          height: 2.8rem;
+          border-radius: 50%;
+          background-color: rgba(246,231,161,0.8);
+          border: 1px solid rgba(26,24,20,0.14);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          z-index: 1;
+        }
+
+        .s3-dt-num {
+          font-family: var(--font-mono);
+          font-size: 0.68rem;
+          letter-spacing: 0.1em;
+          color: rgba(26,24,20,0.7);
+        }
+
+        .s3-dt-content {
+          background-color: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.12);
+          border-radius: 20px;
+          padding: 1rem 1.4rem;
+          margin: 0.5rem 0 0;
+          text-align: center;
+          width: 100%;
+          max-width: 520px;
+          box-shadow: 0 8px 24px rgba(26,24,20,0.05);
+          transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .s3-dt-content:hover {
+          transform: scale(1.02);
+          background-color: rgba(246,231,161,0.4);
+        }
+
+        .s3-dt-content h4 {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(1.1rem, 1.4vw, 1.5rem);
+          letter-spacing: -0.03em;
+          margin: 0 0 0.3rem;
+          color: var(--color-ink);
+        }
+
+        .s3-dt-content p {
+          font-family: var(--font-sans);
+          font-size: 0.84rem;
+          color: rgba(26,24,20,0.58);
+          margin: 0;
+        }
+
+        .s3-dt-line {
+          width: 1px;
+          height: 1.4rem;
+          background: linear-gradient(to bottom, rgba(26,24,20,0.2), rgba(26,24,20,0.06));
+          margin: 0.4rem 0;
+        }
+
+        /* ── Ideation tabs ── */
+        .s3-tabs-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+
+        .s3-tab-row {
+          display: flex;
+          gap: 0.6rem;
+          flex-wrap: wrap;
+        }
+
+        .s3-tab-btn {
+          font-family: var(--font-mono);
+          font-size: 0.75rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(26,24,20,0.65);
+          background: rgba(253,250,245,0.86);
+          border: 1px solid rgba(26,24,20,0.14);
+          border-radius: 999px;
+          padding: 0.8rem 1.4rem;
+          cursor: pointer;
+          transition: all 200ms ease;
+        }
+
+        .s3-tab-active {
+          background: rgba(246,231,161,0.9);
+          color: var(--color-ink);
+          border-color: rgba(26,24,20,0.2);
+        }
+
+        .s3-scamper-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: var(--card-gap);
+        }
+
+        .s3-scamper-card {
+          border-radius: 22px;
+          background-color: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.13);
+          box-shadow: 0 16px 40px rgba(26,24,20,0.07);
+          padding: 1.5rem;
+          position: relative;
+          overflow: hidden;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          min-height: 220px;
+        }
+
+        .s3-scamper-card:hover {
+          transform: translateY(-6px) scale(1.02);
+          box-shadow: 0 22px 60px rgba(26,24,20,0.12);
+        }
+
+        .s3-scamper-letter {
+          position: absolute;
+          top: 0.5rem;
+          right: 1rem;
+          font-family: var(--font-serif);
+          font-size: 3.5rem;
+          font-weight: 600;
+          color: rgba(246,231,161,0.7);
+          line-height: 1;
+        }
+
+        .s3-scamper-card h3 {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(1.05rem, 1.3vw, 1.45rem);
+          line-height: 1.0;
+          letter-spacing: -0.03em;
+          margin: 0.5rem 0 0.6rem;
+          color: var(--color-ink);
+        }
+
+        .s3-card-body {
+          font-family: var(--font-sans);
+          font-size: 0.88rem;
+          line-height: 1.6;
+          color: rgba(26,24,20,0.62);
+          margin: 0;
+        }
+
+        .s3-hmw-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: var(--card-gap);
+        }
+
+        .s3-hmw-card {
+          border-radius: 22px;
+          background-color: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.12);
+          box-shadow: 0 16px 40px rgba(26,24,20,0.07);
+          padding: 1.6rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+          transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .s3-hmw-card:hover {
+          border-color: rgba(26,24,20,0.22);
+          transform: translateY(-4px);
+        }
+
+        .s3-hmw-q {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+          line-height: 1.55;
+          color: var(--color-ink);
+          margin: 0;
+        }
+
+        .s3-hmw-arrow {
+          font-family: var(--font-mono);
+          font-size: 0.75rem;
+          color: rgba(26,24,20,0.35);
+        }
+
+        .s3-hmw-a {
+          font-family: var(--font-sans);
+          font-size: 0.88rem;
+          line-height: 1.6;
+          color: rgba(26,24,20,0.62);
+          margin: 0;
+        }
+
+        /* ── Pillars ── */
+        .s3-pillars-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: var(--card-gap);
+        }
+
+        .s3-pillar-card {
+          border-radius: 28px;
+          background-color: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.13);
+          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+          padding: 2rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+          transition: transform 0.3s ease, background 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .s3-pillar-card::after {
+          content: '';
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          height: 2px;
+          background: linear-gradient(to right, rgba(246,231,161,0.9), rgba(26,24,20,0.12));
+        }
+
+        .s3-pillar-card:hover {
+          transform: translateY(-6px);
+          background-color: rgba(246,231,161,0.3);
+        }
+
+        .s3-pillar-icon {
+          font-size: 1.8rem;
+          display: block;
+          line-height: 1;
+        }
+
+        .s3-pillar-card h3 {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(1.2rem, 1.6vw, 1.8rem);
+          line-height: 1.0;
+          letter-spacing: -0.03em;
+          margin: 0;
+          color: var(--color-ink);
+        }
+
+        .s3-pillar-card p {
+          font-family: var(--font-sans);
+          font-size: 0.9rem;
+          line-height: 1.65;
+          color: rgba(26,24,20,0.64);
+          margin: 0;
+        }
+
+        /* ── Chat preview ── */
+        .s3-chat-preview {
+          width: min(680px, 100%);
+          margin: 0 auto;
+          border-radius: 22px;
+          border: 1px solid rgba(26,24,20,0.13);
+          overflow: hidden;
+          box-shadow: 0 24px 70px rgba(26,24,20,0.1);
+        }
+
+        .s3-chat-header {
+          padding: 1rem 1.4rem;
+          background: rgba(246,231,161,0.7);
+          border-bottom: 1px solid rgba(26,24,20,0.1);
+          display: flex;
+          align-items: center;
+          gap: 0.65rem;
+        }
+
+        .s3-chat-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, rgba(26,24,20,0.7), rgba(246,231,161,0.9));
+          animation: s3-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes s3-pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(0.85); }
+        }
+
+        .s3-chat-header span {
+          font-family: var(--font-mono);
+          font-size: 0.65rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: rgba(26,24,20,0.6);
+        }
+
+        .s3-chat-body {
+          padding: 1.8rem;
+          background: rgba(253,250,245,0.96);
+          display: flex;
+          flex-direction: column;
+          gap: 1.1rem;
+        }
+
+        .s3-chat-msg {
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
+        }
+
+        .s3-chat-user {
+          align-items: flex-end;
+        }
+
+        .s3-chat-sage {
+          align-items: flex-start;
+        }
+
+        .s3-bubble {
+          max-width: 78%;
+          padding: 0.9rem 1.1rem;
+          border-radius: 18px;
+          font-family: var(--font-sans);
+          font-size: 0.9rem;
+          line-height: 1.6;
+        }
+
+        .s3-bubble-user {
+          background: rgba(246,231,161,0.6);
+          border: 1px solid rgba(26,24,20,0.12);
+          border-radius: 18px 18px 4px 18px;
+          color: rgba(26,24,20,0.8);
+        }
+
+        .s3-bubble-sage {
+          background: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.12);
+          border-radius: 18px 18px 18px 4px;
+          color: rgba(26,24,20,0.76);
+        }
+
+        .s3-bubble-sage em {
+          font-style: normal;
+          font-weight: 500;
+          color: var(--color-ink);
+        }
+
+        .s3-chat-who {
+          font-family: var(--font-mono);
+          font-size: 0.56rem;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: rgba(26,24,20,0.4);
+          padding: 0 0.2rem;
+        }
+
+        .s3-chat-note {
+          font-family: var(--font-mono);
+          font-size: 0.58rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: rgba(26,24,20,0.35);
+          text-align: center;
+          padding: 0.75rem 1rem;
+          background: rgba(253,250,245,0.6);
+          border-top: 1px solid rgba(26,24,20,0.07);
+          margin: 0;
+        }
+
+        /* ── Reflection ── */
+        .s3-reflection-section {
+          border-top: 1px solid rgba(26,24,20,0.08);
+        }
+
+        .s3-reflection-headline {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(1.65rem, 2.4vw, 2.9rem);
+          line-height: 1.02;
+          letter-spacing: -0.04em;
+          color: var(--color-ink);
+          margin: 0 0 var(--content-gap);
+          width: min(760px, 100%);
+        }
+
+        .s3-reflection-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: var(--card-gap);
+        }
+
+        .s3-reflection-card {
+          border-radius: 28px;
+          background-color: rgba(253,250,245,0.96);
+          border: 1px solid rgba(26,24,20,0.13);
+          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+          padding: 1.35rem;
+          transition: all 240ms ease;
+        }
+
+        .s3-reflection-card:hover {
+          background-color: rgba(246,231,161,0.5);
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: 0 28px 65px rgba(26,24,20,0.12);
+        }
+
+        .s3-reflection-card h3 {
+          font-family: var(--font-serif);
+          font-style: italic;
+          font-size: clamp(1.3rem, 1.8vw, 2rem);
+          line-height: 0.95;
+          letter-spacing: -0.04em;
+          margin: 0 0 0.75rem;
+        }
+
+        .s3-reflection-card p {
+          font-family: var(--font-sans);
+          font-size: 0.9rem;
+          line-height: 1.65;
+          color: rgba(26,24,20,0.64);
+          margin: 0;
+        }
+
+        /* ── Footer ── */
+        .s3-footer {
+          width: min(1180px, calc(100vw - 3rem));
+          margin: 0 auto;
           padding: 4rem 0 6rem;
           display: flex;
           justify-content: center;
         }
 
+        .s3-footer a {
+          font-family: var(--font-mono);
+          font-size: 0.8rem;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--color-ink);
+          border: 1px solid rgba(26,24,20,0.16);
+          padding: 0.65rem 1rem;
+          background: rgba(253,250,245,0.66);
+          text-decoration: none;
+          border-radius: 999px;
+        }
+
+        /* ── Responsive ── */
         @media (max-width: 900px) {
-          .debug-alignment-grid {
+          .s3-hero {
+            grid-template-columns: 1fr;
+            min-height: 80vh;
+          }
+
+          .s3-hero-deco {
             display: none;
           }
 
-          .quote-card:nth-child(3) {
-            width: 100%;
+          .s3-snapshot-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
 
-     .context-layout,
-.overview-header,
-.secondary-header,
-.primary-header,
-.heard-header,
-.split-case-header {
-  grid-template-columns: 1fr;
-}     
-
-          .context-heading,
-.context-body,
-.context-stats-row,
-.overview-headline,
-.overview-body,
-.secondary-headline,
-.secondary-body,
-.primary-headline,
-.primary-body,
-.heard-headline,
-.heard-body,
-.split-case-headline,
-.split-case-body {
-  grid-column: auto;
-}
-
-          .context-body {
-            padding-top: 0;
-          }
-
-          .context-stats-row {
-            width: 100%;
-            grid-template-columns: 1fr;
-            margin-top: 2.5rem;
-          }
-
-          .overview-body {
-            padding-top: 0;
-          }
-
-          .secondary-body {
-  padding-top: 0;
-}
-          .primary-body {
-  padding-top: 0;
-}
-
-          .heard-body {
-  padding-top: 0;
-}
-
-          .split-case-body {
-            padding-top: 0;
-          }
-
-          .hero-layout {
-            grid-template-columns: 1fr;
-            gap: 2rem;
-          }
-
-          .hero-strawberry {
-  max-width: 180px;
-  justify-self: start;
-}
-
-          .case-nav {
-            height: 60px;
-          }
-
-          .case-hero {
-            min-height: 84vh;
-          }
-
-          .case-section {
-            padding: 5rem 0;
-          }
-
-          .case-section > * + * {
-            margin-top: 2.5rem;
-          }
-
-          .snapshot-grid,
-          .stats-grid.three,
-          .stats-grid.four,
-          .timeline,
-          .insight-grid,
-          .reflection-grid,
-          .problem-layout {
+          .s3-stat-grid {
             grid-template-columns: 1fr;
           }
 
-          .research-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.quote-grid {
-  width: min(980px, 100%);
-  margin-left: auto;
-  margin-right: auto;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-          .large-image-card {
-            aspect-ratio: 4 / 3;
+          .s3-split-header {
+            grid-template-columns: 1fr;
           }
 
-          .funnel {
-  width: 100%;
-}
-
-.funnel-content {
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.funnel-step.final .funnel-content {
-  border-radius: 24px;
-}
-          .flow-items {
-            flex-direction: column;
-            align-items: flex-start;
+          .s3-split-headline,
+          .s3-split-body {
+            grid-column: auto;
           }
 
-          .flow-step-wrap {
-            flex-direction: column;
-            align-items: flex-start;
+          .s3-split-body {
+            padding-top: 0;
           }
 
-          .flow-arrow {
-            transform: rotate(90deg);
+          .s3-tension {
+            grid-template-columns: 1fr;
+          }
+
+          .s3-tension-center {
+            flex-direction: row;
+            justify-content: center;
+          }
+
+          .s3-insights-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .s3-personas-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .s3-scamper-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .s3-hmw-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .s3-pillars-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .s3-reflection-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .s3-snapshot-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .s3-insights-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .s3-scamper-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .s3-persona-cols {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
