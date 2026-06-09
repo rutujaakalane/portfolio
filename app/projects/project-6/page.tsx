@@ -102,16 +102,6 @@ export default function ProjectSixPage() {
   </p>
 </div>
 
-        {/* Hero render — living room (primary) */}
-        <div className="p6-hero-render">
-          <div className="p6-hero-img-wrap">
-            <img
-              src="/render_final.jpeg"
-              alt="Isometric living room 3D render — first Maya model"
-            />
-          </div>
-          <p className="p6-img-caption">Model 01 — Isometric Living Room · Arnold render · Autodesk Maya</p>
-        </div>
       </header>
 
       {/* ── SNAPSHOT ─────────────────────────────────────── */}
@@ -168,30 +158,26 @@ export default function ProjectSixPage() {
         </div>
 
         {/* Gallery */}
-        <div className="p6-gallery-grid">
-          <div className="p6-gallery-main">
-            <div className="p6-render-card">
-              <img src="/render_final.jpeg" alt="Isometric living room — full view" />
-              <p className="p6-img-caption">Full isometric view · Arnold render</p>
-            </div>
-          </div>
+        <div className="p6-gallery-stack">
+  <div className="p6-render-card p6-gallery-wide">
+    <img src="/h render 1.jpg" alt="Isometric living room — hero full view" />
+    <p className="p6-img-caption">Full room view · Arnold render</p>
+  </div>
 
-          <div className="p6-gallery-side">
-            {/* Placeholder 1 */}
-            <div className="p6-render-card p6-placeholder">
-              <div className="p6-placeholder-inner">
-                <span className="p6-placeholder-icon">📷</span>
-                <p className="p6-placeholder-label">Render: Close-up of sofa + coffee table</p>
-                <span className="p6-placeholder-hint">Drop in screenshot from Maya/render</span>
-              </div>
+  <div className="p6-render-card p6-gallery-wide">
+    <img src="/h render 5.jpg" alt="Isometric living room — full view" />
+    <p className="p6-img-caption">Interior overview · Arnold render</p>
+  </div>
+
+  <div className="p6-gallery-bottom-row">
+            <div className="p6-render-card">
+              <img src="/h render 4.jpg" alt="Close-up of sofa and coffee table" />
+              <p className="p6-img-caption">Close-up · Sofa and coffee table</p>
             </div>
-            {/* Placeholder 2 */}
-            <div className="p6-render-card p6-placeholder">
-              <div className="p6-placeholder-inner">
-                <span className="p6-placeholder-icon">📷</span>
-                <p className="p6-placeholder-label">Render: TV unit + wall details</p>
-                <span className="p6-placeholder-hint">Drop in screenshot from Maya/render</span>
-              </div>
+
+            <div className="p6-render-card">
+              <img src="/h render 3.jpg" alt="TV unit and wall details close-up" />
+              <p className="p6-img-caption">Close-up · TV unit and wall details</p>
             </div>
           </div>
         </div>
@@ -218,64 +204,64 @@ export default function ProjectSixPage() {
       </div>
 
       {/* ── MODEL 02 ─────────────────────────────────────── */}
-      <section className="p6-section p6-section-no-top-border">
-        <div className="p6-model-header">
-          <div className="p6-model-tag">
-            <span className="p6-mono-tag">MODEL 02</span>
-          </div>
-          <div className="p6-split">
-            <div className="p6-split-headline">
-              <p className="p6-label">SCI-FI SPACESHIP</p>
-              <h2>More ambitious. Harder edges. Glowing engines.</h2>
-            </div>
-            <div className="p6-split-body">
-              <p>
-                For my second model I wanted a completely different challenge — hard surface geometry, an angular silhouette, and emissive materials. The spaceship pushed me to think about mechanical forms, panel detailing, and how light sources built into the model itself can drive the entire mood of a render.
-              </p>
-            </div>
-          </div>
-        </div>
+<section className="p6-section p6-section-no-top-border">
+  <div className="p6-model-header">
+    <div className="p6-model-tag">
+      <span className="p6-mono-tag">MODEL 02</span>
+    </div>
 
-        {/* Gallery */}
-        <div className="p6-gallery-grid p6-gallery-reverse">
-          <div className="p6-gallery-side">
-            {/* Placeholder 1 */}
-            <div className="p6-render-card p6-placeholder">
-              <div className="p6-placeholder-inner">
-                <span className="p6-placeholder-icon">📷</span>
-                <p className="p6-placeholder-label">Render: Front-facing view of cockpit</p>
-                <span className="p6-placeholder-hint">Drop in screenshot from Maya/render</span>
-              </div>
-            </div>
-            {/* Placeholder 2 */}
-            <div className="p6-render-card p6-placeholder">
-              <div className="p6-placeholder-inner">
-                <span className="p6-placeholder-icon">📷</span>
-                <p className="p6-placeholder-label">Render: Engine/rear view close-up</p>
-                <span className="p6-placeholder-hint">Drop in screenshot from Maya/render</span>
-              </div>
-            </div>
-          </div>
+    <div className="p6-split">
+      <div className="p6-split-headline">
+        <p className="p6-label">SCI-FI SPACESHIP</p>
+        <h2>More ambitious. Harder edges. Glowing engines.</h2>
+      </div>
 
-          <div className="p6-gallery-main">
-            <div className="p6-render-card">
-              <img src="/Render.jpeg" alt="Sci-fi spaceship — full 3/4 view" />
-              <p className="p6-img-caption">3/4 perspective view · Arnold render</p>
-            </div>
-          </div>
-        </div>
+      <div className="p6-split-body">
+        <p>
+          For my second model I wanted a completely different challenge — hard
+          surface geometry, an angular silhouette, and emissive materials. The
+          spaceship pushed me to think about mechanical forms, panel detailing,
+          and how light sources built into the model itself can drive the entire
+          mood of a render.
+        </p>
+      </div>
+    </div>
+  </div>
 
-        {/* Detail cards */}
-        <div className="p6-detail-grid">
-          {model2Details.map((card) => (
-            <div className="p6-detail-card" key={card.label}>
-              <p className="p6-label">{card.label}</p>
-              <h3>{card.title}</h3>
-              <p className="p6-detail-desc">{card.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+{/* Gallery */}
+<div className="p6-gallery-stack">
+  <div className="p6-render-card p6-gallery-wide">
+    <img src="/render 2.jpg" alt="Sci-fi spaceship full render" />
+    <p className="p6-img-caption">Full spaceship view · Arnold render</p>
+  </div>
+
+  <div className="p6-render-card p6-gallery-wide">
+    <img src="/render 1.jpg" alt="Sci-fi spaceship alternate render" />
+    <p className="p6-img-caption">Alternate spaceship angle · Arnold render</p>
+  </div>
+
+  <div className="p6-render-card p6-gallery-wide">
+  <img src="/render 6.jpg" alt="Spaceship cockpit and front detail" />
+  <p className="p6-img-caption">Close-up · Cockpit and front detail</p>
+</div>
+
+<div className="p6-render-card p6-gallery-wide">
+  <img src="/render 5.jpg" alt="Spaceship engine and rear detail" />
+  <p className="p6-img-caption">Close-up · Engine and rear detail</p>
+</div>
+</div>
+
+  {/* Detail cards */}
+  <div className="p6-detail-grid">
+    {model2Details.map((card) => (
+      <div className="p6-detail-card" key={card.label}>
+        <p className="p6-label">{card.label}</p>
+        <h3>{card.title}</h3>
+        <p className="p6-detail-desc">{card.desc}</p>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* ── SIDE BY SIDE ─────────────────────────────────── */}
       <section className="p6-section">
@@ -477,20 +463,25 @@ export default function ProjectSixPage() {
         }
 
         .p6-hero-img-wrap {
-          width: 100%;
-          aspect-ratio: 16 / 8;
-          border-radius: 28px;
-          overflow: hidden;
-          border: 1px solid rgba(26,24,20,0.13);
-          box-shadow: 0 32px 80px rgba(26,24,20,0.12);
-        }
+  width: 100%;
+  border-radius: 28px;
+  overflow: visible;
+  border: none;
+  box-shadow: none;
+}
 
-        .p6-hero-img-wrap img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
+.p6-hero-img-transparent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.p6-hero-img-wrap img {
+  width: min(100%, 1180px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
 
         /* ── Sections ── */
         .p6-section {
@@ -625,6 +616,32 @@ export default function ProjectSixPage() {
           display: flex;
           flex-direction: column;
           gap: var(--card-gap);
+        }
+
+        .p6-gallery-stack {
+          display: flex;
+          flex-direction: column;
+          gap: var(--card-gap);
+        }
+
+        .p6-gallery-wide {
+          width: 100%;
+        }
+
+        .p6-gallery-bottom-row {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: var(--card-gap);
+        }
+
+        .p6-gallery-stack .p6-gallery-wide img {
+          aspect-ratio: 16 / 9;
+          object-fit: cover;
+        }
+
+        .p6-gallery-bottom-row .p6-render-card img {
+          aspect-ratio: 16 / 9;
+          object-fit: cover;
         }
 
         .p6-render-card {
