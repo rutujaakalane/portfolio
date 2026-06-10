@@ -1110,11 +1110,12 @@ function Projects() {
       />
 
       {/* Project cards */}
-      {[
+{[
   {
-    title: "Project 1",
+    title: "Emergency SOS System",
     label: "Project 1",
     image: null,
+    href: null,
     x: "-50%",
     top: "50%",
     y: projectCard1Y,
@@ -1123,9 +1124,10 @@ function Projects() {
     scale: projectCard1Scale,
   },
   {
-    title: "The Psychology of Netflix",
+    title: "IA & Sitemap Design",
     label: "Project 2",
-    image: "/project-2-cover.jpg",
+    image: null,
+    href: null,
     x: "-82%",
     top: "52%",
     y: projectCard2Y,
@@ -1134,9 +1136,10 @@ function Projects() {
     scale: projectCard2Scale,
   },
   {
-    title: "Project 3",
+    title: "The Psychology of Netflix",
     label: "Project 3",
-    image: null,
+    image: "/project-2-cover.jpg",
+    href: "/projects/project-3",
     x: "-18%",
     top: "50%",
     y: projectCard3Y,
@@ -1145,9 +1148,10 @@ function Projects() {
     scale: projectCard3Scale,
   },
   {
-    title: "Mahabaleshwar Strawberries",
+    title: "SAGE Mental Health AI",
     label: "Project 4",
-    image: "/project-4-cover.jpeg",
+    image: "/sage cover.png",
+    href: "/projects/project-4",
     x: "-64%",
     top: "54%",
     y: projectCard4Y,
@@ -1156,9 +1160,10 @@ function Projects() {
     scale: projectCard4Scale,
   },
   {
-    title: "Project 5",
+    title: "3D Design in Maya",
     label: "Project 5",
-    image: null,
+    image: "/render 6.jpg",
+    href: "/projects/project-5",
     x: "-32%",
     top: "51%",
     y: projectCard5Y,
@@ -1167,9 +1172,10 @@ function Projects() {
     scale: projectCard5Scale,
   },
   {
-    title: "Project 6",
+    title: "Mahabaleshwar Strawberries",
     label: "Project 6",
-    image: null,
+    image: "/mahabaleshwar-cover.jpeg",
+    href: "/projects/project-6",
     x: "-50%",
     top: "53%",
     y: projectCard6Y,
@@ -1178,15 +1184,7 @@ function Projects() {
     scale: projectCard6Scale,
   },
 ].map((card) => {
-  const isProjectTwo = card.label === "Project 2";
-  const isProjectFour = card.label === "Project 4";
-  const isClickable = isProjectTwo || isProjectFour;
-
-  const href = isProjectTwo
-    ? "/projects/project-2"
-    : isProjectFour
-    ? "/projects/project-4"
-    : "#";
+  const isClickable = Boolean(card.href);
 
   const cardContent = (
     <motion.div
@@ -1266,7 +1264,7 @@ function Projects() {
           style={{
             fontFamily: "var(--font-serif)",
             fontStyle: "italic",
-            fontSize: "clamp(1.55rem, 2.35vw, 2.45rem)",
+            fontSize: "clamp(1.45rem, 2.25vw, 2.35rem)",
             lineHeight: 0.95,
             letterSpacing: "-0.04em",
             color: "var(--color-ink)",
@@ -1293,11 +1291,11 @@ function Projects() {
     </motion.div>
   );
 
-  if (isClickable) {
+  if (isClickable && card.href) {
     return (
       <Link
         key={card.label}
-        href={href}
+        href={card.href}
         style={{
           textDecoration: "none",
           color: "inherit",
