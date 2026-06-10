@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -39,7 +39,7 @@ const navSections = [
     items: [
       "Daily date selector at top → switch between days",
       "Tap meal slot → opens Nutrition Log",
-      '"+\" button → Barcode Scanner or manual entry',
+      "Add button → Barcode Scanner or manual entry",
       "Hydration widget → tap to log water intake",
     ],
   },
@@ -78,7 +78,7 @@ const mainSections = [
   {
     label: "Onboarding",
     children: ["Splash Screen", "Register", "Login", "Onboarding Slides"],
-    color: "rgba(246,231,161,0.72)",
+    color: "rgba(253,250,245,0.96)",
   },
   {
     label: "Dashboard",
@@ -98,7 +98,7 @@ const mainSections = [
   {
     label: "Challenges",
     children: ["Nest Challenges", "Awards & Badges", "Streaks Tracker"],
-    color: "rgba(246,231,161,0.5)",
+    color: "rgba(253,250,245,0.96)",
   },
   {
     label: "Community",
@@ -152,65 +152,6 @@ const reflectionCards = [
 
 // ── Zoomable IA Viewer ────────────────────────────────────────
 
-function IAMapViewer() {
-  const [scale, setScale] = useState(1);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const zoomIn = () => setScale((s) => Math.min(s + 0.25, 3));
-  const zoomOut = () => setScale((s) => Math.max(s - 0.25, 0.5));
-  const reset = () => setScale(1);
-
-  return (
-    <div className="ia-viewer-wrap">
-      {/* Header bar */}
-      <div className="ia-viewer-bar">
-        <div className="ia-viewer-bar-left">
-          <span className="ia-viewer-dot" style={{ background: "rgba(26,24,20,0.18)" }} />
-          <span className="ia-viewer-dot" style={{ background: "rgba(246,231,161,0.8)" }} />
-          <span className="ia-viewer-dot" style={{ background: "rgba(26,24,20,0.32)" }} />
-          <span className="ia-viewer-title">Information Architecture Map</span>
-        </div>
-        <div className="ia-viewer-bar-right">
-          <span className="ia-viewer-hint">Zoom to inspect</span>
-          <div className="ia-zoom-controls">
-            <button className="ia-zoom-btn" onClick={zoomOut} aria-label="Zoom out">−</button>
-            <span className="ia-zoom-value">{Math.round(scale * 100)}%</span>
-            <button className="ia-zoom-btn" onClick={zoomIn} aria-label="Zoom in">+</button>
-            <button className="ia-zoom-reset" onClick={reset} aria-label="Reset zoom">Reset</button>
-          </div>
-        </div>
-      </div>
-
-      {/* Scrollable image container */}
-      <div className="ia-viewer-frame" ref={containerRef}>
-        <div
-          className="ia-viewer-inner"
-          style={{
-            transform: `scale(${scale})`,
-            transformOrigin: "top left",
-            width: `${100 / scale}%`,
-          }}
-        >
-          <img
-            src="/IA___Site_map_2.png"
-            alt="FitNest full information architecture map"
-            className="ia-viewer-img"
-          />
-        </div>
-      </div>
-
-      {/* Footer caption */}
-      <div className="ia-viewer-footer">
-        <span>FigJam board export</span>
-        <span>·</span>
-        <span>8 sections · 100+ nodes · full content inventory</span>
-      </div>
-    </div>
-  );
-}
-
-// ── Page ──────────────────────────────────────────────────────
-
 function SitemapMagnifier() {
   const [showLens, setShowLens] = useState(false);
   const [lensPos, setLensPos] = useState({ x: 0, y: 0 });
@@ -218,6 +159,7 @@ function SitemapMagnifier() {
 
   const zoom = 3;
   const lensSize = 220;
+  const sitemapImage = "/IA___Site_map.png";
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -236,7 +178,7 @@ function SitemapMagnifier() {
       onMouseLeave={() => setShowLens(false)}
     >
       <img
-        src="/IA___Site_map.png"
+        src={sitemapImage}
         alt="FitNest simplified sitemap"
         className="p5-sitemap-img"
       />
@@ -252,7 +194,7 @@ function SitemapMagnifier() {
           }}
         >
           <img
-            src="/IA___Site_map.png"
+            src={sitemapImage}
             alt=""
             style={{
               width: `${imgSize.width * zoom}px`,
@@ -268,6 +210,95 @@ function SitemapMagnifier() {
   );
 }
 
+function IAMagnifier() {
+  const [showLens, setShowLens] = useState(false);
+  const [lensPos, setLensPos] = useState({ x: 0, y: 0 });
+  const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
+
+  const zoom = 3;
+  const lensSize = 220;
+  const iaImage = "/fitnest-ia-small.png";;
+
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    setLensPos({ x, y });
+    setImgSize({ width: rect.width, height: rect.height });
+  };
+
+  return (
+    <div
+      className="p5-ia-magnifier"
+      onMouseMove={handleMove}
+      onMouseEnter={() => setShowLens(true)}
+      onMouseLeave={() => setShowLens(false)}
+    >
+      <img
+        src={iaImage}
+        alt="FitNest full information architecture map"
+        className="ia-viewer-img"
+      />
+
+      {showLens && (
+        <div
+          className="p5-ia-lens"
+          style={{
+            width: `${lensSize}px`,
+            height: `${lensSize}px`,
+            left: `${lensPos.x - lensSize / 2}px`,
+            top: `${lensPos.y - lensSize / 2}px`,
+          }}
+        >
+          <img
+            src={iaImage}
+            alt=""
+            style={{
+              width: `${imgSize.width * zoom}px`,
+              height: `${imgSize.height * zoom}px`,
+              transform: `translate(${
+                -(lensPos.x * zoom - lensSize / 2)
+              }px, ${-(lensPos.y * zoom - lensSize / 2)}px)`,
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function IAMapViewer() {
+  return (
+    <div className="ia-viewer-wrap">
+      <div className="ia-viewer-bar">
+        <div className="ia-viewer-bar-left">
+          <span className="ia-viewer-dot" style={{ background: "rgba(26,24,20,0.18)" }} />
+          <span className="ia-viewer-dot" style={{ background: "rgba(246,231,161,0.8)" }} />
+          <span className="ia-viewer-dot" style={{ background: "rgba(26,24,20,0.32)" }} />
+          <span className="ia-viewer-title">Information Architecture Map</span>
+        </div>
+
+        <div className="ia-viewer-bar-right">
+          <span className="ia-viewer-hint">Hover to inspect</span>
+        </div>
+      </div>
+
+      <div className="ia-viewer-frame">
+        <IAMagnifier />
+      </div>
+
+      <div className="ia-viewer-footer">
+        <span>FigJam board export</span>
+        <span>·</span>
+        <span>8 sections · 100+ nodes · full content inventory</span>
+      </div>
+    </div>
+  );
+}
+
+// ── Page ──────────────────────────────────────────────────────
+
 export default function ProjectFivePage() {
   return (
     <main className="p5-page">
@@ -275,7 +306,7 @@ export default function ProjectFivePage() {
       {/* Nav */}
       <nav className="p5-nav">
         <Link href="/" className="p5-nav-name">Rutuja Kalane</Link>
-        <Link href="/?project=5#projects" className="p5-back-link">Back to projects ↗</Link>
+        <Link href="/?project=2#projects" className="p5-back-link">Back to projects ↗</Link>
       </nav>
 
       {/* ── HERO ─────────────────────────────────────────── */}
@@ -393,13 +424,11 @@ export default function ProjectFivePage() {
       <section className="p5-section">
         <div className="p5-split">
           <div className="p5-split-headline">
-            <p className="p5-label">INFORMATION ARCHITECTURE</p>
-            <h2>The full map. Every node, every path.</h2>
+            <p className="p5-label"></p>
+            <h2>Information Architecture</h2>
           </div>
           <div className="p5-split-body">
-            <p>
-              The complete IA goes several levels deep — from top-level tabs down to individual form fields and sub-actions. Zoom in to inspect any section of the map.
-            </p>
+        
           </div>
         </div>
 
@@ -408,49 +437,17 @@ export default function ProjectFivePage() {
 
 
 
-      {/* ── CONTENT STRUCTURE ────────────────────────────── */}
-      <section className="p5-section">
-        <div className="p5-split">
-          <div className="p5-split-headline">
-            <p className="p5-label">CONTENT STRUCTURE</p>
-            <h2>How content was grouped across seven sections.</h2>
-          </div>
-          <div className="p5-split-body">
-            <p>
-              Each section in FitNest contains a tightly scoped set of screens. The groupings follow the user's goal — not the feature's technical category.
-            </p>
-          </div>
-        </div>
-
-        <div className="p5-structure-grid">
-          {mainSections.map((section) => (
-            <div
-              className="p5-structure-card"
-              key={section.label}
-              style={{ backgroundColor: section.color }}
-            >
-              <p className="p5-label">SECTION</p>
-              <h3>{section.label}</h3>
-              <div className="p5-structure-children">
-                {section.children.map((child) => (
-                  <span className="p5-child-tag" key={child}>{child}</span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ── NAVIGATION LOGIC ─────────────────────────────── */}
       <section className="p5-section">
         <div className="p5-split">
           <div className="p5-split-headline">
-            <p className="p5-label">NAVIGATION LOGIC</p>
-            <h2>How each tab was designed to behave.</h2>
+            <p className="p5-label"></p>
+            <h2>Navigation Logic</h2>
           </div>
           <div className="p5-split-body">
             <p>
-              The IA is not just a tree — it encodes how users move through each section. Each tab has its own navigation pattern, designed around the goal a user has when they open it.
+              Each tab has its own navigation pattern, designed around the goal a user has when they open it.
             </p>
           </div>
         </div>
@@ -459,12 +456,8 @@ export default function ProjectFivePage() {
           {navSections.map((nav) => (
             <div className="p5-nav-card" key={nav.number}>
               <div className="p5-nav-card-header">
-                <span className="p5-nav-icon">{nav.icon}</span>
-                <div>
-                  <p className="p5-label">{nav.number}</p>
-                  <h3>{nav.tab}</h3>
-                </div>
-              </div>
+  <h3>{nav.tab}</h3>
+</div>
               <ul className="p5-nav-list">
                 {nav.items.map((item, i) => (
                   <li key={i}>{item}</li>
@@ -521,30 +514,7 @@ export default function ProjectFivePage() {
         </div>
       </section>
 
-      {/* ── KEY DESIGN DECISIONS ─────────────────────────── */}
-      <section className="p5-section">
-        <div className="p5-split">
-          <div className="p5-split-headline">
-            <p className="p5-label">KEY DESIGN DECISIONS</p>
-            <h2>Four choices that shaped the whole structure.</h2>
-          </div>
-          <div className="p5-split-body">
-            <p>
-              Every IA is a series of decisions. These four were the most consequential — they define how FitNest feels to navigate.
-            </p>
-          </div>
-        </div>
-
-        <div className="p5-decisions-grid">
-          {designDecisions.map((card) => (
-            <div className="p5-decision-card" key={card.number}>
-              <p className="p5-label">{card.number}</p>
-              <h3>{card.title}</h3>
-              <p className="p5-decision-desc">{card.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      
 
       {/* ── REFLECTION ───────────────────────────────────── */}
       <section className="p5-section p5-reflection-section">
@@ -569,7 +539,7 @@ export default function ProjectFivePage() {
 
       {/* Footer */}
       <footer className="p5-footer">
-        <Link href="/?project=5#projects">Back to projects</Link>
+        <Link href="/?project=2#projects">Back to projects</Link>
       </footer>
 
       {/* ── STYLES ───────────────────────────────────────── */}
@@ -1121,19 +1091,14 @@ export default function ProjectFivePage() {
 
         .ia-viewer-frame {
           width: 100%;
-          height: 520px;
+          max-height: 720px;
           overflow: auto;
           background: rgba(248,246,242,0.98);
-          cursor: grab;
-        }
-
-        .ia-viewer-frame:active {
-          cursor: grabbing;
+          cursor: zoom-in;
         }
 
         .ia-viewer-inner {
-          transition: transform 0.2s ease;
-          display: inline-block;
+          display: block;
         }
 
         .ia-viewer-img {
@@ -1142,6 +1107,39 @@ export default function ProjectFivePage() {
           height: auto;
           width: 100%;
         }
+
+        .p5-ia-magnifier {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.p5-ia-magnifier .ia-viewer-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.p5-ia-lens {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  overflow: hidden;
+  border: 1px solid rgba(26,24,20,0.22);
+  box-shadow: 0 18px 45px rgba(26,24,20,0.22);
+  background-color: rgba(253,250,245,0.98);
+  z-index: 5;
+}
+
+.p5-ia-lens img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+  display: block;
+}
 
         .ia-viewer-footer {
           padding: 0.75rem 1.4rem;
@@ -1165,31 +1163,38 @@ export default function ProjectFivePage() {
         }
 
         .p5-structure-card {
-          border-radius: 28px;
-          border: 1px solid rgba(26,24,20,0.13);
-          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
-          padding: 1.35rem;
-          min-height: 220px;
-          display: flex;
-          flex-direction: column;
-          gap: 0.3rem;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+  border-radius: 28px;
+  border: 1px solid rgba(26,24,20,0.13);
+  box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+  padding: 1.65rem;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        .p5-structure-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 28px 65px rgba(26,24,20,0.11);
-        }
+.p5-structure-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 65px rgba(26,24,20,0.11);
+}
 
-        .p5-structure-card h3 {
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.3rem, 1.7vw, 1.9rem);
-          line-height: 0.95;
-          letter-spacing: -0.04em;
-          margin: 0.5rem 0 0.8rem;
-          color: var(--color-ink);
-        }
+.p5-structure-card h3 {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.6rem, 2vw, 2.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.p5-structure-children {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: auto;
+}
 
         .p5-structure-children {
           display: flex;
@@ -1216,61 +1221,53 @@ export default function ProjectFivePage() {
         }
 
         .p5-nav-card {
-          border-radius: 28px;
-          background-color: rgba(253,250,245,0.96);
-          border: 1px solid rgba(26,24,20,0.13);
-          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
-          padding: 1.5rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+  border-radius: 28px;
+  background-color: rgba(253,250,245,0.96);
+  border: 1px solid rgba(26,24,20,0.13);
+  box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+  padding: 1.8rem;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-        .p5-nav-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 28px 65px rgba(26,24,20,0.11);
-        }
+.p5-nav-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 65px rgba(26,24,20,0.11);
+}
 
-        .p5-nav-card-header {
-          display: flex;
-          align-items: flex-start;
-          gap: 0.75rem;
-        }
+.p5-nav-card-header {
+  display: flex;
+  align-items: flex-start;
+}
 
-        .p5-nav-icon {
-          font-size: 1.3rem;
-          line-height: 1;
-          color: rgba(26,24,20,0.3);
-          margin-top: 0.1rem;
-          flex-shrink: 0;
-        }
+.p5-nav-card-header h3 {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.7rem, 2.2vw, 2.45rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin: 0;
+  color: var(--color-ink);
+}
 
-        .p5-nav-card-header .p5-label {
-          margin-bottom: 0.3rem;
-        }
+.p5-nav-list {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: rgba(26,24,20,0.68);
+  padding-left: 1.1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
 
-        .p5-nav-card-header h3 {
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: clamp(1.1rem, 1.4vw, 1.5rem);
-          line-height: 0.98;
-          letter-spacing: -0.03em;
-          margin: 0;
-          color: var(--color-ink);
-        }
-
-        .p5-nav-list {
-          font-family: var(--font-sans);
-          font-size: 0.86rem;
-          line-height: 1.65;
-          color: rgba(26,24,20,0.62);
-          padding-left: 1.1rem;
-          margin: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.2rem;
-        }
+.p5-nav-list li {
+  padding-left: 0.25rem;
+}
 
         .p5-nav-list li {
           padding-left: 0.2rem;
