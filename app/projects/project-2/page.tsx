@@ -8,7 +8,6 @@ const snapshotCards = [
   { label: "ROLE", main: "UX Designer", sub: "IA, sitemap & UI design" },
   { label: "TIMELINE", main: "1 Week", sub: "April 2026" },
   { label: "TOOLS", main: "Figma", sub: "Sitemap, IA & UI screens" },
-  { label: "TYPE", main: "University Assignment", sub: "Solo project" },
 ];
 
 const navSections = [
@@ -212,6 +211,63 @@ function IAMapViewer() {
 
 // ── Page ──────────────────────────────────────────────────────
 
+function SitemapMagnifier() {
+  const [showLens, setShowLens] = useState(false);
+  const [lensPos, setLensPos] = useState({ x: 0, y: 0 });
+  const [imgSize, setImgSize] = useState({ width: 0, height: 0 });
+
+  const zoom = 3;
+  const lensSize = 220;
+
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    setLensPos({ x, y });
+    setImgSize({ width: rect.width, height: rect.height });
+  };
+
+  return (
+    <div
+      className="p5-sitemap-magnifier"
+      onMouseMove={handleMove}
+      onMouseEnter={() => setShowLens(true)}
+      onMouseLeave={() => setShowLens(false)}
+    >
+      <img
+        src="/IA___Site_map.png"
+        alt="FitNest simplified sitemap"
+        className="p5-sitemap-img"
+      />
+
+      {showLens && (
+        <div
+          className="p5-sitemap-lens"
+          style={{
+            width: `${lensSize}px`,
+            height: `${lensSize}px`,
+            left: `${lensPos.x - lensSize / 2}px`,
+            top: `${lensPos.y - lensSize / 2}px`,
+          }}
+        >
+          <img
+            src="/IA___Site_map.png"
+            alt=""
+            style={{
+              width: `${imgSize.width * zoom}px`,
+              height: `${imgSize.height * zoom}px`,
+              transform: `translate(${
+                -(lensPos.x * zoom - lensSize / 2)
+              }px, ${-(lensPos.y * zoom - lensSize / 2)}px)`,
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ProjectFivePage() {
   return (
     <main className="p5-page">
@@ -225,32 +281,40 @@ export default function ProjectFivePage() {
       {/* ── HERO ─────────────────────────────────────────── */}
       <header className="p5-hero">
         <div className="p5-hero-inner">
-          <p className="p5-label">Information Architecture · Sitemap · UI Design · April 2026</p>
-          <h1>Mapping FitNest from the Ground Up</h1>
+
+          <h1>
+  Designing<br />
+  Information Architecture,<br />
+  Sitemaps &amp; User Flows
+</h1>
           <p className="p5-hero-sub">
-            Before a single pixel is placed, there is structure. This is the IA and sitemap behind FitNest — a fitness companion app designed so every screen is reachable in three taps or fewer.
+            A structure-first design project focused on information architecture, sitemap planning, user flows, and translating that foundation into final UI screens.
           </p>
           <div className="p5-hero-tags">
-            <span>Sitemap</span>
-            <span>Information Architecture</span>
-            <span>UI Design</span>
-            <span>Figma</span>
-          </div>
+  <span>Sitemap</span>
+  <span>Information Architecture</span>
+  <span>User Flows</span>
+  <span>UI Design</span>
+  <span>Figma</span>
+</div>
         </div>
 
-        {/* Decorative node diagram */}
-        <div className="p5-hero-deco" aria-hidden="true">
-          <div className="p5-deco-root">FitNest</div>
-          <div className="p5-deco-branches">
-            {["Home", "Workout", "Nutrition", "Challenges", "Community", "Profile"].map((label) => (
-              <div className="p5-deco-branch" key={label}>
-                <div className="p5-deco-line" />
-                <div className="p5-deco-node">{label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
       </header>
+
+      {/* ── SUB PROJECT INTRO ────────────────────────────── */}
+<section className="p5-subproject-section">
+  <div className="p5-subproject-inner">
+    <div className="p5-subproject-copy">
+      <p className="p5-label">PROJECT 1</p>
+      <h2>FitNest</h2>
+      <p>A fitness tracking app</p>
+    </div>
+
+    <div className="p5-subproject-logo" aria-hidden="true">
+      <img src="/fitnest-logo-1.png" alt="" />
+    </div>
+  </div>
+</section>
 
       {/* ── SNAPSHOT ─────────────────────────────────────── */}
       <section className="p5-section">
@@ -274,10 +338,10 @@ export default function ProjectFivePage() {
           </div>
           <div className="p5-split-body">
             <p>
-              FitNest is a smart, all-in-one fitness companion app for everyday athletes and beginners alike. It goes beyond tracking — it builds a personalised fitness home that adapts to your lifestyle, goals, and progress in real time.
+              FitNest is an all-in-one fitness companion app that helps users track workouts, nutrition, challenges, and progress in one place.
             </p>
             <p>
-              Before any UI could be designed, the structure needed to be right. With a content inventory of over 20 screens and dozens of nested features, the information architecture assignment was about one thing: making sure users never get lost.
+              Before designing the UI, the focus was on building a clear structure — organising 20+ screens, nested features, and user paths so the app felt easy to navigate.
             </p>
           </div>
         </div>
@@ -306,7 +370,7 @@ export default function ProjectFivePage() {
         <div className="p5-split">
           <div className="p5-split-headline">
             <p className="p5-label">SITEMAP</p>
-            <h2>Seven sections. One clear hierarchy.</h2>
+            <h2>A simple sitemap for a complex fitness app.</h2>
           </div>
           <div className="p5-split-body">
             <p>
@@ -320,11 +384,7 @@ export default function ProjectFivePage() {
             <span className="p5-label">SITEMAP — SIMPLIFIED VIEW</span>
           </div>
           <div className="p5-map-frame-body">
-            <img
-              src="/IA___Site_map.png"
-              alt="FitNest simplified sitemap"
-              className="p5-sitemap-img"
-            />
+            <SitemapMagnifier />
           </div>
         </div>
       </section>
@@ -345,6 +405,8 @@ export default function ProjectFivePage() {
 
         <IAMapViewer />
       </section>
+
+
 
       {/* ── CONTENT STRUCTURE ────────────────────────────── */}
       <section className="p5-section">
@@ -576,20 +638,19 @@ export default function ProjectFivePage() {
 
         /* ── Hero ── */
         .p5-hero {
-          width: min(1180px, calc(100vw - 3rem));
-          margin: 0 auto;
-          min-height: 90vh;
-          display: grid;
-          grid-template-columns: 1fr 380px;
-          align-items: center;
-          gap: clamp(2rem, 5vw, 5rem);
-          padding-top: 7rem;
-          padding-bottom: 5rem;
-        }
+  width: min(1180px, calc(100vw - 3rem));
+  margin: 0 auto;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding-top: 7rem;
+  padding-bottom: 5rem;
+}
 
         .p5-hero-inner {
-          max-width: 740px;
-        }
+  width: min(1180px, 100%);
+  max-width: none;
+}
 
         .p5-hero h1 {
           font-family: var(--font-serif);
@@ -600,6 +661,8 @@ export default function ProjectFivePage() {
           color: var(--color-ink);
           margin: 0;
         }
+
+        
 
         .p5-hero-sub {
           font-family: var(--font-sans);
@@ -617,16 +680,17 @@ export default function ProjectFivePage() {
         }
 
         .p5-hero-tags span {
-          font-family: var(--font-mono);
-          font-size: 0.62rem;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          padding: 0.4rem 0.9rem;
-          background: rgba(253,250,245,0.8);
-          border: 1px solid rgba(26,24,20,0.14);
-          border-radius: 999px;
-          color: rgba(26,24,20,0.68);
-        }
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.65rem 1.15rem;
+  background: rgba(253,250,245,0.94);
+  border: 1px solid rgba(26,24,20,0.18);
+  border-radius: 999px;
+  color: rgba(26,24,20,0.82);
+  box-shadow: 0 10px 28px rgba(26,24,20,0.06);
+}
 
         /* ── Hero Deco (node diagram) ── */
         .p5-hero-deco {
@@ -690,6 +754,70 @@ export default function ProjectFivePage() {
           transform: translateX(4px);
         }
 
+        /* ── Sub Project Intro ── */
+.p5-subproject-section {
+  width: min(1180px, calc(100vw - 3rem));
+  margin: 0 auto;
+  padding: clamp(3rem, 5vw, 5rem) 0;
+  border-top: 1px solid rgba(26,24,20,0.08);
+}
+
+.p5-subproject-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(2rem, 5vw, 5rem);
+  border-radius: 32px;
+  background-color: rgba(253,250,245,0.96);
+  border: 1px solid rgba(26,24,20,0.13);
+  box-shadow: 0 24px 70px rgba(26,24,20,0.08);
+  padding: clamp(1.8rem, 4vw, 3.2rem);
+}
+
+.p5-subproject-copy h2 {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(2.4rem, 5vw, 5.4rem);
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.p5-subproject-copy p:last-child {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.55;
+  color: rgba(26,24,20,0.65);
+  margin: 1rem 0 0;
+}
+
+.p5-subproject-logo {
+  width: clamp(120px, 16vw, 220px);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.p5-subproject-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+@media (max-width: 700px) {
+  .p5-subproject-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .p5-subproject-logo {
+    width: 140px;
+  }
+}
+
         /* ── Sections ── */
         .p5-section {
           width: min(1180px, calc(100vw - 3rem));
@@ -743,10 +871,10 @@ export default function ProjectFivePage() {
 
         /* ── Snapshot ── */
         .p5-snapshot-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: var(--card-gap);
-        }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--card-gap);
+}
 
         .p5-snapshot-card {
           border-radius: 28px;
@@ -783,38 +911,40 @@ export default function ProjectFivePage() {
         }
 
         /* ── Callout ── */
-        .p5-callout {
-          border-radius: 28px;
-          background-color: rgba(246,231,161,0.52);
-          border: 1px solid rgba(26,24,20,0.12);
-          padding: clamp(1.5rem, 3vw, 2.4rem);
-          box-shadow: 0 20px 55px rgba(26,24,20,0.07);
-        }
+.p5-callout {
+  border-radius: 28px;
+  background-color: rgba(246,231,161,0.52);
+  border: 1px solid rgba(26,24,20,0.12);
+  padding: clamp(1.5rem, 3vw, 2.4rem);
+  box-shadow: 0 20px 55px rgba(26,24,20,0.07);
+}
 
-        .p5-inventory-grid {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-          margin-top: 0.25rem;
-        }
+.p5-inventory-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
 
-        .p5-inventory-tag {
-          font-family: var(--font-mono);
-          font-size: 0.6rem;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          padding: 0.35rem 0.75rem;
-          background: rgba(253,250,245,0.86);
-          border: 1px solid rgba(26,24,20,0.13);
-          border-radius: 999px;
-          color: rgba(26,24,20,0.7);
-          transition: background 0.2s ease, transform 0.2s ease;
-        }
+.p5-inventory-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.55rem 1rem;
+  background: rgba(253,250,245,0.96);
+  border: 1px solid rgba(26,24,20,0.16);
+  border-radius: 999px;
+  color: rgba(26,24,20,0.82);
+  box-shadow: 0 8px 22px rgba(26,24,20,0.05);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-        .p5-inventory-tag:hover {
-          background: rgba(253,250,245,0.96);
-          transform: translateY(-2px);
-        }
+.p5-inventory-tag:hover {
+  background: rgba(253,250,245,1);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(26,24,20,0.08);
+}
 
         /* ── Map frame (sitemap) ── */
         .p5-map-frame {
@@ -846,6 +976,39 @@ export default function ProjectFivePage() {
           display: block;
           object-fit: contain;
         }
+
+        .p5-sitemap-magnifier {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.p5-sitemap-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.p5-sitemap-lens {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  overflow: hidden;
+  border: 1px solid rgba(26,24,20,0.22);
+  box-shadow: 0 18px 45px rgba(26,24,20,0.22);
+  background-color: rgba(253,250,245,0.98);
+  z-index: 5;
+}
+
+.p5-sitemap-lens img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: none;
+  display: block;
+}
 
         /* ── IA Viewer ── */
         .ia-viewer-wrap {
