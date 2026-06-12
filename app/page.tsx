@@ -915,16 +915,16 @@ function Projects() {
   );
 
   const projectsTop = useTransform(
-    scrollYProgress,
-    [0, 0.10, 0.73, 0.83],
-    ["95vh", "50%", "50%", "-20vh"]
-  );
+  scrollYProgress,
+  [0, 0.10, 0.62, 0.72],
+  ["95vh", "50%", "50%", "-20vh"]
+);
 
-  const projectsOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.06, 0.73, 0.83],
-    [0, 1, 1, 0]
-  );
+const projectsOpacity = useTransform(
+  scrollYProgress,
+  [0, 0.06, 0.62, 0.72],
+  [0, 1, 1, 0]
+);
 
   // Project cards appear one after another after the yellow screen fills
   const projectCard1Y = useTransform(
@@ -1056,7 +1056,7 @@ function Projects() {
       id="projects"
       ref={sectionRef}
       style={{
-        height: "650vh",
+        height: "560vh",
         position: "relative",
         zIndex: 5000,
         backgroundColor: "var(--color-cream)",
@@ -1112,10 +1112,10 @@ function Projects() {
       {/* Project cards */}
 {[
   {
-    title: "Emergency SOS System",
+    title: "IA & Sitemap Design",
     label: "Project 1",
     image: null,
-    href: null,
+    href: "/projects/project-2",
     x: "-50%",
     top: "50%",
     y: projectCard1Y,
@@ -1124,10 +1124,10 @@ function Projects() {
     scale: projectCard1Scale,
   },
   {
-    title: "IA & Sitemap Design",
+    title: "The Psychology of Netflix",
     label: "Project 2",
-    image: null,
-    href: null,
+    image: "/project-2-cover.jpg",
+    href: "/projects/project-3",
     x: "-82%",
     top: "52%",
     y: projectCard2Y,
@@ -1136,10 +1136,10 @@ function Projects() {
     scale: projectCard2Scale,
   },
   {
-    title: "The Psychology of Netflix",
+    title: "SAGE Mental Health AI",
     label: "Project 3",
-    image: "/project-2-cover.jpg",
-    href: "/projects/project-3",
+    image: "/sage cover.png",
+    href: "/projects/project-4",
     x: "-18%",
     top: "50%",
     y: projectCard3Y,
@@ -1148,10 +1148,10 @@ function Projects() {
     scale: projectCard3Scale,
   },
   {
-    title: "SAGE Mental Health AI",
+    title: "3D Design in Maya",
     label: "Project 4",
-    image: "/sage cover.png",
-    href: "/projects/project-4",
+    image: "/render 6.jpg",
+    href: "/projects/project-5",
     x: "-64%",
     top: "54%",
     y: projectCard4Y,
@@ -1160,28 +1160,16 @@ function Projects() {
     scale: projectCard4Scale,
   },
   {
-    title: "3D Design in Maya",
+    title: "Mahabaleshwar Strawberries",
     label: "Project 5",
-    image: "/render 6.jpg",
-    href: "/projects/project-5",
+    image: "/mahabaleshwar-cover.jpeg",
+    href: "/projects/project-6",
     x: "-32%",
     top: "51%",
     y: projectCard5Y,
     opacity: projectCard5Opacity,
     rotate: projectCard5Rotate,
     scale: projectCard5Scale,
-  },
-  {
-    title: "Mahabaleshwar Strawberries",
-    label: "Project 6",
-    image: "/mahabaleshwar-cover.jpeg",
-    href: "/projects/project-6",
-    x: "-50%",
-    top: "53%",
-    y: projectCard6Y,
-    opacity: projectCard6Opacity,
-    rotate: projectCard6Rotate,
-    scale: projectCard6Scale,
   },
 ].map((card) => {
   const isClickable = Boolean(card.href);
@@ -1291,23 +1279,20 @@ function Projects() {
     </motion.div>
   );
 
-  if (isClickable && card.href) {
-    return (
-      <Link
-        key={card.label}
-        href={card.href}
-        style={{
-          textDecoration: "none",
-          color: "inherit",
-        }}
-      >
-        {cardContent}
-      </Link>
-    );
-  }
-
-  return cardContent;
+  return (
+    <Link
+      key={card.label}
+      href={card.href}
+      style={{
+        textDecoration: "none",
+        color: "inherit",
+      }}
+    >
+      {cardContent}
+    </Link>
+  );
 })}
+
 
       {/* Projects title */}
       <motion.div
@@ -2700,13 +2685,12 @@ export default function HomePage() {
     }
 
     const projectProgressMap: Record<string, number> = {
-      "1": 0.30,
-      "2": 0.36,
-      "3": 0.42,
-      "4": 0.48,
-      "5": 0.53,
-      "6": 0.575,
-    };
+  "2": 0.30,
+  "3": 0.36,
+  "4": 0.42,
+  "5": 0.48,
+  "6": 0.53,
+};
 
     const targetProgress = projectProgressMap[projectNumber];
 
