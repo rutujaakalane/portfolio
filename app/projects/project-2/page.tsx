@@ -347,18 +347,44 @@ export default function ProjectFivePage() {
   </div>
 </section>
 
-      {/* ── SNAPSHOT ─────────────────────────────────────── */}
-      <section className="p5-section">
-        <div className="p5-snapshot-grid">
-          {snapshotCards.map((card) => (
-            <div className="p5-snapshot-card" key={card.label}>
-              <p className="p5-label">{card.label}</p>
-              <h3>{card.main}</h3>
-              <span>{card.sub}</span>
-            </div>
-          ))}
+      {/* ── SNAPSHOT + UI PREVIEW ─────────────────────────── */}
+<section className="p5-section p5-preview-section">
+  <div className="p5-preview-grid">
+
+    {/* LEFT — phone pair */}
+    <div className="p5-phones-area">
+      <p className="p5-label">UI PREVIEW · REGISTER + DASHBOARD</p>
+      <div className="p5-phones-stage">
+        <div className="p5-phone p5-phone--back">
+          <img
+            src="/OnboardingRegister.png"
+            alt="FitNest Register screen"
+            className="p5-phone-img"
+          />
         </div>
-      </section>
+        <div className="p5-phone p5-phone--front">
+  <img
+    src="/NestChallenges.png"
+    alt="FitNest Nest Challenges screen"
+    className="p5-phone-img"
+  />
+</div>
+      </div>
+    </div>
+
+    {/* RIGHT — stacked snapshot cards */}
+    <div className="p5-snapshot-stack">
+      {snapshotCards.map((card) => (
+        <div className="p5-snapshot-card p5-snapshot-card--tall" key={card.label}>
+          <p className="p5-label">{card.label}</p>
+          <h3>{card.main}</h3>
+          <span>{card.sub}</span>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
 
       {/* ── OVERVIEW ─────────────────────────────────────── */}
       <section className="p5-section">
@@ -880,6 +906,141 @@ export default function ProjectFivePage() {
           color: rgba(26,24,20,0.58);
         }
 
+      /* ── Preview Section (phones + compact cards) ── */
+.p5-preview-section {
+  padding-top: var(--section-y);
+  padding-bottom: var(--section-y);
+}
+
+.p5-preview-grid {
+  display: grid;
+  grid-template-columns: 1.45fr 0.55fr;
+  gap: clamp(1.8rem, 3.5vw, 3.5rem);
+  align-items: center;
+}
+
+/* ── Phones area ── */
+.p5-phones-area {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.p5-phones-stage {
+  position: relative;
+  height: clamp(520px, 52vw, 660px);
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(1.2rem, 2vw, 2rem);
+}
+
+/* Phone base */
+.p5-phone {
+  position: relative;
+  border-radius: 36px;
+  overflow: hidden;
+  border: 1px solid rgba(26,24,20,0.15);
+  box-shadow:
+    0 32px 80px rgba(26,24,20,0.18),
+    0 8px 24px rgba(26,24,20,0.10);
+  background: rgba(253,250,245,0.96);
+}
+
+.p5-phone-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 36px;
+}
+
+/* Register / Login screen */
+.p5-phone--back {
+  width: clamp(210px, 22vw, 295px);
+  aspect-ratio: 646 / 1498;
+  transform: none;
+  z-index: 2;
+  opacity: 1;
+}
+
+/* Nest Challenges screen */
+.p5-phone--front {
+  width: clamp(210px, 22vw, 295px);
+  aspect-ratio: 646 / 1498;
+  transform: none;
+  z-index: 2;
+  opacity: 1;
+}
+
+/* ── Compact snapshot cards ── */
+.p5-snapshot-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-self: center;
+}
+
+.p5-snapshot-card--tall {
+  min-height: 130px;
+  padding: 1rem;
+  justify-content: flex-start;
+}
+
+.p5-snapshot-card--tall h3 {
+  font-size: clamp(1.15rem, 1.4vw, 1.55rem);
+  margin: 0.45rem 0 0.35rem;
+}
+
+.p5-snapshot-card--tall span {
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .p5-preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .p5-phones-stage {
+    height: auto;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
+  .p5-phone--back,
+  .p5-phone--front {
+    width: clamp(160px, 38vw, 235px);
+  }
+
+  .p5-snapshot-stack {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .p5-snapshot-card--tall {
+    flex: 1 1 calc(33% - 0.5rem);
+    min-width: 150px;
+  }
+}
+
+@media (max-width: 500px) {
+  .p5-phones-stage {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .p5-phone--back,
+  .p5-phone--front {
+    width: 220px;
+  }
+
+  .p5-snapshot-card--tall {
+    flex: 1 1 100%;
+  }
+}
+  
         /* ── Callout ── */
 .p5-callout {
   border-radius: 28px;
