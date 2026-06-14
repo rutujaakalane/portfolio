@@ -2380,6 +2380,31 @@ function Skills() {
 
 function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [emailCopied, setEmailCopied] = useState(false);
+
+const copyEmail = async () => {
+  const email = "rutujaakalane@gmail.com";
+
+  try {
+    await navigator.clipboard.writeText(email);
+  } catch {
+    const textArea = document.createElement("textarea");
+    textArea.value = email;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+  }
+
+  setEmailCopied(true);
+
+  window.setTimeout(() => {
+    setEmailCopied(false);
+  }, 1400);
+};
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -2604,52 +2629,77 @@ function ContactSection() {
   >
     {[
   {
-    label: "Email",
-    href: "mailto:rutujaakalane@gmail.com",
-    cursor: "COPY",
+    label: emailCopied ? "Copied" : "Email",
+    href: null,
+    cursor: emailCopied ? "COPIED" : "COPY",
+    action: copyEmail,
   },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/rutuja-kalane-2124153a0/",
     cursor: "VISIT",
+    action: null,
   },
   {
     label: "Behance",
     href: "https://www.behance.net/rutujakalane",
     cursor: "VISIT",
+    action: null,
   },
   {
     label: "Resume ↗",
     href: "/resume.pdf",
     cursor: "DOWNLOAD",
+    action: null,
   },
-].map((link) => (
+].map((link) => {
+  const ctaStyle = {
+    fontFamily: "var(--font-mono)",
+    fontSize: "0.74rem",
+    letterSpacing: "0.12em",
+    textTransform: "uppercase" as const,
+    color: "var(--color-ink)",
+    backgroundColor:
+      emailCopied && link.label === "Copied"
+        ? "rgba(246, 231, 161, 0.88)"
+        : "rgba(253, 250, 245, 0.96)",
+    border: "1px solid rgba(26, 24, 20, 0.16)",
+    borderRadius: "999px",
+    padding: "0.82rem 1.15rem",
+    boxShadow: "0 16px 44px rgba(26, 24, 20, 0.08)",
+    textDecoration: "none",
+    minWidth: "130px",
+    textAlign: "center" as const,
+    cursor: "pointer",
+  };
 
-      <a
-        key={link.label}
-        href={link.href}
+  if (link.action) {
+    return (
+      <button
+        key="email-copy"
+        type="button"
+        onClick={link.action}
         data-cursor-label={link.cursor}
-        target={link.href.startsWith("http") ? "_blank" : undefined}
-        rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "0.74rem",
-          letterSpacing: "0.12em",
-          textTransform: "uppercase",
-          color: "var(--color-ink)",
-          backgroundColor: "rgba(253, 250, 245, 0.96)",
-          border: "1px solid rgba(26, 24, 20, 0.16)",
-          borderRadius: "999px",
-          padding: "0.82rem 1.15rem",
-          boxShadow: "0 16px 44px rgba(26, 24, 20, 0.08)",
-          textDecoration: "none",
-          minWidth: "130px",
-          textAlign: "center",
-        }}
+        style={ctaStyle}
       >
         {link.label}
-      </a>
-    ))}
+      </button>
+    );
+  }
+
+  return (
+    <a
+      key={link.label}
+      href={link.href!}
+      data-cursor-label={link.cursor}
+      target={link.href!.startsWith("http") ? "_blank" : undefined}
+      rel={link.href!.startsWith("http") ? "noreferrer" : undefined}
+      style={ctaStyle}
+    >
+      {link.label}
+    </a>
+  );
+})}
   </div>
 </div>
           

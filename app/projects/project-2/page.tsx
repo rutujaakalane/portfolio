@@ -519,10 +519,10 @@ export default function ProjectFivePage() {
           </div>
           <div className="p5-screens-body">
             <img
-              src="/IA___Site_map_3.png"
-              alt="FitNest UI screens — Login, Dashboard, Workout Library, Nutrition Log, Nest Challenges, Community"
-              className="p5-screens-img"
-            />
+  src="/fitnestproto.png"
+  alt="FitNest UI screens — Login, Dashboard, Workout Library, Nutrition Log, Nest Challenges, Community"
+  className="p5-screens-img"
+/>
           </div>
           <div className="p5-screens-caption">
             <span>Login</span>
@@ -1040,7 +1040,7 @@ export default function ProjectFivePage() {
     flex: 1 1 100%;
   }
 }
-  
+
         /* ── Callout ── */
 .p5-callout {
   border-radius: 28px;
