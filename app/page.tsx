@@ -1114,7 +1114,7 @@ const projectsOpacity = useTransform(
   {
     title: "IA & Sitemap Design",
     label: "Project 1",
-    image: null,
+    image: "/project2card.png",
     href: "/projects/project-2",
     x: "-50%",
     top: "50%",
